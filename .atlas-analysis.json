@@ -1,0 +1,224 @@
+{
+  "projectType": "sdk-library",
+  "projectName": "Base UI",
+  "projectDescription": "Unstyled UI components for building accessible web apps and design systems.",
+  "theme": "willow",
+  "primaryColor": "#0066FF",
+  "lightColor": "#3385FF",
+  "darkColor": "#0052CC",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Handbook",
+            "pages": [
+              "handbook/styling",
+              "handbook/typescript",
+              "handbook/customization",
+              "handbook/animation",
+              "handbook/forms",
+              "handbook/composition",
+              "handbook/accessibility"
+            ]
+          },
+          {
+            "group": "Inputs",
+            "pages": [
+              "components/button",
+              "components/checkbox",
+              "components/checkbox-group",
+              "components/input",
+              "components/number-field",
+              "components/radio",
+              "components/radio-group",
+              "components/slider",
+              "components/switch",
+              "components/toggle",
+              "components/toggle-group"
+            ]
+          },
+          {
+            "group": "Data Display",
+            "pages": [
+              "components/avatar",
+              "components/meter",
+              "components/progress",
+              "components/separator",
+              "components/tooltip"
+            ]
+          },
+          {
+            "group": "Navigation",
+            "pages": [
+              "components/menu",
+              "components/menubar",
+              "components/navigation-menu",
+              "components/tabs",
+              "components/toolbar"
+            ]
+          },
+          {
+            "group": "Overlays",
+            "pages": [
+              "components/alert-dialog",
+              "components/dialog",
+              "components/drawer",
+              "components/popover",
+              "components/preview-card",
+              "components/toast",
+              "components/context-menu"
+            ]
+          },
+          {
+            "group": "Forms",
+            "pages": [
+              "components/field",
+              "components/fieldset",
+              "components/form",
+              "components/autocomplete",
+              "components/combobox",
+              "components/select"
+            ]
+          },
+          {
+            "group": "Layout",
+            "pages": [
+              "components/accordion",
+              "components/collapsible",
+              "components/scroll-area"
+            ]
+          },
+          {
+            "group": "Utilities",
+            "pages": [
+              "utilities/csp-provider",
+              "utilities/direction-provider",
+              "utilities/merge-props",
+              "utilities/use-render",
+              "utilities/use-media-query"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Components API",
+            "pages": [
+              "api/accordion",
+              "api/alert-dialog",
+              "api/autocomplete",
+              "api/avatar",
+              "api/button",
+              "api/checkbox",
+              "api/checkbox-group",
+              "api/collapsible",
+              "api/combobox",
+              "api/context-menu",
+              "api/dialog",
+              "api/drawer",
+              "api/field",
+              "api/fieldset",
+              "api/form",
+              "api/input",
+              "api/menu",
+              "api/menubar",
+              "api/meter",
+              "api/navigation-menu",
+              "api/number-field",
+              "api/popover",
+              "api/preview-card",
+              "api/progress",
+              "api/radio",
+              "api/radio-group",
+              "api/scroll-area",
+              "api/select",
+              "api/separator",
+              "api/slider",
+              "api/switch",
+              "api/tabs",
+              "api/toast",
+              "api/toggle",
+              "api/toggle-group",
+              "api/toolbar",
+              "api/tooltip"
+            ]
+          },
+          {
+            "group": "Utilities API",
+            "pages": [
+              "api/csp-provider",
+              "api/direction-provider",
+              "api/merge-props",
+              "api/use-render",
+              "api/use-media-query"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Unstyled and headless components",
+    "Full accessibility (WAI-ARIA compliant)",
+    "Composable component architecture",
+    "TypeScript support",
+    "Works with any styling solution",
+    "Created by Radix, Floating UI, and Material UI teams"
+  ],
+  "publicApiSurface": [
+    "Accordion",
+    "AlertDialog",
+    "Autocomplete",
+    "Avatar",
+    "Button",
+    "Checkbox",
+    "CheckboxGroup",
+    "Collapsible",
+    "Combobox",
+    "ContextMenu",
+    "Dialog",
+    "Drawer",
+    "Field",
+    "Fieldset",
+    "Form",
+    "Input",
+    "Menu",
+    "Menubar",
+    "Meter",
+    "NavigationMenu",
+    "NumberField",
+    "Popover",
+    "PreviewCard",
+    "Progress",
+    "Radio",
+    "RadioGroup",
+    "ScrollArea",
+    "Select",
+    "Separator",
+    "Slider",
+    "Switch",
+    "Tabs",
+    "Toast",
+    "Toggle",
+    "ToggleGroup",
+    "Toolbar",
+    "Tooltip",
+    "CspProvider",
+    "DirectionProvider",
+    "mergeProps",
+    "useRender",
+    "useMediaQuery"
+  ]
+}
