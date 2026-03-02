@@ -8,7 +8,7 @@ Provides a shared state to a series of radio buttons.
 ## Import
 
 ```jsx
-import { RadioGroup, Radio } from '@base-ui/react';
+import { RadioGroup, Radio } from '@base-ui/react/radio-group';
 ```
 
 ## Basic Usage
@@ -182,7 +182,7 @@ A ref to access the hidden input element.
 ### With Field Component
 
 ```jsx
-import { Field } from '@base-ui/react';
+import { Field } from '@base-ui/react/radio-group';
 
 <Field.Root>
   <Field.Label>Select a plan</Field.Label>
@@ -243,7 +243,7 @@ function PricingSelector() {
 ### With Descriptions
 
 ```jsx
-import { Field } from '@base-ui/react';
+import { Field } from '@base-ui/react/radio-group';
 
 const options = [
   {
@@ -283,7 +283,7 @@ const options = [
 ### Form Integration
 
 ```jsx
-import { Form, Field } from '@base-ui/react';
+import { Form, Field } from '@base-ui/react/radio-group';
 
 <Form.Root>
   <Field.Root name="size" validationMode="onChange" required>

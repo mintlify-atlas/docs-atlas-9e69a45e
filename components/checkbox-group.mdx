@@ -8,13 +8,13 @@ Provides a shared state to a series of checkboxes.
 ## Import
 
 ```jsx
-import { CheckboxGroup } from '@base-ui/react';
+import { CheckboxGroup } from '@base-ui/react/checkbox-group';
 ```
 
 ## Basic Usage
 
 ```jsx
-import { Checkbox } from '@base-ui/react';
+import { Checkbox } from '@base-ui/react/checkbox-group';
 
 <CheckboxGroup value={['option1']} onValueChange={(value) => console.log(value)}>
   <Checkbox.Root value="option1">
@@ -148,7 +148,7 @@ Whether the component should ignore user interaction.
 ### With Labels
 
 ```jsx
-import { Field } from '@base-ui/react';
+import { Field } from '@base-ui/react/checkbox-group';
 
 const options = [
   { value: 'react', label: 'React' },
@@ -197,7 +197,7 @@ const allOptions = ['option1', 'option2', 'option3'];
 ### With Validation
 
 ```jsx
-import { Field, Form } from '@base-ui/react';
+import { Field, Form } from '@base-ui/react/checkbox-group';
 
 <Form.Root>
   <Field.Root name="interests" validationMode="onChange">

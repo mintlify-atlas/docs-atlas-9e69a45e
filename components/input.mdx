@@ -8,7 +8,7 @@ A native input element that automatically works with Field.
 ## Import
 
 ```jsx
-import { Input } from '@base-ui/react';
+import { Input } from '@base-ui/react/input';
 ```
 
 ## Basic Usage
@@ -117,7 +117,7 @@ The Input component accepts all standard HTML input attributes:
 ### With Field Component
 
 ```jsx
-import { Field } from '@base-ui/react';
+import { Field } from '@base-ui/react/input';
 
 <Field.Root>
   <Field.Label>Email</Field.Label>
@@ -161,7 +161,7 @@ function InputWithIcon() {
 ### Controlled with Validation
 
 ```jsx
-import { Field } from '@base-ui/react';
+import { Field } from '@base-ui/react/input';
 
 function ValidatedInput() {
   const [value, setValue] = React.useState('');
