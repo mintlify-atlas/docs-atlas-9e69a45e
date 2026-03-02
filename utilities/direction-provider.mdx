@@ -1,0 +1,136 @@
+---
+title: Direction Provider
+description: Enables RTL (right-to-left) text direction support for Base UI components.
+---
+
+# Direction Provider
+
+The Direction Provider component allows you to set the text direction (LTR or RTL) for Base UI components, enabling proper layout and behavior for right-to-left languages.
+
+## Import
+
+```tsx
+import { DirectionProvider } from '@base-ui/react/direction-provider';
+```
+
+## Usage
+
+Wrap your application or specific component tree with the `DirectionProvider` to set the text direction:
+
+```tsx
+import { DirectionProvider } from '@base-ui/react/direction-provider';
+import { Menu } from '@base-ui/react/menu';
+
+function App() {
+  return (
+    <DirectionProvider direction="rtl">
+      <Menu.Root>
+        <Menu.Trigger>Open menu</Menu.Trigger>
+        <Menu.Positioner>
+          <Menu.Popup>
+            <Menu.Item>Item 1</Menu.Item>
+            <Menu.Item>Item 2</Menu.Item>
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Root>
+    </DirectionProvider>
+  );
+}
+```
+
+## Left-to-right (default)
+
+The default direction is `ltr` (left-to-right):
+
+```tsx
+import { DirectionProvider } from '@base-ui/react/direction-provider';
+
+function App() {
+  return (
+    <DirectionProvider direction="ltr">
+      {/* Your components */}
+    </DirectionProvider>
+  );
+}
+```
+
+## API Reference
+
+### Props
+
+#### `children`
+
+- Type: `React.ReactNode`
+- Optional
+
+The content to be wrapped by the provider.
+
+#### `direction`
+
+- Type: `'ltr' | 'rtl'`
+- Default: `'ltr'`
+- Optional
+
+The reading direction of the text. Use `'rtl'` for right-to-left languages like Arabic or Hebrew, and `'ltr'` for left-to-right languages.
+
+## Use Cases
+
+### Internationalized applications
+
+Switch between LTR and RTL based on the user's language preference:
+
+```tsx
+import { DirectionProvider } from '@base-ui/react/direction-provider';
+
+function App({ locale }: { locale: string }) {
+  const direction = ['ar', 'he', 'fa'].includes(locale) ? 'rtl' : 'ltr';
+
+  return (
+    <DirectionProvider direction={direction}>
+      <YourApp />
+    </DirectionProvider>
+  );
+}
+```
+
+### Nested direction contexts
+
+You can nest Direction Providers to have different directions in different parts of your app:
+
+```tsx
+import { DirectionProvider } from '@base-ui/react/direction-provider';
+
+function App() {
+  return (
+    <DirectionProvider direction="ltr">
+      <MainContent />
+      
+      <DirectionProvider direction="rtl">
+        <ArabicSection />
+      </DirectionProvider>
+    </DirectionProvider>
+  );
+}
+```
+
+### Dynamic direction switching
+
+Allow users to toggle between LTR and RTL:
+
+```tsx
+import { DirectionProvider } from '@base-ui/react/direction-provider';
+import { useState } from 'react';
+
+function App() {
+  const [direction, setDirection] = useState<'ltr' | 'rtl'>('ltr');
+
+  return (
+    <DirectionProvider direction={direction}>
+      <button onClick={() => setDirection(d => d === 'ltr' ? 'rtl' : 'ltr')}>
+        Toggle direction
+      </button>
+      <YourApp />
+    </DirectionProvider>
+  );
+}
+```

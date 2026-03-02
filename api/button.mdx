@@ -1,0 +1,42 @@
+---
+title: Button
+description: API reference for the Button component
+---
+
+# Button
+
+A button component that can be used to trigger actions.
+
+## Import
+
+```tsx
+import { Button } from '@base-ui/react/button';
+```
+
+## Props
+
+<ParamField name="className" type="string | ((state: Button.State) => string)">
+CSS class applied to the element, or a function that returns a class based on the component's state.
+</ParamField>
+
+<ParamField name="render" type="ReactElement | ComponentRenderFn">
+Allows you to replace the component's HTML element with a different tag, or compose it with another component.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the button should ignore user interaction.
+</ParamField>
+
+<ParamField name="focusableWhenDisabled" type="boolean" default="false">
+Whether the button should be focusable when disabled.
+</ParamField>
+
+<ParamField name="nativeButton" type="boolean" default="true">
+Whether the component renders a native `<button>` element when replacing it via the `render` prop.
+</ParamField>
+
+## State
+
+The button exposes the following state:
+
+- `disabled`: boolean - Whether the button should ignore user interaction

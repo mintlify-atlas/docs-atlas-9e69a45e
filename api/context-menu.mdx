@@ -1,0 +1,94 @@
+---
+title: ContextMenu
+description: API reference for the ContextMenu component
+---
+
+# ContextMenu
+
+Displays a menu triggered by right-clicking or long-pressing.
+
+## Import
+
+```tsx
+import * as ContextMenu from '@base-ui/react/context-menu';
+```
+
+## ContextMenu.Root
+
+Groups all parts of the context menu. Doesn't render its own HTML element.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the context menu is currently open.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean) => void">
+Event handler called when the context menu is opened or closed.
+</ParamField>
+
+## ContextMenu.Trigger
+
+The area that triggers the context menu when right-clicked.
+
+## ContextMenu.Portal
+
+Portals the context menu popup to a different part of the DOM.
+
+## ContextMenu.Positioner
+
+Positions the context menu popup.
+
+## ContextMenu.Popup
+
+The popup that contains the context menu items.
+
+## ContextMenu.Item
+
+An item in the context menu.
+
+### Props
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the item is disabled.
+</ParamField>
+
+<ParamField name="closeOnClick" type="boolean" default="true">
+Whether clicking the item should close the menu.
+</ParamField>
+
+## ContextMenu.Group
+
+Groups related context menu items.
+
+## ContextMenu.GroupLabel
+
+Labels a group of context menu items.
+
+## ContextMenu.Submenu
+
+A menu nested within the context menu.
+
+## ContextMenu.SubmenuTrigger
+
+The item that opens a submenu.
+
+## ContextMenu.RadioGroup
+
+Groups menu items that function as radio buttons.
+
+## ContextMenu.RadioItem
+
+A context menu item that acts as a radio button.
+
+## ContextMenu.CheckboxItem
+
+A context menu item that acts as a checkbox.
+
+## ContextMenu.Arrow
+
+An optional arrow element.
+
+## ContextMenu.Backdrop
+
+An optional overlay displayed beneath the context menu popup.

@@ -1,122 +1,184 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Base UI",
+  "theme": "willow",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#0066FF",
+    "light": "#3385FF",
+    "dark": "#0052CC"
   },
-  "favicon": "/favicon.svg",
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/mui/base-ui"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/mui/base-ui"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "introduction",
+              "installation",
+              "quickstart"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Handbook",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "handbook/styling",
+              "handbook/typescript",
+              "handbook/customization",
+              "handbook/animation",
+              "handbook/forms",
+              "handbook/composition",
+              "handbook/accessibility"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Inputs",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "components/button",
+              "components/checkbox",
+              "components/checkbox-group",
+              "components/input",
+              "components/number-field",
+              "components/radio",
+              "components/radio-group",
+              "components/slider",
+              "components/switch",
+              "components/toggle",
+              "components/toggle-group"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Data Display",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "components/avatar",
+              "components/meter",
+              "components/progress",
+              "components/separator",
+              "components/tooltip"
+            ]
+          },
+          {
+            "group": "Navigation",
+            "pages": [
+              "components/menu",
+              "components/menubar",
+              "components/navigation-menu",
+              "components/tabs",
+              "components/toolbar"
+            ]
+          },
+          {
+            "group": "Overlays",
+            "pages": [
+              "components/alert-dialog",
+              "components/dialog",
+              "components/drawer",
+              "components/popover",
+              "components/preview-card",
+              "components/toast",
+              "components/context-menu"
+            ]
+          },
+          {
+            "group": "Forms",
+            "pages": [
+              "components/field",
+              "components/fieldset",
+              "components/form",
+              "components/autocomplete",
+              "components/combobox",
+              "components/select"
+            ]
+          },
+          {
+            "group": "Layout",
+            "pages": [
+              "components/accordion",
+              "components/collapsible",
+              "components/scroll-area"
+            ]
+          },
+          {
+            "group": "Utilities",
+            "pages": [
+              "utilities/csp-provider",
+              "utilities/direction-provider",
+              "utilities/merge-props",
+              "utilities/use-render",
+              "utilities/use-media-query"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "API Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Components API",
             "pages": [
-              "api-reference/introduction"
+              "api/accordion",
+              "api/alert-dialog",
+              "api/autocomplete",
+              "api/avatar",
+              "api/button",
+              "api/checkbox",
+              "api/checkbox-group",
+              "api/collapsible",
+              "api/combobox",
+              "api/context-menu",
+              "api/dialog",
+              "api/drawer",
+              "api/field",
+              "api/fieldset",
+              "api/form",
+              "api/input",
+              "api/menu",
+              "api/menubar",
+              "api/meter",
+              "api/navigation-menu",
+              "api/number-field",
+              "api/popover",
+              "api/preview-card",
+              "api/progress",
+              "api/radio",
+              "api/radio-group",
+              "api/scroll-area",
+              "api/select",
+              "api/separator",
+              "api/slider",
+              "api/switch",
+              "api/tabs",
+              "api/toast",
+              "api/toggle",
+              "api/toggle-group",
+              "api/toolbar",
+              "api/tooltip"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Utilities API",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api/csp-provider",
+              "api/direction-provider",
+              "api/merge-props",
+              "api/use-render",
+              "api/use-media-query"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    ]
   }
 }

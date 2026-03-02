@@ -1,0 +1,120 @@
+---
+title: CSP Provider
+description: Provides Content Security Policy configuration for Base UI components that require inline styles or scripts.
+---
+
+# CSP Provider
+
+The CSP Provider component allows you to configure a Content Security Policy (CSP) nonce for Base UI components that create inline `<style>` or `<script>` tags, ensuring compatibility with strict CSP environments.
+
+## Import
+
+```tsx
+import { CSPProvider } from '@base-ui/react/csp-provider';
+```
+
+## Usage
+
+Wrap your application or specific component tree with the `CSPProvider` to apply CSP configuration:
+
+```tsx
+import { CSPProvider } from '@base-ui/react/csp-provider';
+import { Tooltip } from '@base-ui/react/tooltip';
+
+function App() {
+  return (
+    <CSPProvider nonce="r4nd0m">
+      <Tooltip.Root>
+        <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+        <Tooltip.Positioner>
+          <Tooltip.Popup>Tooltip content</Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Root>
+    </CSPProvider>
+  );
+}
+```
+
+## Disabling style elements
+
+If you want to prevent Base UI from creating inline `<style>` elements entirely, use the `disableStyleElements` prop:
+
+```tsx
+import { CSPProvider } from '@base-ui/react/csp-provider';
+
+function App() {
+  return (
+    <CSPProvider disableStyleElements>
+      {/* Your components */}
+    </CSPProvider>
+  );
+}
+```
+
+When `disableStyleElements` is enabled, you must provide styling through custom class names or other methods.
+
+## API Reference
+
+### Props
+
+#### `children`
+
+- Type: `React.ReactNode`
+- Optional
+
+The content to be wrapped by the provider.
+
+#### `nonce`
+
+- Type: `string`
+- Optional
+
+The nonce value to apply to inline `<style>` and `<script>` tags created by Base UI components. This value should match the nonce specified in your Content Security Policy headers.
+
+#### `disableStyleElements`
+
+- Type: `boolean`
+- Default: `false`
+- Optional
+
+Whether inline `<style>` elements created by Base UI components should not be rendered. Instead, components must specify CSS styles via custom class names or other methods.
+
+## Use Cases
+
+### Strict CSP environments
+
+Use the CSP Provider in applications with strict Content Security Policy requirements:
+
+```tsx
+import { CSPProvider } from '@base-ui/react/csp-provider';
+
+function App({ cspNonce }: { cspNonce: string }) {
+  return (
+    <CSPProvider nonce={cspNonce}>
+      <YourApp />
+    </CSPProvider>
+  );
+}
+```
+
+### Server-side rendering with CSP
+
+Generate and pass a nonce from your server:
+
+```tsx
+// Server-side
+import crypto from 'crypto';
+
+const nonce = crypto.randomBytes(16).toString('base64');
+
+// Set CSP header
+res.setHeader(
+  'Content-Security-Policy',
+  `style-src 'self' 'nonce-${nonce}'; script-src 'self' 'nonce-${nonce}'`
+);
+
+// Client-side
+<CSPProvider nonce={nonce}>
+  <App />
+</CSPProvider>
+```

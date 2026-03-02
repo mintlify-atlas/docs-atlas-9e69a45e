@@ -1,0 +1,227 @@
+---
+title: Avatar
+description: Display a user's profile picture, initials, or fallback icon with automatic image loading states.
+---
+
+# Avatar
+
+The Avatar component displays a user's profile picture, initials, or fallback icon. It automatically handles image loading states and provides a fallback when the image fails to load or is unavailable.
+
+## Import
+
+```jsx
+import { Avatar } from '@base-ui/react';
+```
+
+## Anatomy
+
+The Avatar component consists of three parts:
+
+- `<Avatar.Root>` - The container element
+- `<Avatar.Image>` - The profile image
+- `<Avatar.Fallback>` - Content shown when the image is unavailable
+
+```jsx
+<Avatar.Root>
+  <Avatar.Image src="/avatar.jpg" alt="User" />
+  <Avatar.Fallback>JD</Avatar.Fallback>
+</Avatar.Root>
+```
+
+## Basic Usage
+
+```jsx
+function MyAvatar() {
+  return (
+    <Avatar.Root>
+      <Avatar.Image 
+        src="https://i.pravatar.cc/150?img=1" 
+        alt="Jane Doe" 
+      />
+      <Avatar.Fallback>JD</Avatar.Fallback>
+    </Avatar.Root>
+  );
+}
+```
+
+## Key Features
+
+- **Automatic fallback**: Shows fallback content when the image fails to load
+- **Loading states**: Tracks image loading status (idle, loading, loaded, error)
+- **Delayed fallback**: Optionally delay the fallback display
+- **Accessible**: Proper image alt text support
+- **Unstyled**: Full control over styling
+
+## Component Props
+
+### Root
+
+The root container element that manages the avatar state.
+
+**Props:**
+- Renders a `<span>` element
+- Accepts all standard HTML span attributes
+
+### Image
+
+The image element to display in the avatar.
+
+**Props:**
+- `src` (string): The image source URL
+- `alt` (string): Alternative text for the image
+- `onLoadingStatusChange` (function): Callback fired when loading status changes
+- `referrerPolicy` (string): Referrer policy for the image
+- `crossOrigin` (string): CORS settings for the image
+- Renders an `<img>` element
+
+### Fallback
+
+Content displayed when the image is unavailable or fails to load.
+
+**Props:**
+- `delay` (number): How long to wait before showing the fallback, in milliseconds
+- Renders a `<span>` element
+
+## Styling
+
+<Tabs items={['CSS', 'Tailwind CSS']}>
+  <Tab value="CSS">
+    ```jsx
+    <Avatar.Root className="avatar-root">
+      <Avatar.Image 
+        className="avatar-image"
+        src="/avatar.jpg" 
+        alt="User" 
+      />
+      <Avatar.Fallback className="avatar-fallback">
+        JD
+      </Avatar.Fallback>
+    </Avatar.Root>
+    ```
+
+    ```css
+    .avatar-root {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: #e0e0e0;
+    }
+
+    .avatar-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-fallback {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+    ```
+  </Tab>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <Avatar.Root className="inline-flex items-center justify-center w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+      <Avatar.Image 
+        className="w-full h-full object-cover"
+        src="/avatar.jpg" 
+        alt="User" 
+      />
+      <Avatar.Fallback className="text-lg font-semibold text-gray-700">
+        JD
+      </Avatar.Fallback>
+    </Avatar.Root>
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### With Delayed Fallback
+
+Delay showing the fallback to avoid flashing content during quick loads:
+
+```jsx
+<Avatar.Root>
+  <Avatar.Image src="/avatar.jpg" alt="User" />
+  <Avatar.Fallback delay={300}>
+    JD
+  </Avatar.Fallback>
+</Avatar.Root>
+```
+
+### Different Sizes
+
+```jsx
+function AvatarSizes() {
+  return (
+    <div style={{ display: 'flex', gap: '1rem' }}>
+      {/* Small */}
+      <Avatar.Root style={{ width: 32, height: 32 }}>
+        <Avatar.Image src="/avatar.jpg" alt="User" />
+        <Avatar.Fallback>JD</Avatar.Fallback>
+      </Avatar.Root>
+
+      {/* Medium */}
+      <Avatar.Root style={{ width: 48, height: 48 }}>
+        <Avatar.Image src="/avatar.jpg" alt="User" />
+        <Avatar.Fallback>JD</Avatar.Fallback>
+      </Avatar.Root>
+
+      {/* Large */}
+      <Avatar.Root style={{ width: 64, height: 64 }}>
+        <Avatar.Image src="/avatar.jpg" alt="User" />
+        <Avatar.Fallback>JD</Avatar.Fallback>
+      </Avatar.Root>
+    </div>
+  );
+}
+```
+
+### With Status Indicator
+
+```jsx
+<Avatar.Root style={{ position: 'relative' }}>
+  <Avatar.Image src="/avatar.jpg" alt="User" />
+  <Avatar.Fallback>JD</Avatar.Fallback>
+  <span
+    style={{
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      width: 12,
+      height: 12,
+      borderRadius: '50%',
+      backgroundColor: '#22c55e',
+      border: '2px solid white',
+    }}
+  />
+</Avatar.Root>
+```
+
+### Tracking Loading Status
+
+```jsx
+function AvatarWithStatus() {
+  const [status, setStatus] = React.useState('idle');
+
+  return (
+    <div>
+      <Avatar.Root>
+        <Avatar.Image 
+          src="/avatar.jpg" 
+          alt="User"
+          onLoadingStatusChange={(status) => setStatus(status)}
+        />
+        <Avatar.Fallback>JD</Avatar.Fallback>
+      </Avatar.Root>
+      <p>Status: {status}</p>
+    </div>
+  );
+}
+```

@@ -1,0 +1,451 @@
+---
+title: Select
+description: A dropdown component that allows users to choose one or multiple options from a list.
+---
+
+The Select component provides an accessible, keyboard-navigable dropdown for selecting values from a list.
+
+## Import
+
+```tsx
+import * as Select from '@base-ui/react/Select';
+```
+
+## Basic Usage
+
+```tsx
+import * as Select from '@base-ui/react/Select';
+
+function FontSelector() {
+  const [value, setValue] = React.useState('system');
+
+  return (
+    <Select.Root value={value} onValueChange={setValue}>
+      <Select.Trigger>
+        <Select.Value placeholder="Select font..." />
+        <Select.Icon>▼</Select.Icon>
+      </Select.Trigger>
+
+      <Select.Portal>
+        <Select.Positioner>
+          <Select.Popup>
+            <Select.List>
+              <Select.Item value="system">
+                <Select.ItemText>System Font</Select.ItemText>
+                <Select.ItemIndicator>✓</Select.ItemIndicator>
+              </Select.Item>
+              <Select.Item value="mono">
+                <Select.ItemText>Monospace</Select.ItemText>
+                <Select.ItemIndicator>✓</Select.ItemIndicator>
+              </Select.Item>
+              <Select.Item value="serif">
+                <Select.ItemText>Serif</Select.ItemText>
+                <Select.ItemIndicator>✓</Select.ItemIndicator>
+              </Select.Item>
+            </Select.List>
+          </Select.Popup>
+        </Select.Positioner>
+      </Select.Portal>
+    </Select.Root>
+  );
+}
+```
+
+## Sub-components
+
+### Select.Root
+
+Groups all parts of the select. Doesn't render its own HTML element.
+
+**Key Props:**
+- `value`: Controlled selected value (or array for `multiple={true}`)
+- `defaultValue`: Uncontrolled default value
+- `onValueChange`: Called when selection changes
+- `multiple`: Whether multiple items can be selected (default: `false`)
+- `open`: Controlled popup open state
+- `defaultOpen`: Uncontrolled default open state (default: `false`)
+- `onOpenChange`: Called when popup opens/closes
+- `onOpenChangeComplete`: Called after animation completes
+- `disabled`: Whether component is disabled (default: `false`)
+- `readOnly`: Whether user can change selection (default: `false`)
+- `required`: Whether field is required (default: `false`)
+- `name`: Form field name
+- `autoComplete`: Browser autocomplete hint
+- `modal`: Whether popup is modal (default: `true`)
+- `items`: Data structure of items (for rendering labels in Value)
+- `itemToStringLabel`: Convert object items to string for display
+- `itemToStringValue`: Convert object items to string for form submission
+- `isItemEqualToValue`: Custom equality function for object items
+- `highlightItemOnHover`: Whether hovering highlights items (default: `true`)
+- `actionsRef`: Ref to imperative actions
+- `inputRef`: Ref to the hidden input element
+
+### Select.Trigger
+
+The button that opens/closes the select popup. Renders a `<button>` element.
+
+**State attributes:**
+- `data-open`: Present when popup is open
+- `data-disabled`: Present when disabled
+
+### Select.Value
+
+Displays the selected value or placeholder text.
+
+**Props:**
+- `placeholder`: Text shown when no value is selected
+
+### Select.Icon
+
+Icon indicating the select can be opened (typically a chevron).
+
+### Select.Portal
+
+Portals the popup to a different part of the DOM (default: `document.body`).
+
+**Props:**
+- `container`: The container to portal into
+- `keepMounted`: Keep popup mounted when closed (default: `false`)
+
+### Select.Positioner
+
+Positions the popup relative to the trigger using floating-ui.
+
+**Props:**
+- `side`: Preferred side - `'top'` | `'right'` | `'bottom'` | `'left'` (default: `'bottom'`)
+- `align`: Alignment - `'start'` | `'center'` | `'end'` (default: `'center'`)
+- `sideOffset`: Distance from trigger in pixels (default: `0`)
+- `alignOffset`: Offset along alignment axis (default: `0`)
+- `collisionBoundary`: Boundary for collision detection
+- `collisionPadding`: Padding from boundary edges (default: `10`)
+- `sticky`: Whether to stick to boundary edges (default: `false`)
+
+### Select.Popup
+
+The container for the list of items.
+
+**State attributes:**
+- `data-open`: Present when opening
+- `data-closed`: Present when closing
+- `data-starting-style`: Present during initial animation
+- `data-ending-style`: Present during exit animation
+
+### Select.List
+
+Scrollable list container for items.
+
+### Select.Item
+
+An individual selectable item. Renders a `<div>` by default.
+
+**Props:**
+- `value`: The value this item represents (required)
+- `disabled`: Whether this item is disabled (default: `false`)
+
+**State attributes:**
+- `data-highlighted`: Present when highlighted via keyboard/hover
+- `data-selected`: Present when selected
+- `data-disabled`: Present when disabled
+
+### Select.ItemText
+
+The text content of an item. Required for proper accessibility.
+
+### Select.ItemIndicator
+
+Only visible when the item is selected (for checkmark icons).
+
+### Select.Group
+
+Groups related items together.
+
+### Select.GroupLabel
+
+Label for a group of items. Renders a `<div>` by default.
+
+### Select.Separator
+
+Visual separator between items or groups.
+
+### Select.Arrow
+
+Arrow pointing to the trigger.
+
+### Select.ScrollUpArrow
+
+Shown when list can scroll up.
+
+### Select.ScrollDownArrow
+
+Shown when list can scroll down.
+
+### Select.Backdrop
+
+Backdrop element shown behind popup when `modal={true}`.
+
+## Multiple Selection
+
+```tsx
+function LanguageSelector() {
+  const [value, setValue] = React.useState<string[]>([]);
+
+  return (
+    <Select.Root value={value} onValueChange={setValue} multiple>
+      <Select.Trigger>
+        <Select.Value placeholder="Select languages...">
+          {value.join(', ')}
+        </Select.Value>
+        <Select.Icon>▼</Select.Icon>
+      </Select.Trigger>
+
+      <Select.Portal>
+        <Select.Positioner>
+          <Select.Popup>
+            <Select.List>
+              <Select.Item value="en">
+                <Select.ItemText>English</Select.ItemText>
+                <Select.ItemIndicator>✓</Select.ItemIndicator>
+              </Select.Item>
+              <Select.Item value="es">
+                <Select.ItemText>Spanish</Select.ItemText>
+                <Select.ItemIndicator>✓</Select.ItemIndicator>
+              </Select.Item>
+              <Select.Item value="fr">
+                <Select.ItemText>French</Select.ItemText>
+                <Select.ItemIndicator>✓</Select.ItemIndicator>
+              </Select.Item>
+            </Select.List>
+          </Select.Popup>
+        </Select.Positioner>
+      </Select.Portal>
+    </Select.Root>
+  );
+}
+```
+
+## Grouped Items
+
+```tsx
+<Select.Root>
+  <Select.Trigger>
+    <Select.Value placeholder="Select option..." />
+  </Select.Trigger>
+
+  <Select.Portal>
+    <Select.Positioner>
+      <Select.Popup>
+        <Select.List>
+          <Select.Group>
+            <Select.GroupLabel>Fruits</Select.GroupLabel>
+            <Select.Item value="apple">
+              <Select.ItemText>Apple</Select.ItemText>
+            </Select.Item>
+            <Select.Item value="banana">
+              <Select.ItemText>Banana</Select.ItemText>
+            </Select.Item>
+          </Select.Group>
+
+          <Select.Separator />
+
+          <Select.Group>
+            <Select.GroupLabel>Vegetables</Select.GroupLabel>
+            <Select.Item value="carrot">
+              <Select.ItemText>Carrot</Select.ItemText>
+            </Select.Item>
+            <Select.Item value="broccoli">
+              <Select.ItemText>Broccoli</Select.ItemText>
+            </Select.Item>
+          </Select.Group>
+        </Select.List>
+      </Select.Popup>
+    </Select.Positioner>
+  </Select.Portal>
+</Select.Root>
+```
+
+## Object Items
+
+```tsx
+interface Country {
+  code: string;
+  name: string;
+  flag: string;
+}
+
+const countries: Country[] = [
+  { code: 'us', name: 'United States', flag: '🇺🇸' },
+  { code: 'ca', name: 'Canada', flag: '🇨🇦' },
+  { code: 'mx', name: 'Mexico', flag: '🇲🇽' },
+];
+
+function CountrySelector() {
+  const [value, setValue] = React.useState<Country | null>(null);
+
+  return (
+    <Select.Root
+      value={value}
+      onValueChange={setValue}
+      items={countries}
+      itemToStringLabel={(country) => country.name}
+      itemToStringValue={(country) => country.code}
+    >
+      <Select.Trigger>
+        <Select.Value placeholder="Select country...">
+          {value && `${value.flag} ${value.name}`}
+        </Select.Value>
+        <Select.Icon>▼</Select.Icon>
+      </Select.Trigger>
+
+      <Select.Portal>
+        <Select.Positioner>
+          <Select.Popup>
+            <Select.List>
+              {countries.map((country) => (
+                <Select.Item key={country.code} value={country}>
+                  <Select.ItemText>
+                    {country.flag} {country.name}
+                  </Select.ItemText>
+                  <Select.ItemIndicator>✓</Select.ItemIndicator>
+                </Select.Item>
+              ))}
+            </Select.List>
+          </Select.Popup>
+        </Select.Positioner>
+      </Select.Portal>
+    </Select.Root>
+  );
+}
+```
+
+## Styling
+
+```css
+.Select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: white;
+  cursor: pointer;
+  min-width: 200px;
+}
+
+.Select-trigger[data-open] {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.Select-trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.Select-value {
+  flex: 1;
+}
+
+.Select-icon {
+  color: #6b7280;
+  transition: transform 0.2s;
+}
+
+.Select-trigger[data-open] .Select-icon {
+  transform: rotate(180deg);
+}
+
+.Select-popup {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow: auto;
+  padding: 0.25rem;
+}
+
+.Select-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-radius: 0.375rem;
+}
+
+.Select-item[data-highlighted] {
+  background-color: #eff6ff;
+}
+
+.Select-item[data-selected] {
+  background-color: #dbeafe;
+}
+
+.Select-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.Select-item-indicator {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.Select-group-label {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.Select-separator {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 0.25rem 0;
+}
+```
+
+## Form Integration
+
+```tsx
+import { Form } from '@base-ui/react/Form';
+import * as Field from '@base-ui/react/Field';
+import * as Select from '@base-ui/react/Select';
+
+function RegistrationForm() {
+  return (
+    <Form onFormSubmit={(values) => console.log(values)}>
+      <Field.Root name="country">
+        <Field.Label>Country</Field.Label>
+        <Select.Root>
+          <Select.Trigger>
+            <Select.Value placeholder="Select country..." />
+            <Select.Icon>▼</Select.Icon>
+          </Select.Trigger>
+          <Select.Portal>
+            <Select.Positioner>
+              <Select.Popup>
+                <Select.List>
+                  <Select.Item value="us">
+                    <Select.ItemText>United States</Select.ItemText>
+                  </Select.Item>
+                  <Select.Item value="ca">
+                    <Select.ItemText>Canada</Select.ItemText>
+                  </Select.Item>
+                  <Select.Item value="uk">
+                    <Select.ItemText>United Kingdom</Select.ItemText>
+                  </Select.Item>
+                </Select.List>
+              </Select.Popup>
+            </Select.Positioner>
+          </Select.Portal>
+        </Select.Root>
+        <Field.Error match="valueMissing">Country is required</Field.Error>
+      </Field.Root>
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```

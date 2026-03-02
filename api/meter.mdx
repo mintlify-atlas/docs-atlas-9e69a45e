@@ -1,0 +1,59 @@
+---
+title: Meter
+description: API reference for the Meter component
+---
+
+# Meter
+
+Displays a scalar measurement within a known range.
+
+## Import
+
+```tsx
+import * as Meter from '@base-ui/react/meter';
+```
+
+## Meter.Root
+
+Groups all parts of the meter.
+
+### Props
+
+<ParamField name="value" type="number" required>
+The current value of the meter.
+</ParamField>
+
+<ParamField name="min" type="number" default="0">
+The minimum value.
+</ParamField>
+
+<ParamField name="max" type="number" default="100">
+The maximum value.
+</ParamField>
+
+<ParamField name="low" type="number">
+The upper boundary of the low range.
+</ParamField>
+
+<ParamField name="high" type="number">
+The lower boundary of the high range.
+</ParamField>
+
+<ParamField name="optimum" type="number">
+The optimum value.
+</ParamField>
+
+<ParamField name="getAriaValueText" type="(value: number, optimumState: string) => string">
+Function that returns a human-readable text alternative for the value.
+</ParamField>
+
+### State
+
+- `value`: number - The current value
+- `min`: number - The minimum value
+- `max`: number - The maximum value
+- `optimumState`: 'optimal' | 'suboptimal' | 'sub-suboptimal' - The state relative to the optimum value
+
+## Meter.Indicator
+
+The filled portion of the meter that represents the current value.

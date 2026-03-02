@@ -1,0 +1,32 @@
+---
+title: Form
+description: API reference for the Form component
+---
+
+# Form
+
+A form element with built-in validation and submission handling.
+
+## Import
+
+```tsx
+import { Form } from '@base-ui/react/form';
+```
+
+## Props
+
+<ParamField name="onSubmit" type="(event: React.FormEvent<HTMLFormElement>) => void">
+Callback fired when the form is submitted.
+</ParamField>
+
+<ParamField name="onClearErrors" type="(fieldName?: string) => void">
+Callback to clear validation errors.
+</ParamField>
+
+<ParamField name="errors" type="Record<string, string[]>">
+Object containing validation errors for each field.
+</ParamField>
+
+<ParamField name="validationMode" type="'onBlur' | 'onChange'" default="onBlur">
+When to run validation for all fields in the form.
+</ParamField>

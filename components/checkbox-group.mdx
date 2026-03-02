@@ -1,0 +1,216 @@
+---
+title: Checkbox Group
+description: Provides a shared state to a series of checkboxes.
+---
+
+Provides a shared state to a series of checkboxes.
+
+## Import
+
+```jsx
+import { CheckboxGroup } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```jsx
+import { Checkbox } from '@base-ui/react';
+
+<CheckboxGroup value={['option1']} onValueChange={(value) => console.log(value)}>
+  <Checkbox.Root value="option1">
+    <Checkbox.Indicator />
+  </Checkbox.Root>
+  <Checkbox.Root value="option2">
+    <Checkbox.Indicator />
+  </Checkbox.Root>
+  <Checkbox.Root value="option3">
+    <Checkbox.Indicator />
+  </Checkbox.Root>
+</CheckboxGroup>
+```
+
+## Key Features
+
+- Manages state for multiple checkboxes
+- Controlled and uncontrolled modes
+- Support for parent checkbox (select all)
+- Works with Field component for validation
+- Accessible with proper ARIA attributes
+
+## Key Props
+
+### value
+
+**Type:** `string[]`
+
+Names of the checkboxes in the group that should be ticked. Use with `onValueChange` for controlled mode.
+
+```jsx
+const [value, setValue] = React.useState(['option1', 'option2']);
+
+<CheckboxGroup value={value} onValueChange={setValue}>
+  {/* checkboxes */}
+</CheckboxGroup>
+```
+
+### defaultValue
+
+**Type:** `string[]`
+
+Names of the checkboxes in the group that should be initially ticked. Use for uncontrolled mode.
+
+```jsx
+<CheckboxGroup defaultValue={['option1']}>
+  {/* checkboxes */}
+</CheckboxGroup>
+```
+
+### onValueChange
+
+**Type:** `(value: string[], eventDetails: ChangeEventDetails) => void`
+
+Event handler called when a checkbox in the group is ticked or unticked.
+
+### allValues
+
+**Type:** `string[]`
+
+Names of all checkboxes in the group. Use this when creating a parent checkbox.
+
+```jsx
+<CheckboxGroup allValues={['option1', 'option2', 'option3']}>
+  <Checkbox.Root parent>
+    <Checkbox.Indicator />
+  </Checkbox.Root>
+  {/* child checkboxes */}
+</CheckboxGroup>
+```
+
+### disabled
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the component should ignore user interaction.
+
+## Styling
+
+<Tabs items={['Tailwind CSS', 'CSS Modules']}>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <CheckboxGroup className="space-y-2">
+      <div className="flex items-center gap-2">
+        <Checkbox.Root value="option1" className="w-5 h-5 border-2 rounded">
+          <Checkbox.Indicator />
+        </Checkbox.Root>
+        <label>Option 1</label>
+      </div>
+      <div className="flex items-center gap-2">
+        <Checkbox.Root value="option2" className="w-5 h-5 border-2 rounded">
+          <Checkbox.Indicator />
+        </Checkbox.Root>
+        <label>Option 2</label>
+      </div>
+    </CheckboxGroup>
+    ```
+  </Tab>
+  <Tab value="CSS Modules">
+    ```jsx
+    <CheckboxGroup className={styles.group}>
+      <div className={styles.item}>
+        <Checkbox.Root value="option1">
+          <Checkbox.Indicator />
+        </Checkbox.Root>
+        <label>Option 1</label>
+      </div>
+    </CheckboxGroup>
+    ```
+
+    ```css
+    .group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### With Labels
+
+```jsx
+import { Field } from '@base-ui/react';
+
+const options = [
+  { value: 'react', label: 'React' },
+  { value: 'vue', label: 'Vue' },
+  { value: 'angular', label: 'Angular' },
+];
+
+<Field.Root>
+  <Field.Label>Select frameworks</Field.Label>
+  <CheckboxGroup>
+    {options.map((option) => (
+      <div key={option.value} className="flex items-center gap-2">
+        <Checkbox.Root value={option.value}>
+          <Checkbox.Indicator />
+        </Checkbox.Root>
+        <label>{option.label}</label>
+      </div>
+    ))}
+  </CheckboxGroup>
+</Field.Root>
+```
+
+### Select All
+
+```jsx
+const allOptions = ['option1', 'option2', 'option3'];
+
+<CheckboxGroup allValues={allOptions}>
+  <div className="flex items-center gap-2 mb-2 pb-2 border-b">
+    <Checkbox.Root parent>
+      <Checkbox.Indicator />
+    </Checkbox.Root>
+    <label className="font-semibold">Select All</label>
+  </div>
+  {allOptions.map((option) => (
+    <div key={option} className="flex items-center gap-2">
+      <Checkbox.Root value={option}>
+        <Checkbox.Indicator />
+      </Checkbox.Root>
+      <label>{option}</label>
+    </div>
+  ))}
+</CheckboxGroup>
+```
+
+### With Validation
+
+```jsx
+import { Field, Form } from '@base-ui/react';
+
+<Form.Root>
+  <Field.Root name="interests" validationMode="onChange">
+    <Field.Label>Select your interests</Field.Label>
+    <CheckboxGroup>
+      <Checkbox.Root value="coding">
+        <Checkbox.Indicator />
+      </Checkbox.Root>
+      <Checkbox.Root value="design">
+        <Checkbox.Indicator />
+      </Checkbox.Root>
+    </CheckboxGroup>
+    <Field.Error />
+  </Field.Root>
+</Form.Root>
+```

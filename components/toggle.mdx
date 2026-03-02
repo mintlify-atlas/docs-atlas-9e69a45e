@@ -1,0 +1,239 @@
+---
+title: Toggle
+description: A two-state button that can be on or off.
+---
+
+A two-state button that can be on or off.
+
+## Import
+
+```jsx
+import { Toggle } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```jsx
+<Toggle>Toggle me</Toggle>
+```
+
+## Key Features
+
+- Two-state button (pressed/unpressed)
+- Controlled and uncontrolled modes
+- Works within Toggle Group
+- Accessible with proper ARIA attributes
+- Custom render props
+
+## Key Props
+
+### pressed
+
+**Type:** `boolean`
+
+Whether the toggle button is currently pressed. Use with `onPressedChange` for controlled mode.
+
+```jsx
+const [pressed, setPressed] = React.useState(false);
+
+<Toggle pressed={pressed} onPressedChange={setPressed}>
+  Toggle
+</Toggle>
+```
+
+### defaultPressed
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the toggle button is initially pressed. Use for uncontrolled mode.
+
+```jsx
+<Toggle defaultPressed>
+  Initially Pressed
+</Toggle>
+```
+
+### onPressedChange
+
+**Type:** `(pressed: boolean, eventDetails: ChangeEventDetails) => void`
+
+Callback fired when the pressed state is changed.
+
+```jsx
+<Toggle onPressedChange={(pressed) => console.log('Pressed:', pressed)}>
+  Toggle
+</Toggle>
+```
+
+### disabled
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the component should ignore user interaction.
+
+```jsx
+<Toggle disabled>
+  Disabled Toggle
+</Toggle>
+```
+
+### value
+
+**Type:** `string`
+
+A unique string that identifies the toggle when used inside a toggle group.
+
+```jsx
+<ToggleGroup>
+  <Toggle value="bold">Bold</Toggle>
+  <Toggle value="italic">Italic</Toggle>
+</ToggleGroup>
+```
+
+## Styling
+
+<Tabs items={['Tailwind CSS', 'CSS Modules']}>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <Toggle className="px-4 py-2 rounded border border-gray-300 data-[pressed]:bg-blue-500 data-[pressed]:text-white data-[pressed]:border-blue-500 hover:bg-gray-50 data-[pressed]:hover:bg-blue-600">
+      Toggle
+    </Toggle>
+    ```
+  </Tab>
+  <Tab value="CSS Modules">
+    ```jsx
+    <Toggle className={styles.toggle}>
+      Toggle
+    </Toggle>
+    ```
+
+    ```css
+    .toggle {
+      padding: 0.5rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+    }
+
+    .toggle:hover {
+      background-color: #f9fafb;
+    }
+
+    .toggle[data-pressed] {
+      background-color: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+
+    .toggle[data-pressed]:hover {
+      background-color: #2563eb;
+    }
+
+    .toggle[data-disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### Icon Toggle
+
+```jsx
+function BoldToggle() {
+  const [pressed, setPressed] = React.useState(false);
+
+  return (
+    <Toggle
+      pressed={pressed}
+      onPressedChange={setPressed}
+      className="p-2 rounded data-[pressed]:bg-blue-500 data-[pressed]:text-white"
+    >
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm5 2a1 1 0 011 1v6a1 1 0 11-2 0V6a1 1 0 011-1z" />
+      </svg>
+    </Toggle>
+  );
+}
+```
+
+### Text Formatting Toggles
+
+```jsx
+function TextEditor() {
+  const [bold, setBold] = React.useState(false);
+  const [italic, setItalic] = React.useState(false);
+  const [underline, setUnderline] = React.useState(false);
+
+  return (
+    <div className="flex gap-1">
+      <Toggle
+        pressed={bold}
+        onPressedChange={setBold}
+        className="px-3 py-2 rounded font-bold data-[pressed]:bg-blue-500 data-[pressed]:text-white"
+      >
+        B
+      </Toggle>
+      <Toggle
+        pressed={italic}
+        onPressedChange={setItalic}
+        className="px-3 py-2 rounded italic data-[pressed]:bg-blue-500 data-[pressed]:text-white"
+      >
+        I
+      </Toggle>
+      <Toggle
+        pressed={underline}
+        onPressedChange={setUnderline}
+        className="px-3 py-2 rounded underline data-[pressed]:bg-blue-500 data-[pressed]:text-white"
+      >
+        U
+      </Toggle>
+    </div>
+  );
+}
+```
+
+### With Tooltip
+
+```jsx
+import { Tooltip } from '@base-ui/react';
+
+<Tooltip.Root>
+  <Tooltip.Trigger>
+    <Toggle className="p-2 rounded data-[pressed]:bg-blue-500">
+      <StarIcon />
+    </Toggle>
+  </Tooltip.Trigger>
+  <Tooltip.Positioner>
+    <Tooltip.Popup>Add to favorites</Tooltip.Popup>
+  </Tooltip.Positioner>
+</Tooltip.Root>
+```
+
+### Color Picker Toggle
+
+```jsx
+function ColorToggle({ color, label }) {
+  const [pressed, setPressed] = React.useState(false);
+
+  return (
+    <Toggle
+      pressed={pressed}
+      onPressedChange={setPressed}
+      className="relative w-8 h-8 rounded border-2 border-gray-300 data-[pressed]:border-blue-500"
+      style={{ backgroundColor: color }}
+    >
+      {pressed && (
+        <svg className="absolute inset-0 w-full h-full text-white" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
+        </svg>
+      )}
+    </Toggle>
+  );
+}
+```

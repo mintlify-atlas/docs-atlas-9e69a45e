@@ -1,0 +1,90 @@
+---
+title: Tabs
+description: API reference for the Tabs component
+---
+
+# Tabs
+
+A set of layered sections of content—known as tab panels—that are displayed one at a time.
+
+## Import
+
+```tsx
+import * as Tabs from '@base-ui/react/tabs';
+```
+
+## Tabs.Root
+
+Groups all parts of the tabs.
+
+### Props
+
+<ParamField name="value" type="any">
+The controlled value of the selected tab. To render an uncontrolled tabs component, use the `defaultValue` prop instead.
+</ParamField>
+
+<ParamField name="defaultValue" type="any">
+The uncontrolled value of the initially selected tab. To render a controlled tabs component, use the `value` prop instead.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: any, eventDetails: Tabs.Root.ChangeEventDetails) => void">
+Event handler called when the selected tab changes.
+</ParamField>
+
+<ParamField name="orientation" type="'horizontal' | 'vertical'" default="horizontal">
+The orientation of the tabs.
+</ParamField>
+
+<ParamField name="direction" type="'ltr' | 'rtl'">
+The reading direction of the tabs.
+</ParamField>
+
+<ParamField name="activateOnFocus" type="boolean" default="true">
+Whether to activate a tab when it receives focus.
+</ParamField>
+
+<ParamField name="loopFocus" type="boolean" default="true">
+Whether to loop keyboard focus back to the first tab when the end of the list is reached.
+</ParamField>
+
+## Tabs.List
+
+Contains the tab triggers.
+
+## Tabs.Tab
+
+A button that activates a panel when pressed.
+
+### Props
+
+<ParamField name="value" type="any" required>
+The value that identifies this tab.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the tab is disabled.
+</ParamField>
+
+## Tabs.Panel
+
+The content associated with a tab.
+
+### Props
+
+<ParamField name="value" type="any" required>
+The value that identifies the tab that controls this panel.
+</ParamField>
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the panel mounted when it's not active.
+</ParamField>
+
+## Tabs.Indicator
+
+A visual indicator that highlights the active tab.
+
+### Props
+
+<ParamField name="renderActivatedOnly" type="boolean" default="true">
+Whether to render the indicator only when a tab is activated (clicked).
+</ParamField>

@@ -1,0 +1,58 @@
+---
+title: Toast
+description: API reference for the Toast component
+---
+
+# Toast
+
+A brief message that appears temporarily to provide feedback about an action.
+
+## Import
+
+```tsx
+import * as Toast from '@base-ui/react/toast';
+```
+
+## Toast.Provider
+
+Provides context for managing toasts.
+
+### Props
+
+<ParamField name="duration" type="number" default="5000">
+Default duration in milliseconds before a toast automatically closes.
+</ParamField>
+
+<ParamField name="maxToasts" type="number" default="Infinity">
+Maximum number of toasts that can be shown at once.
+</ParamField>
+
+## Toast.Root
+
+Represents a single toast notification.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the toast is currently visible.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean) => void">
+Event handler called when the toast's open state changes.
+</ParamField>
+
+<ParamField name="duration" type="number">
+Duration in milliseconds before the toast automatically closes. Overrides the provider's duration.
+</ParamField>
+
+## Toast.Close
+
+A button that closes the toast.
+
+## Toast.Title
+
+The title of the toast.
+
+## Toast.Description
+
+The description text of the toast.

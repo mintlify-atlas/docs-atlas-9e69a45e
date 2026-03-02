@@ -1,0 +1,133 @@
+---
+title: Collapsible
+description: A component that expands and collapses content panels with smooth animations.
+---
+
+The Collapsible component provides an interactive way to show and hide content. It's useful for creating expandable sections, FAQs, or any interface where content needs to be progressively disclosed.
+
+## Import
+
+```tsx
+import { Collapsible } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```tsx
+<Collapsible.Root>
+  <Collapsible.Trigger>Toggle content</Collapsible.Trigger>
+  <Collapsible.Panel>
+    Your collapsible content goes here.
+  </Collapsible.Panel>
+</Collapsible.Root>
+```
+
+## Key Features
+
+- **Controlled or Uncontrolled**: Use `open` and `onOpenChange` for controlled state, or `defaultOpen` for uncontrolled.
+- **Smooth Animations**: Built-in support for CSS transitions and animations.
+- **Transition Status**: Track animation states with `transitionStatus` (idle, opening, open, closing).
+- **Accessibility**: Proper ARIA attributes for screen readers.
+- **Keep Mounted**: Control whether the panel stays in the DOM when closed.
+- **Hidden Until Found**: Enable browser's page search to find and expand content.
+
+## Components
+
+### Collapsible.Root
+
+The root container that manages collapsible state.
+
+**Props:**
+- `open` - Controlled open state (boolean)
+- `defaultOpen` - Initial open state for uncontrolled mode (default: `false`)
+- `onOpenChange` - Callback when open state changes
+- `disabled` - Disable all user interaction (default: `false`)
+
+### Collapsible.Trigger
+
+A button that toggles the panel open and closed. Renders a `<button>` element.
+
+**Props:**
+- `disabled` - Disable the trigger button
+- `nativeButton` - Use native button behavior (default: `true`)
+
+### Collapsible.Panel
+
+The collapsible panel containing the content. Renders a `<div>` element.
+
+**Props:**
+- `keepMounted` - Keep panel in DOM when closed (default: `false`)
+- `hiddenUntilFound` - Allow browser search to expand panel (default: `false`)
+
+## Styling Example
+
+```tsx
+<Collapsible.Root className="collapsible">
+  <Collapsible.Trigger className="collapsible-trigger">
+    Click to expand
+  </Collapsible.Trigger>
+  <Collapsible.Panel className="collapsible-panel">
+    Hidden content that will be revealed
+  </Collapsible.Panel>
+</Collapsible.Root>
+```
+
+```css
+.collapsible-trigger[data-open] {
+  /* Styles when panel is open */
+}
+
+.collapsible-panel {
+  overflow: hidden;
+  transition: height 250ms ease-out;
+}
+
+.collapsible-panel[data-starting-style],
+.collapsible-panel[data-ending-style] {
+  height: 0;
+}
+
+.collapsible-panel[data-open] {
+  height: var(--collapsible-panel-height);
+}
+
+/* Transition states */
+.collapsible-panel[data-transition-status="opening"] {
+  /* Styles while opening */
+}
+
+.collapsible-panel[data-transition-status="closing"] {
+  /* Styles while closing */
+}
+```
+
+## Controlled Example
+
+```tsx
+import { useState } from 'react';
+import { Collapsible } from '@base-ui/react';
+
+function ControlledCollapsible() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Collapsible.Root open={open} onOpenChange={setOpen}>
+      <Collapsible.Trigger>
+        {open ? 'Hide' : 'Show'} details
+      </Collapsible.Trigger>
+      <Collapsible.Panel>
+        These are the hidden details.
+      </Collapsible.Panel>
+    </Collapsible.Root>
+  );
+}
+```
+
+## CSS Variables
+
+The component provides CSS variables for dynamic styling:
+
+- `--collapsible-panel-height` - Current height of the panel in pixels
+- `--collapsible-panel-width` - Current width of the panel in pixels
+
+These are useful for smooth height/width transitions during open/close animations.

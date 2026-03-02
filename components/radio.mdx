@@ -1,0 +1,203 @@
+---
+title: Radio
+description: A radio button component for selecting a single option from a group.
+---
+
+A radio button component for selecting a single option from a group.
+
+## Import
+
+```jsx
+import { Radio } from '@base-ui/react';
+```
+
+## Anatomy
+
+The Radio component consists of two parts:
+
+- `Radio.Root` - The radio button control itself
+- `Radio.Indicator` - Visual indicator for the selected state
+
+<Note>
+Radio buttons should typically be used within a `RadioGroup` component to manage the selection state.
+</Note>
+
+## Basic Usage
+
+```jsx
+import { RadioGroup } from '@base-ui/react';
+
+<RadioGroup>
+  <Radio.Root value="option1">
+    <Radio.Indicator />
+  </Radio.Root>
+  <Radio.Root value="option2">
+    <Radio.Indicator />
+  </Radio.Root>
+</RadioGroup>
+```
+
+## Key Features
+
+- Works seamlessly with RadioGroup
+- Accessible with proper ARIA attributes
+- Supports disabled and read-only states
+- Keyboard navigation support
+- Custom render props
+
+## Key Props
+
+### value
+
+**Type:** `any`
+
+**Required:** `true`
+
+The unique identifying value of the radio in a group.
+
+```jsx
+<Radio.Root value="react">
+  <Radio.Indicator />
+</Radio.Root>
+```
+
+### disabled
+
+**Type:** `boolean`
+
+Whether the component should ignore user interaction.
+
+```jsx
+<Radio.Root value="disabled" disabled>
+  <Radio.Indicator />
+</Radio.Root>
+```
+
+### readOnly
+
+**Type:** `boolean`
+
+Whether the user should be unable to select the radio button.
+
+### required
+
+**Type:** `boolean`
+
+Whether the user must choose a value before submitting a form.
+
+### inputRef
+
+**Type:** `React.Ref<HTMLInputElement>`
+
+A ref to access the hidden input element.
+
+## Styling
+
+<Tabs items={['Tailwind CSS', 'CSS Modules']}>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <Radio.Root className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center data-[checked]:border-blue-500">
+      <Radio.Indicator className="w-3 h-3 rounded-full bg-blue-500" />
+    </Radio.Root>
+    ```
+  </Tab>
+  <Tab value="CSS Modules">
+    ```jsx
+    <Radio.Root className={styles.root}>
+      <Radio.Indicator className={styles.indicator} />
+    </Radio.Root>
+    ```
+
+    ```css
+    .root {
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      border: 2px solid #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .root[data-checked] {
+      border-color: #3b82f6;
+    }
+
+    .root[data-disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .indicator {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      background-color: #3b82f6;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### With Labels
+
+```jsx
+import { RadioGroup } from '@base-ui/react';
+
+const options = [
+  { value: 'sm', label: 'Small' },
+  { value: 'md', label: 'Medium' },
+  { value: 'lg', label: 'Large' },
+];
+
+<RadioGroup>
+  {options.map((option) => (
+    <div key={option.value} className="flex items-center gap-2">
+      <Radio.Root value={option.value}>
+        <Radio.Indicator />
+      </Radio.Root>
+      <label>{option.label}</label>
+    </div>
+  ))}
+</RadioGroup>
+```
+
+### Card-Style Radio Buttons
+
+```jsx
+<RadioGroup>
+  <Radio.Root
+    value="basic"
+    className="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg data-[checked]:border-blue-500 data-[checked]:bg-blue-50"
+  >
+    <Radio.Indicator className="w-5 h-5 rounded-full" />
+    <div>
+      <div className="font-semibold">Basic Plan</div>
+      <div className="text-sm text-gray-600">$9/month</div>
+    </div>
+  </Radio.Root>
+</RadioGroup>
+```
+
+### With Description
+
+```jsx
+import { Field } from '@base-ui/react';
+
+<RadioGroup>
+  <Field.Root>
+    <div className="flex gap-3">
+      <Radio.Root value="yes">
+        <Radio.Indicator />
+      </Radio.Root>
+      <div>
+        <Field.Label>Enable notifications</Field.Label>
+        <Field.Description>
+          Receive email notifications for important updates
+        </Field.Description>
+      </div>
+    </div>
+  </Field.Root>
+</RadioGroup>
+```

@@ -1,0 +1,314 @@
+---
+title: Form
+description: A native form element with consolidated error handling and validation.
+---
+
+The Form component wraps a native `<form>` element with enhanced validation, error handling, and submission features.
+
+## Import
+
+```tsx
+import { Form } from '@base-ui/react/Form';
+```
+
+## Basic Usage
+
+```tsx
+import { Form } from '@base-ui/react/Form';
+import * as Field from '@base-ui/react/Field';
+
+function MyForm() {
+  function handleSubmit(values: { email: string; password: string }) {
+    console.log('Form submitted:', values);
+    // Submit to your API
+  }
+
+  return (
+    <Form onFormSubmit={handleSubmit}>
+      <Field.Root name="email">
+        <Field.Label>Email</Field.Label>
+        <Field.Control type="email" required />
+        <Field.Error match="valueMissing">Email is required</Field.Error>
+        <Field.Error match="typeMismatch">Invalid email format</Field.Error>
+      </Field.Root>
+
+      <Field.Root name="password">
+        <Field.Label>Password</Field.Label>
+        <Field.Control type="password" required />
+        <Field.Error match="valueMissing">Password is required</Field.Error>
+      </Field.Root>
+
+      <button type="submit">Sign In</button>
+    </Form>
+  );
+}
+```
+
+## Key Props
+
+- `onFormSubmit`: Called when the form is valid and submitted. Receives form values as an object and event details. Automatically calls `preventDefault()` on the submit event.
+- `validationMode`: Global validation mode for all fields - `'onSubmit'` | `'onBlur'` | `'onChange'` (default: `'onSubmit'`)
+- `errors`: External validation errors (e.g., from server). Object where keys match field `name` props.
+- `actionsRef`: Ref to imperative actions like `validate()`
+
+## Validation Modes
+
+### On Submit (Default)
+
+Validates all fields when the form is submitted, then re-validates on change:
+
+```tsx
+<Form validationMode="onSubmit" onFormSubmit={handleSubmit}>
+  <Field.Root name="email">
+    <Field.Label>Email</Field.Label>
+    <Field.Control type="email" required />
+    <Field.Error match="valueMissing">Required</Field.Error>
+  </Field.Root>
+  <button type="submit">Submit</button>
+</Form>
+```
+
+### On Blur
+
+Validates each field when it loses focus:
+
+```tsx
+<Form validationMode="onBlur" onFormSubmit={handleSubmit}>
+  <Field.Root name="email">
+    <Field.Label>Email</Field.Label>
+    <Field.Control type="email" required />
+    <Field.Error match="valueMissing">Required</Field.Error>
+  </Field.Root>
+  <button type="submit">Submit</button>
+</Form>
+```
+
+### On Change
+
+Validates each field on every change:
+
+```tsx
+<Form validationMode="onChange" onFormSubmit={handleSubmit}>
+  <Field.Root name="email" validationDebounceTime={300}>
+    <Field.Label>Email</Field.Label>
+    <Field.Control type="email" required />
+    <Field.Error match="valueMissing">Required</Field.Error>
+  </Field.Root>
+  <button type="submit">Submit</button>
+</Form>
+```
+
+### Per-field Override
+
+Individual fields can override the form's validation mode:
+
+```tsx
+<Form validationMode="onSubmit" onFormSubmit={handleSubmit}>
+  {/* This field validates on change */}
+  <Field.Root name="username" validationMode="onChange">
+    <Field.Label>Username</Field.Label>
+    <Field.Control required />
+    <Field.Error match="valueMissing">Required</Field.Error>
+  </Field.Root>
+
+  {/* This field uses form's default (onSubmit) */}
+  <Field.Root name="bio">
+    <Field.Label>Bio</Field.Label>
+    <Field.Control />
+  </Field.Root>
+
+  <button type="submit">Submit</button>
+</Form>
+```
+
+## Server-side Validation
+
+Display errors returned from the server:
+
+```tsx
+function RegistrationForm() {
+  const [errors, setErrors] = React.useState<Record<string, string>>();
+
+  async function handleSubmit(values: { username: string; email: string }) {
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      body: JSON.stringify(values),
+    });
+
+    if (!response.ok) {
+      const { errors } = await response.json();
+      setErrors(errors);
+      return;
+    }
+
+    // Success
+    console.log('Registered!');
+  }
+
+  return (
+    <Form onFormSubmit={handleSubmit} errors={errors}>
+      <Field.Root name="username">
+        <Field.Label>Username</Field.Label>
+        <Field.Control required />
+        <Field.Error match="valueMissing">Username is required</Field.Error>
+        {/* Server error automatically displayed when errors.username is set */}
+      </Field.Root>
+
+      <Field.Root name="email">
+        <Field.Label>Email</Field.Label>
+        <Field.Control type="email" required />
+        <Field.Error match="valueMissing">Email is required</Field.Error>
+        <Field.Error match="typeMismatch">Invalid email</Field.Error>
+      </Field.Root>
+
+      <button type="submit">Register</button>
+    </Form>
+  );
+}
+```
+
+The `errors` prop should be an object where:
+- Keys match the `name` prop on `Field.Root`
+- Values are error messages (strings)
+
+## Custom Validation
+
+```tsx
+function validatePassword(value: unknown, formValues: Form.Values) {
+  const password = String(value);
+  const confirmPassword = String(formValues.confirmPassword);
+
+  if (password.length < 8) {
+    return 'Password must be at least 8 characters';
+  }
+
+  return null;
+}
+
+function validateConfirmPassword(value: unknown, formValues: Form.Values) {
+  const password = String(formValues.password);
+  const confirmPassword = String(value);
+
+  if (password !== confirmPassword) {
+    return 'Passwords do not match';
+  }
+
+  return null;
+}
+
+<Form onFormSubmit={handleSubmit}>
+  <Field.Root name="password" validate={validatePassword}>
+    <Field.Label>Password</Field.Label>
+    <Field.Control type="password" />
+    <Field.Error match="customError" />
+  </Field.Root>
+
+  <Field.Root name="confirmPassword" validate={validateConfirmPassword}>
+    <Field.Label>Confirm Password</Field.Label>
+    <Field.Control type="password" />
+    <Field.Error match="customError" />
+  </Field.Root>
+
+  <button type="submit">Submit</button>
+</Form>
+```
+
+## Submission Handling
+
+The form automatically:
+- Calls `preventDefault()` on submit
+- Validates all fields before submission
+- Focuses the first invalid field if validation fails
+- Only calls `onFormSubmit` if all fields are valid
+
+```tsx
+function LoginForm() {
+  function handleSubmit(
+    values: { email: string; password: string },
+    eventDetails: Form.SubmitEventDetails
+  ) {
+    console.log('Valid form values:', values);
+    console.log('Event details:', eventDetails);
+  }
+
+  return (
+    <Form onFormSubmit={handleSubmit}>
+      <Field.Root name="email">
+        <Field.Label>Email</Field.Label>
+        <Field.Control type="email" required />
+        <Field.Error match="valueMissing">Required</Field.Error>
+      </Field.Root>
+
+      <Field.Root name="password">
+        <Field.Label>Password</Field.Label>
+        <Field.Control type="password" required />
+        <Field.Error match="valueMissing">Required</Field.Error>
+      </Field.Root>
+
+      <button type="submit">Sign In</button>
+    </Form>
+  );
+}
+```
+
+## Imperative API
+
+Trigger validation programmatically:
+
+```tsx
+function MyForm() {
+  const actionsRef = React.useRef<Form.Actions>(null);
+
+  return (
+    <Form actionsRef={actionsRef} onFormSubmit={handleSubmit}>
+      <Field.Root name="email">
+        <Field.Label>Email</Field.Label>
+        <Field.Control type="email" required />
+        <Field.Error match="valueMissing">Required</Field.Error>
+      </Field.Root>
+
+      <Field.Root name="age">
+        <Field.Label>Age</Field.Label>
+        <Field.Control type="number" required />
+        <Field.Error match="valueMissing">Required</Field.Error>
+      </Field.Root>
+
+      <button type="button" onClick={() => actionsRef.current?.validate()}>
+        Validate All Fields
+      </button>
+      
+      <button type="button" onClick={() => actionsRef.current?.validate('email')}>
+        Validate Email Only
+      </button>
+
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```
+
+## Styling
+
+```css
+.Form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 500px;
+}
+
+/* Style submit button based on form state */
+.Form button[type="submit"] {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+.Form button[type="submit"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

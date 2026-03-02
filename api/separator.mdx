@@ -1,0 +1,34 @@
+---
+title: Separator
+description: API reference for the Separator component
+---
+
+# Separator
+
+A separator element accessible to screen readers.
+
+## Import
+
+```tsx
+import { Separator } from '@base-ui/react/separator';
+```
+
+## Props
+
+<ParamField name="className" type="string | ((state: Separator.State) => string)">
+CSS class applied to the element, or a function that returns a class based on the component's state.
+</ParamField>
+
+<ParamField name="render" type="ReactElement | ComponentRenderFn">
+Allows you to replace the component's HTML element with a different tag, or compose it with another component.
+</ParamField>
+
+<ParamField name="orientation" type="'horizontal' | 'vertical'" default="horizontal">
+The orientation of the separator.
+</ParamField>
+
+## State
+
+The separator exposes the following state:
+
+- `orientation`: 'horizontal' | 'vertical' - The orientation of the separator

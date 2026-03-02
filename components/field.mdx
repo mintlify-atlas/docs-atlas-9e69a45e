@@ -1,0 +1,239 @@
+---
+title: Field
+description: Groups related input controls with labels, descriptions, and error messages for form validation.
+---
+
+The Field component provides validation, error handling, and accessibility features for form inputs.
+
+## Import
+
+```tsx
+import * as Field from '@base-ui/react/Field';
+```
+
+## Basic Usage
+
+```tsx
+import * as Field from '@base-ui/react/Field';
+
+function MyField() {
+  return (
+    <Field.Root name="email">
+      <Field.Label>Email</Field.Label>
+      <Field.Control
+        type="email"
+        placeholder="Enter your email"
+        required
+      />
+      <Field.Description>We'll never share your email.</Field.Description>
+      <Field.Error match="valueMissing">Email is required</Field.Error>
+      <Field.Error match="typeMismatch">Please enter a valid email</Field.Error>
+    </Field.Root>
+  );
+}
+```
+
+## Sub-components
+
+### Field.Root
+
+Groups all parts of the field. Renders a `<div>` element.
+
+**Key Props:**
+- `name`: Identifies the field when a form is submitted
+- `disabled`: Whether the component should ignore user interaction (default: `false`)
+- `validate`: A function for custom validation that returns error message(s) or `null`
+- `validationMode`: When to validate - `'onSubmit'` | `'onBlur'` | `'onChange'` (default: `'onSubmit'`)
+- `validationDebounceTime`: Debounce time in milliseconds for onChange validation (default: `0`)
+- `invalid`: Whether the field is invalid (for external control)
+- `dirty`: Whether the field value has changed from initial value (for external control)
+- `touched`: Whether the field has been touched (for external control)
+- `actionsRef`: Ref to imperative actions like `validate()`
+
+**State attributes:**
+- `data-disabled`: Present when disabled
+- `data-touched`: Present when field has been touched
+- `data-dirty`: Present when value has changed
+- `data-valid`: Present when field is valid
+- `data-invalid`: Present when field is invalid
+- `data-filled`: Present when field has a value
+- `data-focused`: Present when field is focused
+
+### Field.Label
+
+Renders a `<label>` element associated with the control.
+
+### Field.Control
+
+The input control element. Renders a native `<input>` by default.
+
+**Props:**
+- Accepts all standard input attributes (`type`, `placeholder`, `required`, etc.)
+- `disabled`: Can override the Field.Root disabled state
+- `name`: Can override the Field.Root name
+
+### Field.Description
+
+Renders descriptive text about the field. Automatically linked to the control via `aria-describedby`.
+
+### Field.Error
+
+Displays error messages based on validation state.
+
+**Key Props:**
+- `match`: Which validation error to display. Can be:
+  - `'badInput'` | `'customError'` | `'patternMismatch'` | `'rangeOverflow'` | `'rangeUnderflow'` | `'stepMismatch'` | `'tooLong'` | `'tooShort'` | `'typeMismatch'` | `'valueMissing'`
+  - A function: `(errors, value) => boolean`
+- `forceShow`: Force error to display regardless of field state
+
+### Field.Validity
+
+Accesses the field's validity data programmatically (render prop pattern).
+
+### Field.Item
+
+Used for grouping multiple controls within a single field (e.g., radio buttons, checkboxes).
+
+## Validation
+
+### Built-in Validation
+
+The Field component automatically validates based on native HTML5 constraints:
+
+```tsx
+<Field.Root name="age">
+  <Field.Label>Age</Field.Label>
+  <Field.Control
+    type="number"
+    required
+    min="18"
+    max="120"
+  />
+  <Field.Error match="valueMissing">Age is required</Field.Error>
+  <Field.Error match="rangeUnderflow">Must be at least 18</Field.Error>
+  <Field.Error match="rangeOverflow">Must be less than 120</Field.Error>
+</Field.Root>
+```
+
+### Custom Validation
+
+Provide a `validate` function that returns error message(s) or `null`:
+
+```tsx
+function validatePassword(value: unknown) {
+  const password = String(value);
+  
+  if (password.length < 8) {
+    return 'Password must be at least 8 characters';
+  }
+  
+  if (!/[A-Z]/.test(password)) {
+    return 'Password must contain an uppercase letter';
+  }
+  
+  return null;
+}
+
+<Field.Root name="password" validate={validatePassword}>
+  <Field.Label>Password</Field.Label>
+  <Field.Control type="password" />
+  <Field.Error match="customError" />
+</Field.Root>
+```
+
+### Async Validation
+
+Async validation functions are supported:
+
+```tsx
+async function checkUsernameAvailable(value: unknown, formValues: Form.Values) {
+  const username = String(value);
+  const response = await fetch(`/api/check-username?username=${username}`);
+  const { available } = await response.json();
+  
+  return available ? null : 'Username is already taken';
+}
+
+<Field.Root name="username" validate={checkUsernameAvailable}>
+  <Field.Label>Username</Field.Label>
+  <Field.Control />
+  <Field.Error match="customError" />
+</Field.Root>
+```
+
+### Validation Modes
+
+```tsx
+// Validate on blur
+<Field.Root name="email" validationMode="onBlur">
+  {/* ... */}
+</Field.Root>
+
+// Validate on every change
+<Field.Root name="email" validationMode="onChange">
+  {/* ... */}
+</Field.Root>
+
+// Validate on change with debounce
+<Field.Root
+  name="email"
+  validationMode="onChange"
+  validationDebounceTime={300}
+>
+  {/* ... */}
+</Field.Root>
+```
+
+## Styling
+
+```css
+.Field-root[data-invalid] {
+  border-color: red;
+}
+
+.Field-root[data-valid] {
+  border-color: green;
+}
+
+.Field-control:focus {
+  outline: 2px solid blue;
+}
+
+.Field-error {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.Field-label {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.Field-description {
+  color: gray;
+  font-size: 0.875rem;
+}
+```
+
+## Imperative API
+
+Trigger validation programmatically:
+
+```tsx
+function MyForm() {
+  const actionsRef = React.useRef<Field.Actions>(null);
+
+  return (
+    <Field.Root name="email" actionsRef={actionsRef}>
+      <Field.Label>Email</Field.Label>
+      <Field.Control type="email" />
+      <Field.Error match="typeMismatch">Invalid email</Field.Error>
+      
+      <button type="button" onClick={() => actionsRef.current?.validate()}>
+        Validate Now
+      </button>
+    </Field.Root>
+  );
+}
+```

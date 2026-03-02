@@ -1,0 +1,210 @@
+---
+title: Fieldset
+description: Groups related form controls with a shared legend for semantic grouping and accessibility.
+---
+
+The Fieldset component provides semantic grouping for related form fields with proper accessibility support.
+
+## Import
+
+```tsx
+import * as Fieldset from '@base-ui/react/Fieldset';
+```
+
+## Basic Usage
+
+```tsx
+import * as Fieldset from '@base-ui/react/Fieldset';
+import * as Field from '@base-ui/react/Field';
+
+function ShippingForm() {
+  return (
+    <Fieldset.Root>
+      <Fieldset.Legend>Shipping Address</Fieldset.Legend>
+      
+      <Field.Root name="street">
+        <Field.Label>Street</Field.Label>
+        <Field.Control placeholder="123 Main St" />
+      </Field.Root>
+      
+      <Field.Root name="city">
+        <Field.Label>City</Field.Label>
+        <Field.Control placeholder="New York" />
+      </Field.Root>
+      
+      <Field.Root name="zipCode">
+        <Field.Label>ZIP Code</Field.Label>
+        <Field.Control placeholder="10001" />
+      </Field.Root>
+    </Fieldset.Root>
+  );
+}
+```
+
+## Sub-components
+
+### Fieldset.Root
+
+Groups related controls with a shared legend. Renders a native `<fieldset>` element.
+
+**Key Props:**
+- `disabled`: Whether all contained controls should be disabled (default: `false`)
+
+**State attributes:**
+- `data-disabled`: Present when disabled
+
+### Fieldset.Legend
+
+Renders the label for the fieldset. Renders a native `<legend>` element.
+
+Automatically associates with the fieldset via `aria-labelledby`.
+
+## Disabled State
+
+Disable all fields within a fieldset:
+
+```tsx
+<Fieldset.Root disabled>
+  <Fieldset.Legend>Payment Information</Fieldset.Legend>
+  
+  <Field.Root name="cardNumber">
+    <Field.Label>Card Number</Field.Label>
+    <Field.Control /> {/* Will be disabled */}
+  </Field.Root>
+  
+  <Field.Root name="cvv">
+    <Field.Label>CVV</Field.Label>
+    <Field.Control /> {/* Will be disabled */}
+  </Field.Root>
+</Fieldset.Root>
+```
+
+The `disabled` prop on Fieldset.Root cascades down to all Field.Root components within it.
+
+## Radio Button Groups
+
+```tsx
+import * as Fieldset from '@base-ui/react/Fieldset';
+import * as Field from '@base-ui/react/Field';
+
+function DeliveryMethod() {
+  return (
+    <Fieldset.Root>
+      <Fieldset.Legend>Delivery Method</Fieldset.Legend>
+      
+      <Field.Root name="delivery">
+        <Field.Item>
+          <Field.Control type="radio" value="standard" defaultChecked />
+          <Field.Label>Standard (5-7 days)</Field.Label>
+        </Field.Item>
+        
+        <Field.Item>
+          <Field.Control type="radio" value="express" />
+          <Field.Label>Express (2-3 days)</Field.Label>
+        </Field.Item>
+        
+        <Field.Item>
+          <Field.Control type="radio" value="overnight" />
+          <Field.Label>Overnight</Field.Label>
+        </Field.Item>
+      </Field.Root>
+    </Fieldset.Root>
+  );
+}
+```
+
+## Checkbox Groups
+
+```tsx
+function Preferences() {
+  return (
+    <Fieldset.Root>
+      <Fieldset.Legend>Email Preferences</Fieldset.Legend>
+      
+      <Field.Root name="newsletter">
+        <Field.Item>
+          <Field.Control type="checkbox" />
+          <Field.Label>Newsletter</Field.Label>
+        </Field.Item>
+      </Field.Root>
+      
+      <Field.Root name="promotions">
+        <Field.Item>
+          <Field.Control type="checkbox" />
+          <Field.Label>Promotional offers</Field.Label>
+        </Field.Item>
+      </Field.Root>
+      
+      <Field.Root name="updates">
+        <Field.Item>
+          <Field.Control type="checkbox" />
+          <Field.Label>Product updates</Field.Label>
+        </Field.Item>
+      </Field.Root>
+    </Fieldset.Root>
+  );
+}
+```
+
+## Nested Fieldsets
+
+```tsx
+function ComplexForm() {
+  return (
+    <form>
+      <Fieldset.Root>
+        <Fieldset.Legend>Personal Information</Fieldset.Legend>
+        
+        <Field.Root name="name">
+          <Field.Label>Full Name</Field.Label>
+          <Field.Control />
+        </Field.Root>
+        
+        <Fieldset.Root>
+          <Fieldset.Legend>Address</Fieldset.Legend>
+          
+          <Field.Root name="street">
+            <Field.Label>Street</Field.Label>
+            <Field.Control />
+          </Field.Root>
+          
+          <Field.Root name="city">
+            <Field.Label>City</Field.Label>
+            <Field.Control />
+          </Field.Root>
+        </Fieldset.Root>
+      </Fieldset.Root>
+    </form>
+  );
+}
+```
+
+## Styling
+
+```css
+.Fieldset-root {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.Fieldset-root[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.Fieldset-legend {
+  font-weight: 600;
+  font-size: 1.125rem;
+  padding: 0 0.5rem;
+  color: #111827;
+}
+
+/* Nested fieldsets */
+.Fieldset-root .Fieldset-root {
+  border-color: #d1d5db;
+  background-color: #f9fafb;
+  margin-top: 1rem;
+}
+```

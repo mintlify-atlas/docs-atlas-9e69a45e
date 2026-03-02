@@ -1,0 +1,143 @@
+---
+title: 'useMediaQuery'
+description: 'API reference for the useMediaQuery hook'
+---
+
+## useMediaQuery
+
+A React hook for detecting media query matches using the browser's `window.matchMedia` API with support for SSR.
+
+<Note>
+  This utility is currently unstable and may change in future releases.
+</Note>
+
+## Import
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+```
+
+## Hook Signature
+
+```tsx
+function useMediaQuery(
+  query: string,
+  options: useMediaQuery.Options
+): boolean
+```
+
+## Parameters
+
+<ParamField path="query" type="string" required>
+  The media query string to match. The `@media` prefix is optional and will be automatically removed if present.
+  
+  Example: `"(min-width: 768px)"` or `"@media (min-width: 768px)"`
+</ParamField>
+
+<ParamField path="options" type="useMediaQuery.Options" required>
+  Configuration options for the media query matching behavior.
+</ParamField>
+
+### Options
+
+<ParamField path="options.defaultMatches" type="boolean | undefined" default="false">
+  As `window.matchMedia()` is unavailable on the server, it returns a default matches during the first mount.
+</ParamField>
+
+<ParamField path="options.matchMedia" type="typeof window.matchMedia | undefined">
+  You can provide your own implementation of matchMedia. This can be used for handling an iframe content window.
+</ParamField>
+
+<ParamField path="options.noSsr" type="boolean | undefined" default="false">
+  To perform the server-side hydration, the hook needs to render twice. A first time with `defaultMatches`, the value of the server, and a second time with the resolved value. This double pass rendering cycle comes with a drawback: it's slower. You can set this option to `true` if you use the returned value **only** client-side.
+</ParamField>
+
+<ParamField path="options.ssrMatchMedia" type="((query: string) => { matches: boolean }) | undefined">
+  You can provide your own implementation of `matchMedia`, it's used when rendering server-side.
+</ParamField>
+
+## Return Value
+
+Returns `true` if the media query matches, `false` otherwise.
+
+## Type Definitions
+
+### useMediaQuery.Options
+
+```tsx
+interface UseMediaQueryOptions {
+  defaultMatches?: boolean | undefined;
+  matchMedia?: typeof window.matchMedia | undefined;
+  noSsr?: boolean | undefined;
+  ssrMatchMedia?: ((query: string) => { matches: boolean }) | undefined;
+}
+```
+
+## Usage Examples
+
+### Basic Usage
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+
+function MyComponent() {
+  const isMobile = useMediaQuery('(max-width: 768px)', {
+    defaultMatches: false,
+  });
+  
+  return (
+    <div>
+      {isMobile ? 'Mobile view' : 'Desktop view'}
+    </div>
+  );
+}
+```
+
+### SSR with Custom Matching
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+
+function MyComponent() {
+  const isWide = useMediaQuery('(min-width: 1200px)', {
+    defaultMatches: false,
+    ssrMatchMedia: (query) => ({
+      matches: query.includes('1200px'),
+    }),
+  });
+  
+  return <div>{isWide ? 'Wide layout' : 'Normal layout'}</div>;
+}
+```
+
+### Client-Side Only
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+
+function MyComponent() {
+  const prefersDark = useMediaQuery('(prefers-color-scheme: dark)', {
+    noSsr: true,
+  });
+  
+  return <div className={prefersDark ? 'dark' : 'light'}>Content</div>;
+}
+```
+
+## SSR Considerations
+
+Since `window.matchMedia()` is not available on the server:
+
+1. **Default behavior**: Returns `defaultMatches` on first render
+2. **With `ssrMatchMedia`**: Uses custom server-side matching logic
+3. **With `noSsr: true`**: Skips server-side rendering and only evaluates client-side
+
+The hook uses `useSyncExternalStore` internally to ensure proper hydration and reactivity to media query changes.
+
+## Browser Support
+
+This hook relies on `window.matchMedia` which is supported in all modern browsers. For jsdom environments (like test runners), a defensive check ensures the hook doesn't crash when `matchMedia` is unavailable.
+
+## Related
+
+- [useMediaQuery Guide](/utilities/use-media-query)

@@ -1,0 +1,106 @@
+---
+title: NumberField
+description: API reference for the NumberField component
+---
+
+# NumberField
+
+A text field for entering numeric values with increment/decrement buttons.
+
+## Import
+
+```tsx
+import * as NumberField from '@base-ui/react/number-field';
+```
+
+## NumberField.Root
+
+Groups all number field parts.
+
+### Props
+
+<ParamField name="value" type="number | null">
+The controlled value. To render an uncontrolled number field, use the `defaultValue` prop instead.
+</ParamField>
+
+<ParamField name="defaultValue" type="number | null">
+The default value for an uncontrolled number field.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: number | null, eventDetails: NumberField.Root.ChangeEventDetails) => void">
+Event handler called when the value changes.
+</ParamField>
+
+<ParamField name="min" type="number">
+The minimum allowed value.
+</ParamField>
+
+<ParamField name="max" type="number">
+The maximum allowed value.
+</ParamField>
+
+<ParamField name="step" type="number" default="1">
+The amount to increment or decrement the value.
+</ParamField>
+
+<ParamField name="largeStep" type="number" default="10">
+The amount to increment or decrement when using Page Up/Down keys.
+</ParamField>
+
+<ParamField name="format" type="Intl.NumberFormatOptions">
+Options to format the input value.
+</ParamField>
+
+<ParamField name="locale" type="Intl.LocalesArgument">
+The locale for formatting.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the number field is disabled.
+</ParamField>
+
+<ParamField name="readOnly" type="boolean" default="false">
+Whether the number field is read-only.
+</ParamField>
+
+<ParamField name="required" type="boolean" default="false">
+Whether the number field is required in a form.
+</ParamField>
+
+<ParamField name="allowWheelScrub" type="boolean" default="false">
+Whether scrolling the mouse wheel over the input changes the value.
+</ParamField>
+
+## NumberField.Input
+
+The text input for entering numeric values.
+
+## NumberField.Increment
+
+Button to increase the value.
+
+## NumberField.Decrement
+
+Button to decrease the value.
+
+## NumberField.ScrubArea
+
+An area that can be dragged to scrub through values.
+
+### Props
+
+<ParamField name="direction" type="'horizontal' | 'vertical'" default="horizontal">
+The direction to scrub.
+</ParamField>
+
+<ParamField name="pixelSensitivity" type="number" default="2">
+The number of pixels to move before changing the value by one step.
+</ParamField>
+
+<ParamField name="teleportDistance" type="number">
+The distance in pixels to teleport the cursor when it reaches the edge.
+</ParamField>
+
+## NumberField.ScrubAreaCursor
+
+Custom cursor element displayed while scrubbing.

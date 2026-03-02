@@ -1,0 +1,155 @@
+---
+title: 'useRender'
+description: 'API reference for the useRender hook'
+---
+
+## useRender
+
+Renders a Base UI element with support for custom render functions and conditional rendering.
+
+## Import
+
+```tsx
+import { useRender } from '@base-ui/react/use-render';
+import type { ComponentRenderFn, HTMLProps } from '@base-ui/react/use-render';
+```
+
+## Hook Signature
+
+```tsx
+function useRender<
+  State extends Record<string, unknown>,
+  RenderedElementType extends Element,
+  Enabled extends boolean | undefined = undefined,
+>(
+  params: useRender.Parameters<State, RenderedElementType, Enabled>,
+): useRender.ReturnValue<Enabled>
+```
+
+## Parameters
+
+<ParamField path="render" type="UseRenderRenderProp<State> | undefined">
+  The React element or a function that returns one to override the default element.
+</ParamField>
+
+<ParamField path="ref" type="React.Ref<RenderedElementType> | React.Ref<RenderedElementType>[] | undefined">
+  The ref to apply to the rendered element. Can be a single ref or an array of refs.
+</ParamField>
+
+<ParamField path="state" type="State | undefined">
+  The state of the component, passed as the second argument to the `render` callback. State properties are automatically converted to data-* attributes.
+</ParamField>
+
+<ParamField path="stateAttributesMapping" type="StateAttributesMapping<State> | undefined">
+  Custom mapping for converting state properties to data-* attributes.
+  
+  Example:
+  ```tsx
+  { isActive: (value) => (value ? { 'data-is-active': '' } : null) }
+  ```
+</ParamField>
+
+<ParamField path="props" type="Record<string, unknown> | undefined">
+  Props to be spread on the rendered element. They are merged with the internal props of the component, so that event handlers are merged, `className` strings and `style` properties are joined, while other external props overwrite the internal ones.
+</ParamField>
+
+<ParamField path="enabled" type="Enabled | undefined" default="true">
+  If `false`, the hook will skip most of its internal logic and return `null`. This is useful for rendering a component conditionally.
+</ParamField>
+
+<ParamField path="defaultTagName" type="keyof React.JSX.IntrinsicElements | undefined" default="'div'">
+  The default tag name to use for the rendered element when `render` is not provided.
+</ParamField>
+
+## Return Value
+
+Returns `React.ReactElement` when enabled, or `null` when `enabled` is `false`.
+
+```tsx
+type UseRenderReturnValue<Enabled extends boolean | undefined> = 
+  Enabled extends false ? null : React.ReactElement;
+```
+
+## Type Definitions
+
+### useRender.Parameters
+
+```tsx
+interface UseRenderParameters<
+  State,
+  RenderedElementType extends Element,
+  Enabled extends boolean | undefined,
+> {
+  render?: UseRenderRenderProp<State> | undefined;
+  ref?: React.Ref<RenderedElementType> | React.Ref<RenderedElementType>[] | undefined;
+  state?: State | undefined;
+  stateAttributesMapping?: StateAttributesMapping<State> | undefined;
+  props?: Record<string, unknown> | undefined;
+  enabled?: Enabled | undefined;
+  defaultTagName?: keyof React.JSX.IntrinsicElements | undefined;
+}
+```
+
+### useRender.RenderProp
+
+```tsx
+type UseRenderRenderProp<State = Record<string, unknown>> =
+  | React.ReactElement
+  | ComponentRenderFn<React.HTMLAttributes<any>, State>;
+```
+
+### useRender.ComponentProps
+
+```tsx
+type UseRenderComponentProps<
+  ElementType extends React.ElementType,
+  State = {},
+  RenderFunctionProps = HTMLProps,
+> = React.ComponentPropsWithRef<ElementType> & {
+  render?: React.ReactElement | ComponentRenderFn<RenderFunctionProps, State> | undefined;
+};
+```
+
+### ComponentRenderFn
+
+```tsx
+type ComponentRenderFn<Props, State> = (
+  props: Props,
+  state: State,
+) => React.ReactElement;
+```
+
+## Usage Example
+
+```tsx
+import { useRender } from '@base-ui/react/use-render';
+
+function MyComponent({ render, ...props }) {
+  const state = { isActive: true, isDisabled: false };
+  
+  const element = useRender({
+    render,
+    state,
+    props: {
+      className: 'my-component',
+      onClick: () => console.log('clicked'),
+      ...props,
+    },
+    defaultTagName: 'button',
+  });
+  
+  return element;
+}
+
+// Usage with custom render function
+<MyComponent render={(props, state) => (
+  <div {...props} data-active={state.isActive} />
+)} />
+
+// Usage with custom element
+<MyComponent render={<span />} />
+```
+
+## Related
+
+- [useRender Guide](/utilities/use-render)

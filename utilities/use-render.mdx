@@ -1,0 +1,229 @@
+---
+title: useRender
+description: Hook for rendering Base UI elements with support for custom render props and state management.
+---
+
+# useRender
+
+The `useRender` hook is used internally by Base UI components to render elements with support for custom render props, state attributes, and ref handling.
+
+## Import
+
+```tsx
+import { useRender } from '@base-ui/react/use-render';
+```
+
+## Usage
+
+Basic usage with default rendering:
+
+```tsx
+import { useRender } from '@base-ui/react/use-render';
+
+function MyComponent() {
+  const element = useRender({
+    defaultTagName: 'button',
+    props: {
+      onClick: () => console.log('Clicked'),
+      children: 'Click me',
+    },
+  });
+
+  return element;
+}
+```
+
+## Custom render prop
+
+Override the default element with a custom render function:
+
+```tsx
+import { useRender } from '@base-ui/react/use-render';
+
+function MyComponent() {
+  const element = useRender({
+    defaultTagName: 'button',
+    props: {
+      children: 'Click me',
+    },
+    render: (props, state) => (
+      <a {...props} href="#" />
+    ),
+  });
+
+  return element;
+}
+```
+
+## State attributes
+
+Automatically convert state to data attributes:
+
+```tsx
+import { useRender } from '@base-ui/react/use-render';
+
+function MyComponent() {
+  const [isActive, setIsActive] = React.useState(false);
+
+  const element = useRender({
+    defaultTagName: 'div',
+    state: {
+      active: isActive,
+      count: 5,
+    },
+    props: {
+      children: 'Content',
+    },
+  });
+
+  // Renders: <div data-active="false" data-count="5">Content</div>
+  return element;
+}
+```
+
+## API Reference
+
+### Parameters
+
+The `useRender` hook accepts a single parameters object with the following properties:
+
+#### `defaultTagName`
+
+- Type: `keyof React.JSX.IntrinsicElements`
+- Default: `'div'`
+- Optional
+
+The default tag name to use for the rendered element when `render` is not provided.
+
+#### `render`
+
+- Type: `React.ReactElement | ((props: RenderFunctionProps, state: State) => React.ReactElement)`
+- Optional
+
+The React element or a function that returns one to override the default element. The render function receives:
+- `props`: Props to be spread on the rendered element
+- `state`: The component state object
+
+#### `ref`
+
+- Type: `React.Ref<Element> | React.Ref<Element>[]`
+- Optional
+
+The ref or array of refs to apply to the rendered element.
+
+#### `state`
+
+- Type: `Record<string, unknown>`
+- Optional
+
+The state of the component, passed as the second argument to the `render` callback. State properties are automatically converted to `data-*` attributes.
+
+#### `stateAttributesMapping`
+
+- Type: `Record<string, (value: unknown) => Record<string, string> | null>`
+- Optional
+
+Custom mapping for converting state properties to data attributes.
+
+Example:
+```tsx
+stateAttributesMapping: {
+  isActive: (value) => (value ? { 'data-is-active': '' } : null)
+}
+```
+
+#### `props`
+
+- Type: `Record<string, unknown>`
+- Optional
+
+Props to be spread on the rendered element. They are merged with internal props, with intelligent handling for:
+- Event handlers (merged)
+- `className` (concatenated)
+- `style` (merged)
+- Other props (external props overwrite internal)
+
+#### `enabled`
+
+- Type: `boolean`
+- Default: `true`
+- Optional
+
+If `false`, the hook will skip most of its internal logic and return `null`. This is useful for conditional rendering.
+
+### Return Value
+
+Returns a `React.ReactElement`, or `null` if `enabled` is `false`.
+
+## Use Cases
+
+### Building headless components
+
+Use `useRender` to build headless components that support custom rendering:
+
+```tsx
+import { useRender } from '@base-ui/react/use-render';
+
+function useButton(props: { onClick?: () => void }) {
+  const { onClick } = props;
+  const [pressed, setPressed] = React.useState(false);
+
+  return {
+    getButtonProps: () => ({
+      onClick,
+      onMouseDown: () => setPressed(true),
+      onMouseUp: () => setPressed(false),
+    }),
+    pressed,
+  };
+}
+
+function Button({ render, ...props }) {
+  const { getButtonProps, pressed } = useButton(props);
+
+  return useRender({
+    defaultTagName: 'button',
+    props: getButtonProps(),
+    state: { pressed },
+    render,
+  });
+}
+```
+
+### Conditional rendering
+
+Use the `enabled` parameter for conditional rendering:
+
+```tsx
+import { useRender } from '@base-ui/react/use-render';
+
+function OptionalTooltip({ show, children }) {
+  const element = useRender({
+    defaultTagName: 'div',
+    props: { children },
+    enabled: show,
+  });
+
+  return element; // null if show is false
+}
+```
+
+### Multiple refs
+
+Pass multiple refs to be forwarded:
+
+```tsx
+import { useRender } from '@base-ui/react/use-render';
+
+function MyComponent({ externalRef }) {
+  const internalRef = React.useRef(null);
+
+  const element = useRender({
+    defaultTagName: 'div',
+    ref: [internalRef, externalRef],
+    props: { children: 'Content' },
+  });
+
+  return element;
+}
+```

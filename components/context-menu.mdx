@@ -1,0 +1,222 @@
+---
+title: Context Menu
+description: A menu that appears on right-click or long-press, providing contextual actions.
+---
+
+# Context Menu
+
+A context menu is activated by right-clicking (or long-pressing on touch devices) and displays a list of contextual actions or options.
+
+## Import
+
+```jsx
+import { ContextMenu } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```jsx
+<ContextMenu.Root>
+  <ContextMenu.Trigger>
+    <div>Right-click me</div>
+  </ContextMenu.Trigger>
+  <ContextMenu.Portal>
+    <ContextMenu.Positioner>
+      <ContextMenu.Popup>
+        <ContextMenu.Item onSelect={() => console.log('Copy')}
+          Copy
+        </ContextMenu.Item>
+        <ContextMenu.Item onSelect={() => console.log('Paste')}
+          Paste
+        </ContextMenu.Item>
+        <ContextMenu.Separator />
+        <ContextMenu.Item onSelect={() => console.log('Delete')}
+          Delete
+        </ContextMenu.Item>
+      </ContextMenu.Popup>
+    </ContextMenu.Positioner>
+  </ContextMenu.Portal>
+</ContextMenu.Root>
+```
+
+## Sub-components
+
+### Root
+
+Groups all parts of the context menu. Doesn't render its own HTML element.
+
+**Key Props:**
+- `open` (boolean): Whether the context menu is currently open
+- `defaultOpen` (boolean): Whether the context menu is initially open (default: `false`)
+- `onOpenChange` ((open: boolean, eventDetails) => void): Event handler called when the menu is opened or closed
+
+### Trigger
+
+The element that opens the context menu on right-click or long-press.
+
+### Portal
+
+Portals the menu content to a different part of the DOM.
+
+### Positioner
+
+Positions the menu at the cursor position.
+
+### Popup
+
+The container for the menu content.
+
+### Item
+
+A menu item that triggers an action when selected.
+
+**Key Props:**
+- `onSelect` (() => void): Called when the item is selected
+- `disabled` (boolean): Whether the item is disabled
+
+### CheckboxItem
+
+A menu item with a checkbox.
+
+**Key Props:**
+- `checked` (boolean): Whether the checkbox is checked
+- `onCheckedChange` ((checked: boolean) => void): Called when the checked state changes
+
+### CheckboxItemIndicator
+
+Visual indicator for checkbox items.
+
+### RadioGroup
+
+Groups radio items together.
+
+**Key Props:**
+- `value` (string): The value of the selected radio item
+- `onValueChange` ((value: string) => void): Called when the value changes
+
+### RadioItem
+
+A menu item with a radio button.
+
+**Key Props:**
+- `value` (string): The value of this radio item
+
+### RadioItemIndicator
+
+Visual indicator for radio items.
+
+### Group
+
+Groups related menu items together.
+
+### GroupLabel
+
+A label for a menu group.
+
+### LinkItem
+
+A menu item that renders as a link.
+
+**Key Props:**
+- `href` (string): The URL to navigate to
+
+### SubmenuRoot
+
+Groups all parts of a submenu.
+
+### SubmenuTrigger
+
+A menu item that opens a submenu.
+
+### Separator
+
+A visual separator between menu items.
+
+### Arrow
+
+An optional arrow that points to the trigger.
+
+### Backdrop
+
+An optional backdrop element.
+
+## Styling Example
+
+```css
+.ContextMenuPopup {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  animation: scaleIn 100ms ease-out;
+}
+
+.ContextMenuItem {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  outline: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ContextMenuItem:hover {
+  background: #f5f5f5;
+}
+
+.ContextMenuItem[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ContextMenuSeparator {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 4px 0;
+}
+
+.ContextMenuGroupLabel {
+  padding: 8px 12px 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+```
+
+## Key Features
+
+- Activates on right-click or long-press
+- Supports nested submenus
+- Checkbox and radio items
+- Keyboard navigation with arrow keys
+- Automatic positioning at cursor location
+- Disabled items
+- Link items for navigation
+- Group labels and separators
+
+## Accessibility
+
+- Has `role="menu"` with appropriate ARIA attributes
+- Menu items have `role="menuitem"`, `role="menuitemcheckbox"`, or `role="menuitemradio"`
+- Full keyboard navigation support (arrow keys, Enter, Space, Escape)
+- Focus management when opening/closing
+- Disabled items are marked with `aria-disabled`
+- Checked state is communicated via `aria-checked`

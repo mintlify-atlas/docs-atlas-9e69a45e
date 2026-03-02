@@ -1,0 +1,343 @@
+---
+title: Progress
+description: Display the completion status of a task or process with determinate and indeterminate states.
+---
+
+# Progress
+
+The Progress component visualizes the completion status of a task or process. It supports both determinate progress (with a known value) and indeterminate progress (ongoing process without a known completion time).
+
+## Import
+
+```jsx
+import { Progress } from '@base-ui/react';
+```
+
+## Anatomy
+
+The Progress component consists of five parts:
+
+- `<Progress.Root>` - The container that provides context
+- `<Progress.Track>` - The background track
+- `<Progress.Indicator>` - The filled portion showing progress
+- `<Progress.Label>` - A label for the progress bar
+- `<Progress.Value>` - Displays the formatted value
+
+```jsx
+<Progress.Root value={60}>
+  <Progress.Label>Upload Progress</Progress.Label>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+  <Progress.Value />
+</Progress.Root>
+```
+
+## Basic Usage
+
+```jsx
+function FileUpload() {
+  const [progress, setProgress] = React.useState(0);
+
+  return (
+    <Progress.Root value={progress}>
+      <Progress.Label>Uploading file...</Progress.Label>
+      <Progress.Track>
+        <Progress.Indicator />
+      </Progress.Track>
+      <Progress.Value />
+    </Progress.Root>
+  );
+}
+```
+
+## Key Features
+
+- **Determinate and indeterminate states**: Show specific progress or ongoing activity
+- **Accessible**: Uses ARIA progressbar role
+- **Formatted values**: Automatic number formatting with Intl.NumberFormat
+- **Status tracking**: Automatically tracks indeterminate, progressing, and complete states
+- **Locale support**: Format numbers according to user locale
+- **Unstyled**: Complete styling control
+
+## Component Props
+
+### Root
+
+The root container that manages the progress state and provides accessibility attributes.
+
+**Props:**
+- `value` (number | null, required): The current progress value. Use `null` for indeterminate state
+- `min` (number): The minimum value (default: 0)
+- `max` (number): The maximum value (default: 100)
+- `format` (Intl.NumberFormatOptions): Options to format the value
+- `locale` (Intl.LocalesArgument): The locale for number formatting
+- `getAriaValueText` (function): Custom function to generate aria-valuetext
+- Renders a `<div>` element with role="progressbar"
+
+**State:**
+- `status`: One of 'indeterminate', 'progressing', or 'complete'
+
+### Track
+
+The background track of the progress bar.
+
+**Props:**
+- Renders a `<div>` element
+- Accepts all standard HTML div attributes
+
+### Indicator
+
+Visualizes the completion status of the task.
+
+**Props:**
+- Renders a `<div>` element
+- Width is automatically set based on the value
+- Accepts all standard HTML div attributes
+
+### Label
+
+A label for the progress bar.
+
+**Props:**
+- Renders a `<label>` element
+- Automatically associates with the progress bar for accessibility
+
+### Value
+
+Displays the formatted current value.
+
+**Props:**
+- Renders a `<span>` element
+- Automatically displays the formatted value
+
+## Styling
+
+<Tabs items={['CSS', 'Tailwind CSS']}>
+  <Tab value="CSS">
+    ```jsx
+    <Progress.Root value={65} className="progress-root">
+      <Progress.Label className="progress-label">Loading...</Progress.Label>
+      <Progress.Track className="progress-track">
+        <Progress.Indicator className="progress-indicator" />
+      </Progress.Track>
+      <Progress.Value className="progress-value" />
+    </Progress.Root>
+    ```
+
+    ```css
+    .progress-root {
+      width: 300px;
+    }
+
+    .progress-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .progress-track {
+      position: relative;
+      width: 100%;
+      height: 8px;
+      background-color: #e5e7eb;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .progress-indicator {
+      background-color: #3b82f6;
+      transition: width 0.3s ease;
+      border-radius: 9999px;
+    }
+
+    /* Indeterminate state animation */
+    .progress-root[data-status="indeterminate"] .progress-indicator {
+      animation: progress-indeterminate 1.5s ease-in-out infinite;
+    }
+
+    @keyframes progress-indeterminate {
+      0% {
+        transform: translateX(-100%);
+        width: 30%;
+      }
+      50% {
+        width: 50%;
+      }
+      100% {
+        transform: translateX(400%);
+        width: 30%;
+      }
+    }
+
+    .progress-value {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 14px;
+      color: #6b7280;
+    }
+    ```
+  </Tab>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <Progress.Root value={65} className="w-full max-w-sm">
+      <Progress.Label className="block mb-2 font-semibold text-sm">
+        Loading...
+      </Progress.Label>
+      <Progress.Track className="relative w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+        <Progress.Indicator className="bg-blue-500 transition-[width] duration-300 rounded-full" />
+      </Progress.Track>
+      <Progress.Value className="block mt-2 text-sm text-gray-600" />
+    </Progress.Root>
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### Indeterminate Progress
+
+Use `null` as the value for indeterminate progress:
+
+```jsx
+<Progress.Root value={null}>
+  <Progress.Label>Processing...</Progress.Label>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+```
+
+### Status-Based Styling
+
+Style based on the progress status:
+
+```jsx
+<Progress.Root 
+  value={100}
+  render={(state) => (
+    <div data-status={state.status}>
+      <Progress.Label>
+        {state.status === 'complete' ? 'Complete!' : 'Loading...'}
+      </Progress.Label>
+      <Progress.Track>
+        <Progress.Indicator 
+          style={{
+            backgroundColor: state.status === 'complete' ? '#22c55e' : '#3b82f6'
+          }}
+        />
+      </Progress.Track>
+    </div>
+  )}
+/>
+```
+
+### Animated Progress
+
+```jsx
+function AnimatedProgress() {
+  const [value, setValue] = React.useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setValue((prev) => {
+        if (prev >= 100) {
+          clearInterval(timer);
+          return 100;
+        }
+        return prev + 10;
+      });
+    }, 500);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <Progress.Root value={value}>
+      <Progress.Label>Installing...</Progress.Label>
+      <Progress.Track>
+        <Progress.Indicator />
+      </Progress.Track>
+      <Progress.Value />
+    </Progress.Root>
+  );
+}
+```
+
+### Percentage Display
+
+```jsx
+<Progress.Root value={75}>
+  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Progress.Label>Download</Progress.Label>
+    <Progress.Value />
+  </div>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+```
+
+### Circular Progress
+
+```jsx
+function CircularProgress({ value }) {
+  const circumference = 2 * Math.PI * 45;
+  const offset = circumference - (value / 100) * circumference;
+
+  return (
+    <Progress.Root value={value}>
+      <svg width="120" height="120" style={{ transform: 'rotate(-90deg)' }}>
+        <circle
+          cx="60"
+          cy="60"
+          r="45"
+          fill="none"
+          stroke="#e5e7eb"
+          strokeWidth="10"
+        />
+        <circle
+          cx="60"
+          cy="60"
+          r="45"
+          fill="none"
+          stroke="#3b82f6"
+          strokeWidth="10"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          style={{ transition: 'stroke-dashoffset 0.3s ease' }}
+        />
+      </svg>
+      <Progress.Value 
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      />
+    </Progress.Root>
+  );
+}
+```
+
+### Multi-Step Progress
+
+```jsx
+function MultiStepProgress({ currentStep, totalSteps }) {
+  const progress = (currentStep / totalSteps) * 100;
+
+  return (
+    <Progress.Root value={progress}>
+      <Progress.Label>
+        Step {currentStep} of {totalSteps}
+      </Progress.Label>
+      <Progress.Track>
+        <Progress.Indicator />
+      </Progress.Track>
+    </Progress.Root>
+  );
+}
+```

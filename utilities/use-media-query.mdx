@@ -1,0 +1,243 @@
+---
+title: useMediaQuery
+description: Hook for detecting media query matches in React components with SSR support.
+---
+
+# useMediaQuery
+
+The `useMediaQuery` hook allows you to programmatically detect whether a CSS media query matches the current viewport, with full support for server-side rendering.
+
+**Note:** This hook is currently unstable and its API may change in future versions.
+
+## Import
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+```
+
+## Usage
+
+Basic usage to detect viewport width:
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+
+function MyComponent() {
+  const isMobile = useMediaQuery('(max-width: 768px)', {});
+
+  return (
+    <div>
+      {isMobile ? 'Mobile view' : 'Desktop view'}
+    </div>
+  );
+}
+```
+
+## Media query syntax
+
+You can use any valid CSS media query. The `@media` prefix is optional:
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+
+function MyComponent() {
+  // All of these are valid:
+  const matches1 = useMediaQuery('(min-width: 600px)', {});
+  const matches2 = useMediaQuery('@media (min-width: 600px)', {});
+  const matches3 = useMediaQuery('(orientation: portrait)', {});
+  const matches4 = useMediaQuery('(prefers-color-scheme: dark)', {});
+
+  return null;
+}
+```
+
+## Server-side rendering
+
+Provide a default match value for server-side rendering:
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+
+function MyComponent() {
+  const isMobile = useMediaQuery('(max-width: 768px)', {
+    defaultMatches: false,
+  });
+
+  return (
+    <div>
+      {isMobile ? 'Mobile' : 'Desktop'}
+    </div>
+  );
+}
+```
+
+## API Reference
+
+### Parameters
+
+#### `query`
+
+- Type: `string`
+- Required
+
+The media query string to match. The `@media` prefix is optional and will be stripped if provided.
+
+#### `options`
+
+- Type: `UseMediaQueryOptions`
+- Required
+
+Configuration options for the hook.
+
+### Options
+
+#### `defaultMatches`
+
+- Type: `boolean`
+- Default: `false`
+- Optional
+
+As `window.matchMedia()` is unavailable on the server, the hook returns this value during the first mount. This enables hydration without mismatches.
+
+#### `matchMedia`
+
+- Type: `typeof window.matchMedia`
+- Optional
+
+Custom implementation of `matchMedia`. Useful for handling iframe content windows.
+
+Example:
+```tsx
+const matches = useMediaQuery('(min-width: 600px)', {
+  matchMedia: iframe.contentWindow.matchMedia,
+});
+```
+
+#### `noSsr`
+
+- Type: `boolean`
+- Default: `false`
+- Optional
+
+Skips the double-pass rendering for server-side hydration. Set to `true` if you use the returned value **only** client-side, which improves performance by avoiding the extra render.
+
+#### `ssrMatchMedia`
+
+- Type: `(query: string) => { matches: boolean }`
+- Optional
+
+Custom implementation of `matchMedia` for server-side rendering. Allows you to determine matches on the server based on request headers or other server-side context.
+
+Example:
+```tsx
+function ssrMatchMedia(query: string) {
+  // Determine matches based on user agent or other server context
+  return { matches: query.includes('max-width: 768px') };
+}
+
+const matches = useMediaQuery('(max-width: 768px)', {
+  ssrMatchMedia,
+});
+```
+
+### Return Value
+
+Returns `true` if the media query matches the current environment, `false` otherwise.
+
+## Use Cases
+
+### Responsive components
+
+Create components that adapt to different screen sizes:
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+
+function ResponsiveMenu() {
+  const isMobile = useMediaQuery('(max-width: 768px)', {
+    defaultMatches: false,
+  });
+
+  return isMobile ? <MobileMenu /> : <DesktopMenu />;
+}
+```
+
+### Theme detection
+
+Detect user's color scheme preference:
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+
+function ThemeProvider({ children }) {
+  const prefersDark = useMediaQuery('(prefers-color-scheme: dark)', {
+    defaultMatches: false,
+  });
+
+  return (
+    <div className={prefersDark ? 'dark-theme' : 'light-theme'}>
+      {children}
+    </div>
+  );
+}
+```
+
+### Conditional feature loading
+
+Load features based on device capabilities:
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+
+function VideoPlayer() {
+  const canAutoplay = useMediaQuery('(prefers-reduced-motion: no-preference)', {
+    defaultMatches: true,
+  });
+
+  return (
+    <video autoPlay={canAutoplay}>
+      <source src="video.mp4" />
+    </video>
+  );
+}
+```
+
+### Multiple breakpoints
+
+Track multiple breakpoints simultaneously:
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+
+function useBreakpoint() {
+  const isXs = useMediaQuery('(max-width: 575px)', { defaultMatches: false });
+  const isSm = useMediaQuery('(min-width: 576px) and (max-width: 767px)', { defaultMatches: false });
+  const isMd = useMediaQuery('(min-width: 768px) and (max-width: 991px)', { defaultMatches: false });
+  const isLg = useMediaQuery('(min-width: 992px) and (max-width: 1199px)', { defaultMatches: false });
+  const isXl = useMediaQuery('(min-width: 1200px)', { defaultMatches: false });
+
+  return { isXs, isSm, isMd, isLg, isXl };
+}
+```
+
+### Server-side device detection
+
+Use request headers to determine matches on the server:
+
+```tsx
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+
+function MyComponent({ userAgent }: { userAgent: string }) {
+  const isMobile = useMediaQuery('(max-width: 768px)', {
+    ssrMatchMedia: (query) => ({
+      matches: /mobile/i.test(userAgent),
+    }),
+  });
+
+  return (
+    <div>
+      {isMobile ? 'Mobile device' : 'Desktop device'}
+    </div>
+  );
+}
+```

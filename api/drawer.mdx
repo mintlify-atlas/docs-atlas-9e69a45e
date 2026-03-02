@@ -1,0 +1,98 @@
+---
+title: Drawer
+description: API reference for the Drawer component
+---
+
+# Drawer
+
+A panel that slides in from the edge of the screen.
+
+## Import
+
+```tsx
+import * as Drawer from '@base-ui/react/drawer';
+```
+
+## Drawer.Root
+
+Groups all parts of the drawer. Doesn't render its own HTML element.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the drawer is currently open. To render an uncontrolled drawer, use the `defaultOpen` prop instead.
+</ParamField>
+
+<ParamField name="defaultOpen" type="boolean" default="false">
+Whether the drawer is initially open. To render a controlled drawer, use the `open` prop instead.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean, eventDetails: Drawer.Root.ChangeEventDetails) => void">
+Event handler called when the drawer is opened or closed.
+</ParamField>
+
+<ParamField name="modal" type="boolean" default="true">
+Whether the drawer is modal. Modal drawers block interaction with the rest of the page.
+</ParamField>
+
+<ParamField name="dismissible" type="boolean" default="true">
+Whether the drawer can be dismissed by dragging it closed.
+</ParamField>
+
+<ParamField name="nested" type="boolean" default="false">
+Whether the drawer is nested within another drawer or dialog.
+</ParamField>
+
+## Drawer.Trigger
+
+The button that opens the drawer.
+
+## Drawer.Backdrop
+
+An overlay displayed beneath the drawer popup.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the backdrop mounted when the drawer is closed.
+</ParamField>
+
+## Drawer.Popup
+
+The drawer's content.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the popup mounted when the drawer is closed.
+</ParamField>
+
+<ParamField name="side" type="'top' | 'right' | 'bottom' | 'left'" default="bottom">
+The side from which the drawer slides in.
+</ParamField>
+
+## Drawer.Portal
+
+Portals the drawer popup and backdrop to a different part of the DOM.
+
+### Props
+
+<ParamField name="container" type="HTMLElement | null | (() => HTMLElement | null)">
+The container element to which the drawer is portaled.
+</ParamField>
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the portal mounted when the drawer is closed.
+</ParamField>
+
+## Drawer.Close
+
+A button that closes the drawer.
+
+## Drawer.Title
+
+An accessible title that is announced when the drawer is opened.
+
+## Drawer.Description
+
+An optional accessible description that is announced when the drawer is opened.

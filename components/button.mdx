@@ -1,0 +1,135 @@
+---
+title: Button
+description: A button component that can be used to trigger actions.
+---
+
+A button component that can be used to trigger actions.
+
+## Import
+
+```jsx
+import { Button } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```jsx
+<Button>Click me</Button>
+```
+
+## Key Features
+
+- Accessible button with proper ARIA attributes
+- Supports disabled state
+- Customizable focus behavior when disabled
+- Can be rendered as a native button or custom element
+
+## Key Props
+
+### disabled
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the button should ignore user interaction.
+
+```jsx
+<Button disabled>Disabled Button</Button>
+```
+
+### focusableWhenDisabled
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the button should be focusable when disabled.
+
+```jsx
+<Button disabled focusableWhenDisabled>
+  Focusable when disabled
+</Button>
+```
+
+### render
+
+**Type:** `(props: ButtonState) => React.ReactElement`
+
+Custom render function for complete control over rendering.
+
+```jsx
+<Button render={(props) => <CustomButton {...props} />}>
+  Custom Render
+</Button>
+```
+
+## Styling
+
+<Tabs items={['Tailwind CSS', 'CSS Modules']}>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <Button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed">
+      Styled Button
+    </Button>
+    ```
+  </Tab>
+  <Tab value="CSS Modules">
+    ```jsx
+    <Button className={styles.button}>
+      Styled Button
+    </Button>
+    ```
+
+    ```css
+    .button {
+      padding: 0.5rem 1rem;
+      background-color: #3b82f6;
+      color: white;
+      border-radius: 0.25rem;
+    }
+
+    .button:hover {
+      background-color: #2563eb;
+    }
+
+    .button[data-disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### Primary and Secondary Buttons
+
+```jsx
+function ButtonGroup() {
+  return (
+    <div className="flex gap-2">
+      <Button className="bg-blue-500 text-white px-4 py-2 rounded">
+        Primary
+      </Button>
+      <Button className="bg-gray-300 text-gray-700 px-4 py-2 rounded">
+        Secondary
+      </Button>
+    </div>
+  );
+}
+```
+
+### Loading State
+
+```jsx
+function LoadingButton() {
+  const [loading, setLoading] = React.useState(false);
+
+  return (
+    <Button disabled={loading} onClick={() => setLoading(true)}>
+      {loading ? 'Loading...' : 'Submit'}
+    </Button>
+  );
+}
+```

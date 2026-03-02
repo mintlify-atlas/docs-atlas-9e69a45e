@@ -1,0 +1,40 @@
+---
+title: Input
+description: API reference for the Input component
+---
+
+# Input
+
+A native input element that automatically works with Field.
+
+## Import
+
+```tsx
+import { Input } from '@base-ui/react/input';
+```
+
+## Props
+
+<ParamField name="className" type="string | ((state: Input.State) => string)">
+CSS class applied to the element, or a function that returns a class based on the component's state.
+</ParamField>
+
+<ParamField name="render" type="ReactElement | ComponentRenderFn">
+Allows you to replace the component's HTML element with a different tag, or compose it with another component.
+</ParamField>
+
+<ParamField name="value" type="string | number">
+The value of the input. Use when controlled.
+</ParamField>
+
+<ParamField name="defaultValue" type="string | number">
+The default value of the input. Use when uncontrolled.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: string, eventDetails: Input.ChangeEventDetails) => void">
+Callback fired when the `value` changes. Use when controlled.
+</ParamField>
+
+## State
+
+Inherits state from Field.Control component.

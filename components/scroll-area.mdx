@@ -1,0 +1,204 @@
+---
+title: Scroll Area
+description: A customizable scrollable container with styled scrollbars.
+---
+
+The Scroll Area component provides a cross-browser consistent scrolling experience with fully customizable scrollbars. It's ideal for replacing native scrollbars with custom-styled ones while maintaining accessibility.
+
+## Import
+
+```tsx
+import { ScrollArea } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```tsx
+<ScrollArea.Root>
+  <ScrollArea.Viewport>
+    Your scrollable content goes here...
+  </ScrollArea.Viewport>
+  
+  <ScrollArea.Scrollbar orientation="vertical">
+    <ScrollArea.Thumb />
+  </ScrollArea.Scrollbar>
+  
+  <ScrollArea.Scrollbar orientation="horizontal">
+    <ScrollArea.Thumb />
+  </ScrollArea.Scrollbar>
+  
+  <ScrollArea.Corner />
+</ScrollArea.Root>
+```
+
+## Key Features
+
+- **Custom Scrollbars**: Full control over scrollbar appearance and behavior.
+- **Cross-Browser**: Consistent scrolling experience across all browsers.
+- **Overflow Detection**: Track scroll position and overflow edges with state attributes.
+- **Touch Support**: Optimized for touch devices with proper modality detection.
+- **Accessibility**: Keyboard navigation and focus management built-in.
+- **Hover States**: Automatically tracks when the scroll area is hovered.
+- **Overflow Edge Threshold**: Configure when overflow edge indicators appear.
+
+## Components
+
+### ScrollArea.Root
+
+The root container for the scroll area. Renders a `<div>` element.
+
+**Props:**
+- `overflowEdgeThreshold` - Threshold in pixels before overflow edge attributes are applied (default: `0`). Can be a number or an object with `xStart`, `xEnd`, `yStart`, `yEnd` properties.
+
+**State attributes:**
+- `data-scrolling` - Present when scrolling is active
+- `data-overflow-x-start` - Overflow detected at horizontal start
+- `data-overflow-x-end` - Overflow detected at horizontal end
+- `data-overflow-y-start` - Overflow detected at vertical start
+- `data-overflow-y-end` - Overflow detected at vertical end
+
+### ScrollArea.Viewport
+
+The actual scrollable container. Renders a `<div>` element with `overflow: scroll`.
+
+**State attributes:**
+Inherits all state attributes from ScrollArea.Root.
+
+### ScrollArea.Scrollbar
+
+A vertical or horizontal scrollbar. Renders a `<div>` element.
+
+**Props:**
+- `orientation` - Direction of scrolling: `'vertical'` or `'horizontal'` (default: `'vertical'`)
+- `keepMounted` - Keep scrollbar in DOM when not scrollable (default: `false`)
+
+**State attributes:**
+- `data-hovering` - Present when scroll area is hovered
+- `data-scrolling` - Present when scrolling in this orientation
+- `data-orientation` - The orientation value (`vertical` or `horizontal`)
+
+### ScrollArea.Thumb
+
+The draggable part of the scrollbar that indicates scroll position. Renders a `<div>` element.
+
+**State attributes:**
+- `data-orientation` - The orientation value from parent scrollbar
+
+### ScrollArea.Corner
+
+The corner element where horizontal and vertical scrollbars meet. Renders a `<div>` element.
+
+## Styling Example
+
+```tsx
+<ScrollArea.Root className="scroll-area">
+  <ScrollArea.Viewport className="scroll-viewport">
+    <div style={{ height: 1000 }}>
+      Tall content that requires scrolling...
+    </div>
+  </ScrollArea.Viewport>
+  
+  <ScrollArea.Scrollbar 
+    orientation="vertical" 
+    className="scroll-scrollbar"
+  >
+    <ScrollArea.Thumb className="scroll-thumb" />
+  </ScrollArea.Scrollbar>
+  
+  <ScrollArea.Corner className="scroll-corner" />
+</ScrollArea.Root>
+```
+
+```css
+.scroll-area {
+  width: 400px;
+  height: 300px;
+}
+
+.scroll-viewport {
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-scrollbar {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 2px;
+  width: 12px;
+}
+
+.scroll-scrollbar[data-hovering] {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.scroll-scrollbar[data-orientation="horizontal"] {
+  width: auto;
+  height: 12px;
+}
+
+.scroll-thumb {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  height: var(--scroll-area-thumb-height);
+  width: 100%;
+  transition: background 150ms;
+}
+
+.scroll-scrollbar[data-orientation="horizontal"] .scroll-thumb {
+  width: var(--scroll-area-thumb-width);
+  height: 100%;
+}
+
+.scroll-thumb:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.scroll-corner {
+  background: rgba(0, 0, 0, 0.1);
+}
+```
+
+## Overflow Edge Detection
+
+Use overflow edge thresholds to trigger visual indicators when content can be scrolled:
+
+```tsx
+<ScrollArea.Root 
+  overflowEdgeThreshold={50}
+  className="scroll-area"
+>
+  <ScrollArea.Viewport>
+    Content...
+  </ScrollArea.Viewport>
+  <ScrollArea.Scrollbar orientation="vertical">
+    <ScrollArea.Thumb />
+  </ScrollArea.Scrollbar>
+</ScrollArea.Root>
+```
+
+```css
+/* Show fade when there's more content to scroll */
+.scroll-area[data-overflow-y-end]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(transparent, white);
+  pointer-events: none;
+}
+```
+
+## CSS Variables
+
+The component provides CSS variables for dynamic styling:
+
+- `--scroll-area-thumb-height` - Height of vertical thumb in pixels
+- `--scroll-area-thumb-width` - Width of horizontal thumb in pixels
+- `--scroll-area-corner-height` - Height of corner element in pixels
+- `--scroll-area-corner-width` - Width of corner element in pixels
+- `--scroll-area-overflow-x-start` - Distance scrolled from start (horizontal)
+- `--scroll-area-overflow-x-end` - Distance remaining to end (horizontal)
+- `--scroll-area-overflow-y-start` - Distance scrolled from start (vertical)
+- `--scroll-area-overflow-y-end` - Distance remaining to end (vertical)

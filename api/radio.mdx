@@ -1,0 +1,61 @@
+---
+title: Radio
+description: API reference for the Radio component
+---
+
+# Radio
+
+A radio button allows the user to select one option from a set.
+
+## Import
+
+```tsx
+import * as Radio from '@base-ui/react/radio';
+```
+
+## Radio.Root
+
+Represents the radio button itself.
+
+### Props
+
+<ParamField name="value" type="any" required>
+The unique identifying value of the radio in a group.
+</ParamField>
+
+<ParamField name="disabled" type="boolean">
+Whether the component should ignore user interaction.
+</ParamField>
+
+<ParamField name="required" type="boolean">
+Whether the user must choose a value before submitting a form.
+</ParamField>
+
+<ParamField name="readOnly" type="boolean">
+Whether the user should be unable to select the radio button.
+</ParamField>
+
+<ParamField name="inputRef" type="React.Ref<HTMLInputElement>">
+A ref to access the hidden input element.
+</ParamField>
+
+<ParamField name="nativeButton" type="boolean" default="false">
+Whether the component renders a native `<button>` element when replacing it via the `render` prop.
+</ParamField>
+
+### State
+
+- `checked`: boolean - Whether the radio button is currently selected
+- `disabled`: boolean - Whether the component should ignore user interaction
+- `readOnly`: boolean - Whether the user should be unable to select the radio button
+- `required`: boolean - Whether the user must choose a value before submitting a form
+
+## Radio.Indicator
+
+Visual indicator for the selected state.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the indicator mounted when not selected.
+</ParamField>

@@ -1,0 +1,59 @@
+---
+title: RadioGroup
+description: API reference for the RadioGroup component
+---
+
+# RadioGroup
+
+Groups multiple radio buttons so only one can be selected at a time.
+
+## Import
+
+```tsx
+import * as RadioGroup from '@base-ui/react/radio-group';
+```
+
+## RadioGroup.Root
+
+Groups all radio buttons.
+
+### Props
+
+<ParamField name="value" type="any">
+The controlled value of the selected radio. To render an uncontrolled radio group, use the `defaultValue` prop instead.
+</ParamField>
+
+<ParamField name="defaultValue" type="any">
+The uncontrolled value of the initially selected radio. To render a controlled radio group, use the `value` prop instead.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: any, eventDetails: RadioGroup.Root.ChangeEventDetails) => void">
+Event handler called when the selected radio changes.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether all radio buttons in the group should be disabled.
+</ParamField>
+
+<ParamField name="readOnly" type="boolean" default="false">
+Whether all radio buttons in the group should be read-only.
+</ParamField>
+
+<ParamField name="required" type="boolean" default="false">
+Whether the user must select a value before submitting a form.
+</ParamField>
+
+<ParamField name="name" type="string">
+Identifies the group when a form is submitted.
+</ParamField>
+
+<ParamField name="orientation" type="'horizontal' | 'vertical'" default="vertical">
+The orientation of the radio group.
+</ParamField>
+
+### State
+
+- `value`: any - The value of the selected radio
+- `disabled`: boolean - Whether all radios should be disabled
+- `readOnly`: boolean - Whether all radios should be read-only
+- `required`: boolean - Whether a selection is required

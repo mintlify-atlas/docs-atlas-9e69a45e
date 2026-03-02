@@ -1,0 +1,100 @@
+---
+title: Field
+description: API reference for the Field component
+---
+
+# Field
+
+Provides labels, descriptions, and error messages for form controls.
+
+## Import
+
+```tsx
+import * as Field from '@base-ui/react/field';
+```
+
+## Field.Root
+
+Groups all parts of a field.
+
+### Props
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the field should be disabled.
+</ParamField>
+
+<ParamField name="name" type="string">
+The name of the field, used for form submission.
+</ParamField>
+
+<ParamField name="validate" type="(value: any) => string | string[] | null | Promise<string | string[] | null>">
+Validation function that returns error messages.
+</ParamField>
+
+<ParamField name="validationMode" type="'onBlur' | 'onChange'" default="onBlur">
+When to run validation.
+</ParamField>
+
+<ParamField name="validationDebounceTime" type="number" default="0">
+Debounce time in milliseconds for validation.
+</ParamField>
+
+## Field.Label
+
+Labels the field control.
+
+### Props
+
+<ParamField name="for" type="string">
+The id of the control element this label is associated with.
+</ParamField>
+
+## Field.Control
+
+The form control (input, textarea, select, etc.).
+
+### Props
+
+<ParamField name="value" type="string | number">
+The controlled value of the control.
+</ParamField>
+
+<ParamField name="defaultValue" type="string | number">
+The default value for an uncontrolled control.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: string, eventDetails: Field.Control.ChangeEventDetails) => void">
+Callback fired when the value changes.
+</ParamField>
+
+<ParamField name="render" type="ReactElement">
+Custom element to render instead of the default input.
+</ParamField>
+
+## Field.Description
+
+Provides additional context about the field.
+
+## Field.Error
+
+Displays validation error messages.
+
+### Props
+
+<ParamField name="match" type="string | ((error: string) => boolean)">
+Filter errors to display. Can be a string to match or a predicate function.
+</ParamField>
+
+<ParamField name="forceShow" type="boolean" default="false">
+Whether to show the error even if the field hasn't been touched.
+</ParamField>
+
+## Field.Validity
+
+Provides access to the field's validation state.
+
+### Props
+
+<ParamField name="children" type="(validity: Field.Validity.State) => React.ReactNode" required>
+Render function that receives the validity state.
+</ParamField>

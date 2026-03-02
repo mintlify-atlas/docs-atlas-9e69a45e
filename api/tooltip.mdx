@@ -1,0 +1,136 @@
+---
+title: Tooltip
+description: API reference for the Tooltip component
+---
+
+# Tooltip
+
+A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
+
+## Import
+
+```tsx
+import * as Tooltip from '@base-ui/react/tooltip';
+```
+
+## Tooltip.Provider
+
+Provides shared state to multiple tooltips to ensure only one is open at a time.
+
+### Props
+
+<ParamField name="delay" type="number" default="600">
+The delay in milliseconds before a tooltip opens after the trigger is hovered.
+</ParamField>
+
+<ParamField name="closeDelay" type="number" default="0">
+The delay in milliseconds before a tooltip closes after the trigger is unhovered.
+</ParamField>
+
+<ParamField name="timeout" type="number" default="300">
+The timeout in milliseconds to ignore the delay when moving between tooltips.
+</ParamField>
+
+## Tooltip.Root
+
+Groups all parts of the tooltip. Doesn't render its own HTML element.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the tooltip is currently open. To render an uncontrolled tooltip, use the `defaultOpen` prop instead.
+</ParamField>
+
+<ParamField name="defaultOpen" type="boolean" default="false">
+Whether the tooltip is initially open. To render a controlled tooltip, use the `open` prop instead.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean, eventDetails: Tooltip.Root.ChangeEventDetails) => void">
+Event handler called when the tooltip is opened or closed.
+</ParamField>
+
+<ParamField name="delay" type="number">
+The delay in milliseconds before the tooltip opens after the trigger is hovered.
+</ParamField>
+
+<ParamField name="closeDelay" type="number">
+The delay in milliseconds before the tooltip closes after the trigger is unhovered.
+</ParamField>
+
+<ParamField name="handle" type="Tooltip.Handle">
+A handle to associate the tooltip with a trigger. Can be created with the `Tooltip.createHandle()` method.
+</ParamField>
+
+## Tooltip.Trigger
+
+The element that triggers the tooltip.
+
+## Tooltip.Positioner
+
+Positions the tooltip popup relative to the trigger.
+
+### Props
+
+<ParamField name="anchor" type="Element | VirtualElement | null">
+The element to which the tooltip popup is anchored to.
+</ParamField>
+
+<ParamField name="side" type="'top' | 'right' | 'bottom' | 'left'" default="top">
+The side of the anchor element that the tooltip should be positioned relative to.
+</ParamField>
+
+<ParamField name="alignment" type="'start' | 'center' | 'end'" default="center">
+The alignment of the tooltip relative to the anchor element.
+</ParamField>
+
+<ParamField name="sideOffset" type="number" default="0">
+The distance in pixels from the anchor element.
+</ParamField>
+
+<ParamField name="alignmentOffset" type="number" default="0">
+The offset in pixels along the alignment axis.
+</ParamField>
+
+<ParamField name="collisionBoundary" type="Element | Element[] | null">
+The boundary that the tooltip should stay within.
+</ParamField>
+
+<ParamField name="collisionPadding" type="number | Partial<Record<'top' | 'right' | 'bottom' | 'left', number>>" default="5">
+The padding in pixels from the collision boundary.
+</ParamField>
+
+<ParamField name="sticky" type="boolean" default="false">
+Whether the tooltip should stick to the edge when overflowing.
+</ParamField>
+
+<ParamField name="hideWhenDetached" type="boolean" default="false">
+Whether the tooltip should be hidden when the anchor element becomes occluded.
+</ParamField>
+
+## Tooltip.Popup
+
+The tooltip's content.
+
+## Tooltip.Arrow
+
+An optional arrow element that points toward the trigger.
+
+### Props
+
+<ParamField name="hideWhenUncentered" type="boolean" default="false">
+Whether the arrow should be hidden when it can't be centered.
+</ParamField>
+
+## Tooltip.Portal
+
+Portals the tooltip popup to a different part of the DOM.
+
+### Props
+
+<ParamField name="container" type="HTMLElement | null | (() => HTMLElement | null)">
+The container element to which the tooltip popup is portaled.
+</ParamField>
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the portal mounted when the tooltip is closed.
+</ParamField>

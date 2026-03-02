@@ -1,0 +1,323 @@
+---
+title: Number Field
+description: A number input with increment and decrement controls.
+---
+
+A number input with increment and decrement controls.
+
+## Import
+
+```jsx
+import { NumberField } from '@base-ui/react';
+```
+
+## Anatomy
+
+The NumberField component consists of multiple parts:
+
+- `NumberField.Root` - The container that manages state
+- `NumberField.Group` - Groups the input and buttons together
+- `NumberField.Input` - The text input element
+- `NumberField.Increment` - Button to increase the value
+- `NumberField.Decrement` - Button to decrease the value
+- `NumberField.ScrubArea` - Area for scrubbing to change value
+- `NumberField.ScrubAreaCursor` - Custom cursor for scrub area
+
+## Basic Usage
+
+```jsx
+<NumberField.Root>
+  <NumberField.Group>
+    <NumberField.Decrement>-</NumberField.Decrement>
+    <NumberField.Input />
+    <NumberField.Increment>+</NumberField.Increment>
+  </NumberField.Group>
+</NumberField.Root>
+```
+
+## Key Features
+
+- Controlled and uncontrolled modes
+- Step increments with modifier keys (Shift for large, Alt for small)
+- Mouse wheel support
+- Scrub area for drag-to-change
+- Min/max value constraints
+- Number formatting with Intl.NumberFormat
+- Currency, percentage, and unit formatting
+- Customizable step values
+- Out-of-range value support
+
+## Key Props
+
+### value
+
+**Type:** `number | null`
+
+The raw numeric value of the field. Use with `onValueChange` for controlled mode.
+
+```jsx
+const [value, setValue] = React.useState(50);
+
+<NumberField.Root value={value} onValueChange={setValue}>
+  <NumberField.Input />
+</NumberField.Root>
+```
+
+### defaultValue
+
+**Type:** `number`
+
+The uncontrolled value when initially rendered.
+
+```jsx
+<NumberField.Root defaultValue={25}>
+  <NumberField.Input />
+</NumberField.Root>
+```
+
+### min
+
+**Type:** `number`
+
+The minimum allowed value.
+
+```jsx
+<NumberField.Root min={0} max={100}>
+  <NumberField.Input />
+</NumberField.Root>
+```
+
+### max
+
+**Type:** `number`
+
+The maximum allowed value.
+
+### step
+
+**Type:** `number | 'any'`
+
+**Default:** `1`
+
+Amount to increment and decrement.
+
+```jsx
+<NumberField.Root step={5}>
+  <NumberField.Input />
+</NumberField.Root>
+```
+
+### smallStep
+
+**Type:** `number`
+
+**Default:** `0.1`
+
+The small step value when incrementing while Alt key is held.
+
+### largeStep
+
+**Type:** `number`
+
+**Default:** `10`
+
+The large step value when incrementing while Shift key is held.
+
+### format
+
+**Type:** `Intl.NumberFormatOptions`
+
+Options to format the input value.
+
+```jsx
+<NumberField.Root format={{ style: 'currency', currency: 'USD' }}>
+  <NumberField.Input />
+</NumberField.Root>
+```
+
+### allowWheelScrub
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether to allow the user to scrub the value with the mouse wheel while focused.
+
+### snapOnStep
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the value should snap to the nearest step when incrementing or decrementing.
+
+### allowOutOfRange
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+When true, direct text entry may be outside the min/max range without clamping.
+
+### onValueChange
+
+**Type:** `(value: number | null, eventDetails: ChangeEventDetails) => void`
+
+Callback fired when the number value changes.
+
+### onValueCommitted
+
+**Type:** `(value: number | null, eventDetails: CommitEventDetails) => void`
+
+Callback fired when the value is committed (on blur, pointer release, or keyboard interaction).
+
+## Styling
+
+<Tabs items={['Tailwind CSS', 'CSS Modules']}>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <NumberField.Root className="w-32">
+      <NumberField.Group className="flex border border-gray-300 rounded overflow-hidden">
+        <NumberField.Decrement className="px-3 py-2 bg-gray-100 hover:bg-gray-200 disabled:opacity-50">
+          -
+        </NumberField.Decrement>
+        <NumberField.Input className="flex-1 px-3 py-2 text-center border-x border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <NumberField.Increment className="px-3 py-2 bg-gray-100 hover:bg-gray-200 disabled:opacity-50">
+          +
+        </NumberField.Increment>
+      </NumberField.Group>
+    </NumberField.Root>
+    ```
+  </Tab>
+  <Tab value="CSS Modules">
+    ```jsx
+    <NumberField.Root className={styles.root}>
+      <NumberField.Group className={styles.group}>
+        <NumberField.Decrement className={styles.button}>-</NumberField.Decrement>
+        <NumberField.Input className={styles.input} />
+        <NumberField.Increment className={styles.button}>+</NumberField.Increment>
+      </NumberField.Group>
+    </NumberField.Root>
+    ```
+
+    ```css
+    .root {
+      width: 8rem;
+    }
+
+    .group {
+      display: flex;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      overflow: hidden;
+    }
+
+    .button {
+      padding: 0.5rem 0.75rem;
+      background-color: #f3f4f6;
+    }
+
+    .button:hover {
+      background-color: #e5e7eb;
+    }
+
+    .input {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      text-align: center;
+      border-left: 1px solid #d1d5db;
+      border-right: 1px solid #d1d5db;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### Currency Input
+
+```jsx
+<NumberField.Root
+  defaultValue={19.99}
+  format={{
+    style: 'currency',
+    currency: 'USD',
+  }}
+>
+  <NumberField.Group>
+    <NumberField.Input />
+  </NumberField.Group>
+</NumberField.Root>
+```
+
+### Percentage Input
+
+```jsx
+<NumberField.Root
+  defaultValue={25}
+  min={0}
+  max={100}
+  format={{ style: 'percent' }}
+>
+  <NumberField.Group>
+    <NumberField.Input />
+  </NumberField.Group>
+</NumberField.Root>
+```
+
+### With Scrub Area
+
+```jsx
+<NumberField.Root>
+  <NumberField.ScrubArea className="inline-flex items-center gap-2 cursor-ew-resize">
+    <label>Value:</label>
+    <NumberField.ScrubAreaCursor />
+  </NumberField.ScrubArea>
+  <NumberField.Input />
+</NumberField.Root>
+```
+
+### With Validation
+
+```jsx
+import { Field } from '@base-ui/react';
+
+<Field.Root name="quantity">
+  <Field.Label>Quantity</Field.Label>
+  <NumberField.Root min={1} max={99} required>
+    <NumberField.Group>
+      <NumberField.Decrement>-</NumberField.Decrement>
+      <NumberField.Input />
+      <NumberField.Increment>+</NumberField.Increment>
+    </NumberField.Group>
+  </NumberField.Root>
+  <Field.Error />
+</Field.Root>
+```
+
+### Temperature Control
+
+```jsx
+function TemperatureControl() {
+  const [value, setValue] = React.useState(72);
+
+  return (
+    <NumberField.Root
+      value={value}
+      onValueChange={setValue}
+      min={60}
+      max={80}
+      format={{
+        style: 'unit',
+        unit: 'fahrenheit',
+      }}
+    >
+      <NumberField.Group>
+        <NumberField.Decrement>-</NumberField.Decrement>
+        <NumberField.Input />
+        <NumberField.Increment>+</NumberField.Increment>
+      </NumberField.Group>
+    </NumberField.Root>
+  );
+}
+```

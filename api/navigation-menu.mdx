@@ -1,0 +1,72 @@
+---
+title: NavigationMenu
+description: API reference for the NavigationMenu component
+---
+
+# NavigationMenu
+
+A collection of links for navigating websites.
+
+## Import
+
+```tsx
+import * as NavigationMenu from '@base-ui/react/navigation-menu';
+```
+
+## NavigationMenu.Root
+
+Groups all navigation menu parts.
+
+### Props
+
+<ParamField name="value" type="string">
+The controlled value of the active navigation item.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: string) => void">
+Event handler called when the active item changes.
+</ParamField>
+
+<ParamField name="orientation" type="'horizontal' | 'vertical'" default="horizontal">
+The orientation of the navigation menu.
+</ParamField>
+
+## NavigationMenu.List
+
+Contains the navigation items.
+
+## NavigationMenu.Item
+
+A navigation menu item that can trigger a submenu.
+
+### Props
+
+<ParamField name="value" type="string">
+A unique value for this item.
+</ParamField>
+
+## NavigationMenu.Trigger
+
+The button that activates a submenu.
+
+## NavigationMenu.Content
+
+The content displayed when a navigation item is activated.
+
+## NavigationMenu.Link
+
+A navigation link.
+
+### Props
+
+<ParamField name="active" type="boolean" default="false">
+Whether this link represents the current page.
+</ParamField>
+
+## NavigationMenu.Indicator
+
+A visual indicator that highlights the active item.
+
+## NavigationMenu.Viewport
+
+The scrollable area for navigation content.

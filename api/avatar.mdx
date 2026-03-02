@@ -1,0 +1,54 @@
+---
+title: Avatar
+description: API reference for the Avatar component
+---
+
+# Avatar
+
+Displays a user's profile picture, with a fallback for loading or error states.
+
+## Import
+
+```tsx
+import * as Avatar from '@base-ui/react/avatar';
+```
+
+## Avatar.Root
+
+Groups all parts of the avatar.
+
+### Props
+
+Inherits common props (`className`, `render`, `style`).
+
+### State
+
+- `status`: 'loading' | 'loaded' | 'error' - The loading status of the avatar image
+
+## Avatar.Image
+
+The avatar image element.
+
+### Props
+
+<ParamField name="src" type="string">
+The source URL of the avatar image.
+</ParamField>
+
+<ParamField name="alt" type="string">
+Alternative text for the image.
+</ParamField>
+
+<ParamField name="onLoadingStatusChange" type="(status: 'loading' | 'loaded' | 'error') => void">
+Callback fired when the loading status changes.
+</ParamField>
+
+## Avatar.Fallback
+
+Content displayed while the image is loading or if it fails to load.
+
+### Props
+
+<ParamField name="delayMs" type="number" default="0">
+Delay in milliseconds before showing the fallback.
+</ParamField>

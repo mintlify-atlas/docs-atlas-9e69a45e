@@ -1,0 +1,85 @@
+---
+title: 'Direction Provider'
+description: 'API reference for the DirectionProvider component'
+---
+
+## DirectionProvider
+
+Enables RTL (right-to-left) behavior for Base UI components.
+
+## Import
+
+```tsx
+import { DirectionProvider, useDirection } from '@base-ui/react/direction-provider';
+import type { TextDirection } from '@base-ui/react/direction-provider';
+```
+
+## Component Signature
+
+```tsx
+const DirectionProvider: React.FC<DirectionProvider.Props>
+```
+
+## Props
+
+<ParamField path="children" type="React.ReactNode">
+  The content to be wrapped by the direction provider.
+</ParamField>
+
+<ParamField path="direction" type="TextDirection | undefined" default="'ltr'">
+  The reading direction of the text. Can be `'ltr'` (left-to-right) or `'rtl'` (right-to-left).
+</ParamField>
+
+## Type Definitions
+
+### DirectionProvider.Props
+
+```tsx
+interface DirectionProviderProps {
+  children?: React.ReactNode;
+  direction?: TextDirection | undefined;
+}
+```
+
+### TextDirection
+
+```tsx
+type TextDirection = 'ltr' | 'rtl';
+```
+
+## useDirection Hook
+
+A hook to access the current text direction from context.
+
+### Signature
+
+```tsx
+function useDirection(): TextDirection
+```
+
+### Return Value
+
+Returns the current text direction (`'ltr'` or `'rtl'`). Defaults to `'ltr'` if used outside a DirectionProvider.
+
+## Usage Example
+
+```tsx
+import { DirectionProvider, useDirection } from '@base-ui/react/direction-provider';
+
+function MyComponent() {
+  const direction = useDirection();
+  return <div dir={direction}>Content</div>;
+}
+
+function App() {
+  return (
+    <DirectionProvider direction="rtl">
+      <MyComponent />
+    </DirectionProvider>
+  );
+}
+```
+
+## Related
+
+- [Direction Provider Guide](/utilities/direction-provider)

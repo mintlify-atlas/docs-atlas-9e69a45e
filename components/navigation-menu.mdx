@@ -1,0 +1,284 @@
+---
+title: Navigation Menu
+description: A menu designed for website navigation, with support for nested menus and hover interactions.
+---
+
+A menu designed for website navigation, with support for nested menus and hover interactions. Navigation menus are ideal for site navigation bars and complex navigation patterns.
+
+## Import
+
+```tsx
+import * as NavigationMenu from '@base-ui/react/NavigationMenu';
+```
+
+## Basic Usage
+
+```tsx
+<NavigationMenu.Root>
+  <NavigationMenu.List>
+    <NavigationMenu.Item value="products">
+      <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+      <NavigationMenu.Portal>
+        <NavigationMenu.Positioner>
+          <NavigationMenu.Popup>
+            <NavigationMenu.Content>
+              <NavigationMenu.Link href="/product-a">Product A</NavigationMenu.Link>
+              <NavigationMenu.Link href="/product-b">Product B</NavigationMenu.Link>
+              <NavigationMenu.Link href="/product-c">Product C</NavigationMenu.Link>
+            </NavigationMenu.Content>
+          </NavigationMenu.Popup>
+        </NavigationMenu.Positioner>
+      </NavigationMenu.Portal>
+    </NavigationMenu.Item>
+    
+    <NavigationMenu.Item value="about">
+      <NavigationMenu.Trigger>About</NavigationMenu.Trigger>
+      <NavigationMenu.Portal>
+        <NavigationMenu.Positioner>
+          <NavigationMenu.Popup>
+            <NavigationMenu.Content>
+              <NavigationMenu.Link href="/team">Team</NavigationMenu.Link>
+              <NavigationMenu.Link href="/careers">Careers</NavigationMenu.Link>
+            </NavigationMenu.Content>
+          </NavigationMenu.Popup>
+        </NavigationMenu.Positioner>
+      </NavigationMenu.Portal>
+    </NavigationMenu.Item>
+  </NavigationMenu.List>
+</NavigationMenu.Root>
+```
+
+## Key Components
+
+### NavigationMenu.Root
+
+Groups all parts of the navigation menu. Renders a `<nav>` element at the root, or `<div>` element when nested.
+
+**Key Props:**
+- `value`: `any` - The controlled value of the navigation menu item that should be currently open
+- `defaultValue`: `any` - The uncontrolled value of the item that should be initially selected (default: `null`)
+- `onValueChange`: `(value: any, eventDetails: ChangeEventDetails) => void` - Callback fired when the value changes
+- `orientation`: `'horizontal' | 'vertical'` - The orientation of the navigation menu (default: `'horizontal'`)
+- `delay`: `number` - How long to wait before opening the navigation menu, in milliseconds (default: `50`)
+- `closeDelay`: `number` - How long to wait before closing the navigation menu, in milliseconds (default: `50`)
+- `onOpenChangeComplete`: `(open: boolean) => void` - Event handler called after any animations complete when the navigation menu is closed
+
+**State:**
+- `data-open`: Present when the popup is open
+- `data-nested`: Present when the navigation menu is nested
+
+### NavigationMenu.List
+
+Contains the navigation menu items. Renders a `<div>` element.
+
+### NavigationMenu.Item
+
+Wraps a trigger and content pair. Renders a `<div>` element.
+
+**Key Props:**
+- `value`: `any` - The unique value for this navigation item (required)
+
+### NavigationMenu.Trigger
+
+A button that opens the navigation menu content. Renders a `<button>` element.
+
+**State:**
+- `data-open`: Present when the associated content is open
+- `data-disabled`: Present when the trigger is disabled
+
+### NavigationMenu.Popup
+
+A container for the navigation content. Renders a `<div>` element.
+
+**State:**
+- `data-open`: Present when the popup is open
+- `data-side`: The side of the anchor element where the popup is positioned
+- `data-align`: The alignment of the popup relative to the anchor
+
+### NavigationMenu.Content
+
+The content area of the navigation menu. Renders a `<div>` element.
+
+### NavigationMenu.Link
+
+A link item within the navigation menu. Renders an `<a>` element.
+
+**Key Props:**
+- `href`: `string` - The URL the link points to
+- `active`: `boolean` - Whether the link represents the current page
+
+**State:**
+- `data-active`: Present when the link is active
+
+### NavigationMenu.Viewport
+
+An optional viewport for animating content transitions. Renders a `<div>` element.
+
+## Features
+
+- Hover-based navigation with configurable delays
+- Keyboard navigation support
+- Nested menu support
+- Active link indication
+- Flexible positioning with `NavigationMenu.Positioner`
+- Optional backdrop with `NavigationMenu.Backdrop`
+- Portal rendering with `NavigationMenu.Portal`
+- Smooth transitions with `NavigationMenu.Viewport`
+- Accessible ARIA attributes
+
+## Styling Example
+
+```css
+.NavigationMenuList {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.NavigationMenuTrigger {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.NavigationMenuTrigger:hover,
+.NavigationMenuTrigger[data-open] {
+  background: #f0f0f0;
+}
+
+.NavigationMenuPopup {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+.NavigationMenuLink {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 4px;
+}
+
+.NavigationMenuLink:hover {
+  background: #f5f5f5;
+}
+
+.NavigationMenuLink[data-active] {
+  background: #e0f0ff;
+  color: #0066cc;
+}
+```
+
+## Common Patterns
+
+### Controlled Navigation Menu
+
+```tsx
+const [value, setValue] = React.useState(null);
+
+<NavigationMenu.Root value={value} onValueChange={setValue}>
+  <NavigationMenu.List>
+    <NavigationMenu.Item value="products">
+      <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+      <NavigationMenu.Portal>
+        <NavigationMenu.Positioner>
+          <NavigationMenu.Popup>
+            <NavigationMenu.Content>
+              {/* Content */}
+            </NavigationMenu.Content>
+          </NavigationMenu.Popup>
+        </NavigationMenu.Positioner>
+      </NavigationMenu.Portal>
+    </NavigationMenu.Item>
+  </NavigationMenu.List>
+</NavigationMenu.Root>
+```
+
+### With Viewport Transitions
+
+```tsx
+<NavigationMenu.Root>
+  <NavigationMenu.List>
+    <NavigationMenu.Item value="features">
+      <NavigationMenu.Trigger>Features</NavigationMenu.Trigger>
+      <NavigationMenu.Portal>
+        <NavigationMenu.Positioner>
+          <NavigationMenu.Viewport>
+            <NavigationMenu.Popup>
+              <NavigationMenu.Content>
+                <NavigationMenu.Link href="/feature-1">Feature 1</NavigationMenu.Link>
+                <NavigationMenu.Link href="/feature-2">Feature 2</NavigationMenu.Link>
+              </NavigationMenu.Content>
+            </NavigationMenu.Popup>
+          </NavigationMenu.Viewport>
+        </NavigationMenu.Positioner>
+      </NavigationMenu.Portal>
+    </NavigationMenu.Item>
+  </NavigationMenu.List>
+</NavigationMenu.Root>
+```
+
+### Rich Content Navigation
+
+```tsx
+<NavigationMenu.Root>
+  <NavigationMenu.List>
+    <NavigationMenu.Item value="products">
+      <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+      <NavigationMenu.Portal>
+        <NavigationMenu.Positioner>
+          <NavigationMenu.Popup>
+            <NavigationMenu.Content>
+              <div className="ProductGrid">
+                <div className="ProductCard">
+                  <img src="/product-a.jpg" alt="Product A" />
+                  <NavigationMenu.Link href="/product-a">
+                    <h3>Product A</h3>
+                    <p>Description of product A</p>
+                  </NavigationMenu.Link>
+                </div>
+                <div className="ProductCard">
+                  <img src="/product-b.jpg" alt="Product B" />
+                  <NavigationMenu.Link href="/product-b">
+                    <h3>Product B</h3>
+                    <p>Description of product B</p>
+                  </NavigationMenu.Link>
+                </div>
+              </div>
+            </NavigationMenu.Content>
+          </NavigationMenu.Popup>
+        </NavigationMenu.Positioner>
+      </NavigationMenu.Portal>
+    </NavigationMenu.Item>
+  </NavigationMenu.List>
+</NavigationMenu.Root>
+```
+
+### Vertical Navigation
+
+```tsx
+<NavigationMenu.Root orientation="vertical">
+  <NavigationMenu.List>
+    <NavigationMenu.Item value="docs">
+      <NavigationMenu.Trigger>Documentation</NavigationMenu.Trigger>
+      <NavigationMenu.Portal>
+        <NavigationMenu.Positioner>
+          <NavigationMenu.Popup>
+            <NavigationMenu.Content>
+              <NavigationMenu.Link href="/docs/getting-started">Getting Started</NavigationMenu.Link>
+              <NavigationMenu.Link href="/docs/api">API Reference</NavigationMenu.Link>
+            </NavigationMenu.Content>
+          </NavigationMenu.Popup>
+        </NavigationMenu.Positioner>
+      </NavigationMenu.Portal>
+    </NavigationMenu.Item>
+  </NavigationMenu.List>
+</NavigationMenu.Root>
+```

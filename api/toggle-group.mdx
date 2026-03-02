@@ -1,0 +1,52 @@
+---
+title: ToggleGroup
+description: API reference for the ToggleGroup component
+---
+
+# ToggleGroup
+
+Groups multiple toggle buttons where one or more can be active.
+
+## Import
+
+```tsx
+import * as ToggleGroup from '@base-ui/react/toggle-group';
+```
+
+## ToggleGroup.Root
+
+Groups all toggle buttons.
+
+### Props
+
+<ParamField name="value" type="string[]">
+The controlled values of the active toggles. To render an uncontrolled toggle group, use the `defaultValue` prop instead.
+</ParamField>
+
+<ParamField name="defaultValue" type="string[]">
+The uncontrolled values of the initially active toggles. To render a controlled toggle group, use the `value` prop instead.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: string[]) => void">
+Event handler called when the active toggles change.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether all toggles in the group should be disabled.
+</ParamField>
+
+<ParamField name="multiple" type="boolean" default="true">
+Whether multiple toggles can be active at the same time.
+</ParamField>
+
+<ParamField name="allowEmpty" type="boolean" default="true">
+Whether the group can have no active toggles.
+</ParamField>
+
+<ParamField name="orientation" type="'horizontal' | 'vertical'" default="horizontal">
+The orientation of the toggle group.
+</ParamField>
+
+<ParamField name="loopFocus" type="boolean" default="true">
+Whether keyboard navigation should loop from the last toggle back to the first.
+</ParamField>

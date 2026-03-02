@@ -1,0 +1,456 @@
+---
+title: Combobox
+description: A combination of a text input and a popup list that allows users to filter, search, and select one or multiple values.
+---
+
+The Combobox component combines text input with a filterable list for flexible selection with keyboard navigation and accessibility.
+
+## Import
+
+```tsx
+import * as Combobox from '@base-ui/react/Combobox';
+```
+
+## Basic Usage
+
+```tsx
+import * as Combobox from '@base-ui/react/Combobox';
+
+const frameworks = ['React', 'Vue', 'Angular', 'Svelte', 'Solid'];
+
+function FrameworkCombobox() {
+  const [value, setValue] = React.useState<string | null>(null);
+
+  return (
+    <Combobox.Root value={value} onValueChange={setValue} items={frameworks}>
+      <Combobox.Trigger>
+        <Combobox.Input placeholder="Select framework..." />
+        <Combobox.Icon>▼</Combobox.Icon>
+      </Combobox.Trigger>
+
+      <Combobox.Portal>
+        <Combobox.Positioner>
+          <Combobox.Popup>
+            <Combobox.List>
+              {frameworks.map((framework) => (
+                <Combobox.Item key={framework} value={framework}>
+                  <Combobox.ItemIndicator>✓</Combobox.ItemIndicator>
+                  {framework}
+                </Combobox.Item>
+              ))}
+            </Combobox.List>
+            <Combobox.Empty>No results found</Combobox.Empty>
+          </Combobox.Popup>
+        </Combobox.Positioner>
+      </Combobox.Portal>
+    </Combobox.Root>
+  );
+}
+```
+
+## Sub-components
+
+### Combobox.Root
+
+Groups all parts of the combobox. Doesn't render its own HTML element.
+
+**Key Props:**
+- `value`: Controlled selected value (or array for `multiple={true}`)
+- `defaultValue`: Uncontrolled default value
+- `onValueChange`: Called when selection changes
+- `inputValue`: Controlled input text value
+- `defaultInputValue`: Uncontrolled default input value
+- `onInputValueChange`: Called when input text changes
+- `multiple`: Whether multiple items can be selected (default: `false`)
+- `open`: Controlled popup open state
+- `defaultOpen`: Uncontrolled default open state
+- `onOpenChange`: Called when popup opens/closes
+- `items`: Array of items or groups
+- `filter`: Custom filter function (or `null` for no filtering)
+- `autoHighlight`: Auto-highlight first match (default: `false`)
+- `highlightItemOnHover`: Whether hovering highlights items (default: `true`)
+- `disabled`: Whether component is disabled (default: `false`)
+- `readOnly`: Whether input is read-only (default: `false`)
+- `required`: Whether field is required (default: `false`)
+- `name`: Form field name
+- `autoComplete`: Browser autocomplete hint
+- `itemToStringLabel`: Convert object items to string for display
+- `itemToStringValue`: Convert object items to string for form submission
+- `isItemEqualToValue`: Custom equality function for object items
+- `onItemHighlighted`: Called when item is highlighted
+- `openOnInputClick`: Whether clicking input opens popup
+- `modal`: Whether popup is modal (default: `true`)
+
+### Combobox.Trigger
+
+Container for the input and icon.
+
+### Combobox.Input
+
+The text input element. Renders an `<input>` element.
+
+### Combobox.Icon
+
+Icon indicating the combobox can be opened.
+
+### Combobox.Clear
+
+Button to clear the current selection.
+
+### Combobox.Portal
+
+Portals the popup to a different part of the DOM.
+
+### Combobox.Positioner
+
+Positions the popup relative to the trigger.
+
+### Combobox.Popup
+
+The container for the list of items.
+
+### Combobox.List
+
+Scrollable list container for items.
+
+### Combobox.Item
+
+An individual selectable item.
+
+**Props:**
+- `value`: The value this item represents
+- `disabled`: Whether this item is disabled
+
+**State attributes:**
+- `data-highlighted`: Present when item is highlighted
+- `data-selected`: Present when item is selected
+- `data-disabled`: Present when item is disabled
+
+### Combobox.ItemIndicator
+
+Shown only when the item is selected (for visual feedback).
+
+### Combobox.Empty
+
+Displayed when no items match the filter.
+
+### Combobox.Group
+
+Groups related items together.
+
+### Combobox.GroupLabel
+
+Label for a group of items.
+
+### Combobox.Value
+
+Displays the selected value in the trigger.
+
+### Combobox.Chips
+
+Container for multiple selection chips (when `multiple={true}`).
+
+### Combobox.Chip
+
+Displays a single selected value chip.
+
+### Combobox.ChipRemove
+
+Button to remove a chip.
+
+### Combobox.Arrow
+
+Arrow pointing to the trigger.
+
+### Combobox.Backdrop
+
+Backdrop shown when `modal={true}`.
+
+### Combobox.Status
+
+Announces status changes for screen readers.
+
+## Multiple Selection
+
+```tsx
+function MultiSelectCombobox() {
+  const [value, setValue] = React.useState<string[]>([]);
+  const options = ['React', 'Vue', 'Angular', 'Svelte', 'Solid'];
+
+  return (
+    <Combobox.Root
+      value={value}
+      onValueChange={setValue}
+      multiple
+      items={options}
+    >
+      <Combobox.Trigger>
+        <Combobox.Chips>
+          {value.map((item) => (
+            <Combobox.Chip key={item} value={item}>
+              {item}
+              <Combobox.ChipRemove>×</Combobox.ChipRemove>
+            </Combobox.Chip>
+          ))}
+        </Combobox.Chips>
+        <Combobox.Input placeholder="Select frameworks..." />
+      </Combobox.Trigger>
+
+      <Combobox.Portal>
+        <Combobox.Positioner>
+          <Combobox.Popup>
+            <Combobox.List>
+              {options.map((option) => (
+                <Combobox.Item key={option} value={option}>
+                  <Combobox.ItemIndicator>✓</Combobox.ItemIndicator>
+                  {option}
+                </Combobox.Item>
+              ))}
+            </Combobox.List>
+          </Combobox.Popup>
+        </Combobox.Positioner>
+      </Combobox.Portal>
+    </Combobox.Root>
+  );
+}
+```
+
+## Grouped Items
+
+```tsx
+const groupedOptions = [
+  {
+    label: 'Frontend',
+    items: ['React', 'Vue', 'Angular'],
+  },
+  {
+    label: 'Backend',
+    items: ['Node.js', 'Django', 'Rails'],
+  },
+];
+
+<Combobox.Root items={groupedOptions}>
+  <Combobox.Trigger>
+    <Combobox.Input placeholder="Select technology..." />
+  </Combobox.Trigger>
+
+  <Combobox.Portal>
+    <Combobox.Positioner>
+      <Combobox.Popup>
+        <Combobox.List>
+          <Combobox.Collection>
+            {(item, index) => (
+              <Combobox.Item key={index} value={item}>
+                {item}
+              </Combobox.Item>
+            )}
+          </Combobox.Collection>
+        </Combobox.List>
+      </Combobox.Popup>
+    </Combobox.Positioner>
+  </Combobox.Portal>
+</Combobox.Root>
+```
+
+## Custom Filtering
+
+```tsx
+import { Combobox } from '@base-ui/react/Combobox';
+
+function StartsWithFilter() {
+  const filter = Combobox.useFilter();
+
+  function customFilter(item: string, query: string) {
+    return filter.startsWith(item, query);
+  }
+
+  return (
+    <Combobox.Root items={items} filter={customFilter}>
+      {/* ... */}
+    </Combobox.Root>
+  );
+}
+```
+
+## Object Items
+
+```tsx
+interface User {
+  id: number;
+  name: string;
+  role: string;
+}
+
+const users: User[] = [
+  { id: 1, name: 'Alice Johnson', role: 'Admin' },
+  { id: 2, name: 'Bob Smith', role: 'User' },
+  { id: 3, name: 'Carol White', role: 'Editor' },
+];
+
+function UserCombobox() {
+  const [value, setValue] = React.useState<User | null>(null);
+
+  return (
+    <Combobox.Root
+      value={value}
+      onValueChange={setValue}
+      items={users}
+      itemToStringLabel={(user) => user.name}
+      itemToStringValue={(user) => String(user.id)}
+    >
+      <Combobox.Trigger>
+        <Combobox.Value placeholder="Select user...">
+          {value?.name}
+        </Combobox.Value>
+        <Combobox.Icon>▼</Combobox.Icon>
+      </Combobox.Trigger>
+
+      <Combobox.Portal>
+        <Combobox.Positioner>
+          <Combobox.Popup>
+            <Combobox.List>
+              {users.map((user) => (
+                <Combobox.Item key={user.id} value={user}>
+                  <div>
+                    <div>{user.name}</div>
+                    <div className="role">{user.role}</div>
+                  </div>
+                </Combobox.Item>
+              ))}
+            </Combobox.List>
+          </Combobox.Popup>
+        </Combobox.Positioner>
+      </Combobox.Portal>
+    </Combobox.Root>
+  );
+}
+```
+
+## Styling
+
+```css
+.Combobox-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background: white;
+  cursor: pointer;
+}
+
+.Combobox-trigger[data-open] {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.Combobox-input {
+  flex: 1;
+  border: none;
+  outline: none;
+}
+
+.Combobox-icon {
+  color: #6b7280;
+}
+
+.Combobox-popup {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow: auto;
+}
+
+.Combobox-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+}
+
+.Combobox-item[data-highlighted] {
+  background-color: #eff6ff;
+}
+
+.Combobox-item[data-selected] {
+  background-color: #dbeafe;
+}
+
+.Combobox-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.Combobox-item-indicator {
+  color: #3b82f6;
+}
+
+/* Multiple selection chips */
+.Combobox-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.Combobox-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #eff6ff;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.Combobox-chip-remove {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #6b7280;
+}
+```
+
+## Form Integration
+
+```tsx
+import { Form } from '@base-ui/react/Form';
+import * as Field from '@base-ui/react/Field';
+import * as Combobox from '@base-ui/react/Combobox';
+
+function ProfileForm() {
+  const countries = ['USA', 'Canada', 'UK', 'Australia'];
+
+  return (
+    <Form onFormSubmit={(values) => console.log(values)}>
+      <Field.Root name="country">
+        <Field.Label>Country</Field.Label>
+        <Combobox.Root items={countries}>
+          <Combobox.Trigger>
+            <Combobox.Input placeholder="Select country..." />
+            <Combobox.Icon>▼</Combobox.Icon>
+          </Combobox.Trigger>
+          <Combobox.Portal>
+            <Combobox.Positioner>
+              <Combobox.Popup>
+                <Combobox.List>
+                  {countries.map((country) => (
+                    <Combobox.Item key={country} value={country}>
+                      {country}
+                    </Combobox.Item>
+                  ))}
+                </Combobox.List>
+              </Combobox.Popup>
+            </Combobox.Positioner>
+          </Combobox.Portal>
+        </Combobox.Root>
+        <Field.Error match="valueMissing">Country is required</Field.Error>
+      </Field.Root>
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```

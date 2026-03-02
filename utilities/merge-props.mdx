@@ -1,0 +1,207 @@
+---
+title: mergeProps
+description: Utility function for merging multiple sets of React props with intelligent handling of event handlers, className, and style.
+---
+
+# mergeProps
+
+The `mergeProps` function intelligently merges multiple sets of React props, with special handling for event handlers, `className`, and `style` properties.
+
+## Import
+
+```tsx
+import { mergeProps } from '@base-ui/react/merge-props';
+```
+
+## Usage
+
+Merge two or more prop objects:
+
+```tsx
+import { mergeProps } from '@base-ui/react/merge-props';
+
+const props1 = {
+  onClick: () => console.log('First handler'),
+  className: 'base-class',
+  style: { color: 'red' },
+};
+
+const props2 = {
+  onClick: () => console.log('Second handler'),
+  className: 'additional-class',
+  style: { fontSize: '16px' },
+};
+
+const merged = mergeProps(props1, props2);
+// Result:
+// {
+//   onClick: [merged handler that calls both],
+//   className: 'additional-class base-class',
+//   style: { color: 'red', fontSize: '16px' }
+// }
+```
+
+## Merging behavior
+
+### Event handlers
+
+Event handlers are merged and called in **right-to-left order** (rightmost handler executes first):
+
+```tsx
+import { mergeProps } from '@base-ui/react/merge-props';
+
+const merged = mergeProps(
+  { onClick: () => console.log('A') },
+  { onClick: () => console.log('B') },
+  { onClick: () => console.log('C') }
+);
+
+// When clicked, logs: 'C', 'B', 'A'
+```
+
+### Preventing handler execution
+
+For React synthetic events, you can prevent earlier handlers from executing:
+
+```tsx
+import { mergeProps } from '@base-ui/react/merge-props';
+
+const merged = mergeProps(
+  { onClick: (event) => console.log('This won\'t run') },
+  { 
+    onClick: (event) => {
+      console.log('This runs first');
+      event.preventBaseUIHandler();
+    }
+  }
+);
+```
+
+### className merging
+
+Class names are concatenated in **right-to-left order** (rightmost class appears first):
+
+```tsx
+import { mergeProps } from '@base-ui/react/merge-props';
+
+const merged = mergeProps(
+  { className: 'btn' },
+  { className: 'btn-primary' }
+);
+// Result: { className: 'btn-primary btn' }
+```
+
+### style merging
+
+Style objects are merged with rightmost styles taking precedence:
+
+```tsx
+import { mergeProps } from '@base-ui/react/merge-props';
+
+const merged = mergeProps(
+  { style: { color: 'red', fontSize: '14px' } },
+  { style: { color: 'blue', fontWeight: 'bold' } }
+);
+// Result: { style: { color: 'blue', fontSize: '14px', fontWeight: 'bold' } }
+```
+
+## API Reference
+
+### Parameters
+
+`mergeProps` accepts 2 to 5 prop objects or functions:
+
+```tsx
+mergeProps(a, b)
+mergeProps(a, b, c)
+mergeProps(a, b, c, d)
+mergeProps(a, b, c, d, e)
+```
+
+Each parameter can be:
+- A props object
+- A function that receives the merged props so far and returns a props object
+- `undefined`
+
+### Function props
+
+You can pass functions that receive the merged props:
+
+```tsx
+import { mergeProps } from '@base-ui/react/merge-props';
+
+const merged = mergeProps(
+  { className: 'base' },
+  { id: 'element' },
+  (prevProps) => ({
+    'aria-label': `Element ${prevProps.id}`,
+    className: `${prevProps.className}-custom`
+  })
+);
+// Result: { className: 'base-custom base', id: 'element', 'aria-label': 'Element element' }
+```
+
+### Return value
+
+Returns a merged props object with all properties combined according to the merging rules.
+
+**Important:** The `ref` prop is **not merged** and will be overwritten by the rightmost value.
+
+## mergePropsN
+
+For merging more than 5 prop objects, use `mergePropsN` which accepts an array:
+
+```tsx
+import { mergePropsN } from '@base-ui/react/merge-props';
+
+const propsArray = [
+  { className: 'a' },
+  { className: 'b' },
+  { className: 'c' },
+  { className: 'd' },
+  { className: 'e' },
+  { className: 'f' },
+];
+
+const merged = mergePropsN(propsArray);
+```
+
+Note: `mergePropsN` has slightly lower performance than `mergeProps` due to accepting an array. Prefer `mergeProps` when merging 5 or fewer prop sets.
+
+## Use Cases
+
+### Building custom components
+
+Merge internal component props with user-provided props:
+
+```tsx
+import { mergeProps } from '@base-ui/react/merge-props';
+
+function CustomButton({ onClick, className, ...props }) {
+  const internalProps = {
+    onClick: (e) => console.log('Internal handler'),
+    className: 'custom-button',
+    type: 'button' as const,
+  };
+
+  const merged = mergeProps(internalProps, { onClick, className, ...props });
+
+  return <button {...merged} />;
+}
+```
+
+### Composing hooks
+
+Combine props from multiple hooks:
+
+```tsx
+import { mergeProps } from '@base-ui/react/merge-props';
+
+function useButton() {
+  const clickHandler = { onClick: () => console.log('Clicked') };
+  const hoverHandler = { onMouseEnter: () => console.log('Hovered') };
+  const styles = { className: 'button' };
+
+  return mergeProps(clickHandler, hoverHandler, styles);
+}
+```

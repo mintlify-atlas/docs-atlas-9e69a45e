@@ -1,0 +1,50 @@
+---
+title: ScrollArea
+description: API reference for the ScrollArea component
+---
+
+# ScrollArea
+
+Augments native scroll functionality with custom scrollbars.
+
+## Import
+
+```tsx
+import * as ScrollArea from '@base-ui/react/scroll-area';
+```
+
+## ScrollArea.Root
+
+Groups all scroll area parts.
+
+### Props
+
+<ParamField name="dir" type="'ltr' | 'rtl'">
+The reading direction of the scroll area.
+</ParamField>
+
+## ScrollArea.Viewport
+
+The scrollable area.
+
+## ScrollArea.Scrollbar
+
+A custom scrollbar.
+
+### Props
+
+<ParamField name="orientation" type="'horizontal' | 'vertical'" required>
+The orientation of the scrollbar.
+</ParamField>
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the scrollbar mounted when not visible.
+</ParamField>
+
+## ScrollArea.Thumb
+
+The draggable part of the scrollbar.
+
+## ScrollArea.Corner
+
+The corner element between horizontal and vertical scrollbars.

@@ -1,0 +1,239 @@
+---
+title: Menu
+description: A popup menu that displays a list of actions or options.
+---
+
+A popup menu that displays a list of actions or options. Menus appear when users interact with a trigger element, and can contain items, checkboxes, radio groups, and nested submenus.
+
+## Import
+
+```tsx
+import * as Menu from '@base-ui/react/Menu';
+```
+
+## Basic Usage
+
+```tsx
+<Menu.Root>
+  <Menu.Trigger>Open menu</Menu.Trigger>
+  <Menu.Portal>
+    <Menu.Positioner>
+      <Menu.Popup>
+        <Menu.Item>New file</Menu.Item>
+        <Menu.Item>Save</Menu.Item>
+        <Menu.Item>Export</Menu.Item>
+      </Menu.Popup>
+    </Menu.Positioner>
+  </Menu.Portal>
+</Menu.Root>
+```
+
+## Key Components
+
+### Menu.Root
+
+Groups all parts of the menu. Doesn't render its own HTML element.
+
+**Key Props:**
+- `open`: `boolean` - Whether the menu is currently open (controlled)
+- `defaultOpen`: `boolean` - Whether the menu is initially open (uncontrolled, default: `false`)
+- `onOpenChange`: `(open: boolean, eventDetails: ChangeEventDetails) => void` - Event handler called when the menu is opened or closed
+- `modal`: `boolean` - Determines if the menu enters a modal state when open (default: `true`)
+- `loopFocus`: `boolean` - Whether to loop keyboard focus back to the first item (default: `true`)
+- `orientation`: `'horizontal' | 'vertical'` - The visual orientation of the menu (default: `'vertical'`)
+- `disabled`: `boolean` - Whether the component should ignore user interaction (default: `false`)
+- `closeParentOnEsc`: `boolean` - Whether pressing Escape closes the entire menu or only the current submenu (default: `false`)
+
+### Menu.Trigger
+
+A button that opens the menu. Renders a `<button>` element.
+
+**Key Props:**
+- `disabled`: `boolean` - Whether the trigger is disabled (default: `false`)
+- `openOnHover`: `boolean` - Whether the menu should open when the trigger is hovered
+- `delay`: `number` - How long to wait before opening the menu on hover, in milliseconds (default: `100`)
+- `closeDelay`: `number` - How long to wait before closing the menu on hover, in milliseconds (default: `0`)
+
+**State:**
+- `data-open`: Present when the menu is open
+- `data-disabled`: Present when the trigger is disabled
+
+### Menu.Popup
+
+A container for the menu items. Renders a `<div>` element.
+
+**Key Props:**
+- `finalFocus`: Determines the element to focus when the menu is closed
+
+**State:**
+- `data-open`: Present when the menu is open
+- `data-side`: The side of the anchor element where the menu is positioned
+- `data-align`: The alignment of the menu relative to the anchor
+
+### Menu.Item
+
+An individual interactive item in the menu. Renders a `<div>` element.
+
+**Key Props:**
+- `disabled`: `boolean` - Whether the item should ignore user interaction (default: `false`)
+- `closeOnClick`: `boolean` - Whether to close the menu when the item is clicked (default: `true`)
+- `label`: `string` - Overrides the text label used during keyboard text navigation
+
+**State:**
+- `data-disabled`: Present when the item is disabled
+- `data-highlighted`: Present when the item is highlighted
+
+### Menu.CheckboxItem
+
+A menu item with a checkbox. Renders a `<div>` element.
+
+**Key Props:**
+- `checked`: `boolean` - Whether the checkbox is checked (controlled)
+- `defaultChecked`: `boolean` - Whether the checkbox is initially checked (uncontrolled)
+- `onCheckedChange`: `(checked: boolean) => void` - Event handler called when the checked state changes
+
+### Menu.RadioGroup
+
+Groups radio items together.
+
+**Key Props:**
+- `value`: `any` - The value of the selected radio item (controlled)
+- `defaultValue`: `any` - The initially selected radio item (uncontrolled)
+- `onValueChange`: `(value: any) => void` - Event handler called when the value changes
+
+### Menu.RadioItem
+
+A menu item with a radio button.
+
+**Key Props:**
+- `value`: `any` - The value of this radio item (required)
+
+## Features
+
+- Full keyboard navigation with arrow keys
+- Typeahead search to quickly find items
+- Optional hover interactions
+- Support for nested submenus
+- Checkbox and radio item variants
+- Flexible positioning with `Menu.Positioner`
+- Optional backdrop with `Menu.Backdrop`
+- Portal rendering with `Menu.Portal`
+- Accessible ARIA attributes
+
+## Styling Example
+
+```css
+.MenuPopup {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.MenuItem {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.MenuItem[data-highlighted] {
+  background: #f0f0f0;
+}
+
+.MenuItem[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```
+
+## Common Patterns
+
+### Controlled Menu
+
+```tsx
+const [open, setOpen] = React.useState(false);
+
+<Menu.Root open={open} onOpenChange={setOpen}>
+  <Menu.Trigger>Menu</Menu.Trigger>
+  <Menu.Portal>
+    <Menu.Positioner>
+      <Menu.Popup>
+        <Menu.Item>Action</Menu.Item>
+      </Menu.Popup>
+    </Menu.Positioner>
+  </Menu.Portal>
+</Menu.Root>
+```
+
+### Menu with Checkbox Items
+
+```tsx
+const [checked, setChecked] = React.useState(false);
+
+<Menu.Root>
+  <Menu.Trigger>Settings</Menu.Trigger>
+  <Menu.Portal>
+    <Menu.Positioner>
+      <Menu.Popup>
+        <Menu.CheckboxItem checked={checked} onCheckedChange={setChecked}>
+          <Menu.CheckboxItemIndicator>✓</Menu.CheckboxItemIndicator>
+          Enable feature
+        </Menu.CheckboxItem>
+      </Menu.Popup>
+    </Menu.Positioner>
+  </Menu.Portal>
+</Menu.Root>
+```
+
+### Menu with Radio Group
+
+```tsx
+const [value, setValue] = React.useState('option1');
+
+<Menu.Root>
+  <Menu.Trigger>Select option</Menu.Trigger>
+  <Menu.Portal>
+    <Menu.Positioner>
+      <Menu.Popup>
+        <Menu.RadioGroup value={value} onValueChange={setValue}>
+          <Menu.RadioItem value="option1">
+            <Menu.RadioItemIndicator>•</Menu.RadioItemIndicator>
+            Option 1
+          </Menu.RadioItem>
+          <Menu.RadioItem value="option2">
+            <Menu.RadioItemIndicator>•</Menu.RadioItemIndicator>
+            Option 2
+          </Menu.RadioItem>
+        </Menu.RadioGroup>
+      </Menu.Popup>
+    </Menu.Positioner>
+  </Menu.Portal>
+</Menu.Root>
+```
+
+### Nested Submenu
+
+```tsx
+<Menu.Root>
+  <Menu.Trigger>File</Menu.Trigger>
+  <Menu.Portal>
+    <Menu.Positioner>
+      <Menu.Popup>
+        <Menu.Item>New</Menu.Item>
+        <Menu.SubmenuRoot>
+          <Menu.SubmenuTrigger>Export</Menu.SubmenuTrigger>
+          <Menu.Portal>
+            <Menu.Positioner>
+              <Menu.Popup>
+                <Menu.Item>PDF</Menu.Item>
+                <Menu.Item>CSV</Menu.Item>
+              </Menu.Popup>
+            </Menu.Positioner>
+          </Menu.Portal>
+        </Menu.SubmenuRoot>
+      </Menu.Popup>
+    </Menu.Positioner>
+  </Menu.Portal>
+</Menu.Root>
+```

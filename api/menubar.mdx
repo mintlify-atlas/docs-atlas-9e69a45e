@@ -1,0 +1,94 @@
+---
+title: Menubar
+description: API reference for the Menubar component
+---
+
+# Menubar
+
+A horizontal menu of items that trigger dropdown menus.
+
+## Import
+
+```tsx
+import * as Menubar from '@base-ui/react/menubar';
+```
+
+## Menubar.Root
+
+Groups all menubar items.
+
+### Props
+
+<ParamField name="orientation" type="'horizontal' | 'vertical'" default="horizontal">
+The orientation of the menubar.
+</ParamField>
+
+<ParamField name="loopFocus" type="boolean" default="true">
+Whether keyboard navigation should loop from the last item back to the first.
+</ParamField>
+
+## Menubar.Menu
+
+A menu within the menubar.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the menu is currently open.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean) => void">
+Event handler called when the menu is opened or closed.
+</ParamField>
+
+## Menubar.Trigger
+
+The button that opens a menu.
+
+## Menubar.Portal
+
+Portals the menu popup to a different part of the DOM.
+
+## Menubar.Positioner
+
+Positions the menu popup.
+
+## Menubar.Popup
+
+The popup that contains the menu items.
+
+## Menubar.Item
+
+An item in the menu.
+
+## Menubar.Group
+
+Groups related menu items.
+
+## Menubar.GroupLabel
+
+Labels a group of menu items.
+
+## Menubar.Submenu
+
+A nested menu.
+
+## Menubar.SubmenuTrigger
+
+The item that opens a submenu.
+
+## Menubar.RadioGroup
+
+Groups menu items that function as radio buttons.
+
+## Menubar.RadioItem
+
+A menu item that acts as a radio button.
+
+## Menubar.CheckboxItem
+
+A menu item that acts as a checkbox.
+
+## Menubar.Arrow
+
+An optional arrow element.

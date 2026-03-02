@@ -1,0 +1,142 @@
+---
+title: Popover
+description: API reference for the Popover component
+---
+
+# Popover
+
+A popup that displays content in a floating container anchored to a trigger element.
+
+## Import
+
+```tsx
+import * as Popover from '@base-ui/react/popover';
+```
+
+## Popover.Root
+
+Groups all parts of the popover. Doesn't render its own HTML element.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the popover is currently open. To render an uncontrolled popover, use the `defaultOpen` prop instead.
+</ParamField>
+
+<ParamField name="defaultOpen" type="boolean" default="false">
+Whether the popover is initially open. To render a controlled popover, use the `open` prop instead.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean, eventDetails: Popover.Root.ChangeEventDetails) => void">
+Event handler called when the popover is opened or closed.
+</ParamField>
+
+<ParamField name="modal" type="boolean" default="false">
+Whether the popover is modal. Modal popovers block interaction with the rest of the page.
+</ParamField>
+
+<ParamField name="disablePointerDismissal" type="boolean" default="false">
+Whether clicking outside the popover should prevent it from closing.
+</ParamField>
+
+## Popover.Trigger
+
+The element that triggers the popover.
+
+## Popover.Positioner
+
+Positions the popover popup relative to the trigger.
+
+### Props
+
+<ParamField name="anchor" type="Element | VirtualElement | null">
+The element to which the popover popup is anchored to.
+</ParamField>
+
+<ParamField name="side" type="'top' | 'right' | 'bottom' | 'left'" default="bottom">
+The side of the anchor element that the popover should be positioned relative to.
+</ParamField>
+
+<ParamField name="alignment" type="'start' | 'center' | 'end'" default="center">
+The alignment of the popover relative to the anchor element.
+</ParamField>
+
+<ParamField name="sideOffset" type="number" default="0">
+The distance in pixels from the anchor element.
+</ParamField>
+
+<ParamField name="alignmentOffset" type="number" default="0">
+The offset in pixels along the alignment axis.
+</ParamField>
+
+<ParamField name="collisionBoundary" type="Element | Element[] | null">
+The boundary that the popover should stay within.
+</ParamField>
+
+<ParamField name="collisionPadding" type="number | Partial<Record<'top' | 'right' | 'bottom' | 'left', number>>" default="5">
+The padding in pixels from the collision boundary.
+</ParamField>
+
+<ParamField name="sticky" type="boolean" default="false">
+Whether the popover should stick to the edge when overflowing.
+</ParamField>
+
+<ParamField name="hideWhenDetached" type="boolean" default="false">
+Whether the popover should be hidden when the anchor element becomes occluded.
+</ParamField>
+
+## Popover.Popup
+
+The popover's content.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the popup mounted when the popover is closed.
+</ParamField>
+
+## Popover.Backdrop
+
+An optional overlay displayed beneath the popover popup.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the backdrop mounted when the popover is closed.
+</ParamField>
+
+## Popover.Arrow
+
+An optional arrow element that points toward the trigger.
+
+### Props
+
+<ParamField name="hideWhenUncentered" type="boolean" default="false">
+Whether the arrow should be hidden when it can't be centered.
+</ParamField>
+
+## Popover.Close
+
+A button that closes the popover.
+
+## Popover.Title
+
+An accessible title that is announced when the popover is opened.
+
+## Popover.Description
+
+An optional accessible description that is announced when the popover is opened.
+
+## Popover.Portal
+
+Portals the popover popup to a different part of the DOM.
+
+### Props
+
+<ParamField name="container" type="HTMLElement | null | (() => HTMLElement | null)">
+The container element to which the popover popup is portaled.
+</ParamField>
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the portal mounted when the popover is closed.
+</ParamField>

@@ -1,0 +1,122 @@
+---
+title: Slider
+description: API reference for the Slider component
+---
+
+# Slider
+
+A slider allows the user to select a value or range from a continuous or discrete range.
+
+## Import
+
+```tsx
+import * as Slider from '@base-ui/react/slider';
+```
+
+## Slider.Root
+
+Groups all parts of the slider.
+
+### Props
+
+<ParamField name="value" type="number | readonly number[]">
+The value of the slider. For ranged sliders, provide an array with two values.
+</ParamField>
+
+<ParamField name="defaultValue" type="number | readonly number[]">
+The uncontrolled value of the slider when it's initially rendered. To render a controlled slider, use the `value` prop instead.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the slider should ignore user interaction.
+</ParamField>
+
+<ParamField name="min" type="number" default="0">
+The minimum allowed value of the slider. Should not be equal to max.
+</ParamField>
+
+<ParamField name="max" type="number" default="100">
+The maximum allowed value of the slider. Should not be equal to min.
+</ParamField>
+
+<ParamField name="step" type="number" default="1">
+The granularity with which the slider can step through values. (A "discrete" slider.) The `min` prop serves as the origin for the valid values.
+</ParamField>
+
+<ParamField name="largeStep" type="number" default="10">
+The granularity with which the slider can step through values when using Page Up/Page Down or Shift + Arrow Up/Arrow Down.
+</ParamField>
+
+<ParamField name="minStepsBetweenValues" type="number" default="0">
+The minimum steps between values in a range slider.
+</ParamField>
+
+<ParamField name="orientation" type="'horizontal' | 'vertical'" default="horizontal">
+The component orientation.
+</ParamField>
+
+<ParamField name="thumbAlignment" type="'center' | 'edge' | 'edge-client-only'" default="center">
+How the thumb(s) are aligned relative to `Slider.Control` when the value is at `min` or `max`.
+</ParamField>
+
+<ParamField name="thumbCollisionBehavior" type="'push' | 'swap' | 'none'" default="push">
+Controls how thumbs behave when they collide during pointer interactions.
+</ParamField>
+
+<ParamField name="name" type="string">
+Identifies the field when a form is submitted.
+</ParamField>
+
+<ParamField name="format" type="Intl.NumberFormatOptions">
+Options to format the input value.
+</ParamField>
+
+<ParamField name="locale" type="Intl.LocalesArgument">
+The locale used by `Intl.NumberFormat` when formatting the value. Defaults to the user's runtime locale.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: number | number[], eventDetails: Slider.Root.ChangeEventDetails) => void">
+Callback function that is fired when the slider's value changed.
+</ParamField>
+
+<ParamField name="onValueCommitted" type="(value: number | number[], eventDetails: Slider.Root.CommitEventDetails) => void">
+Callback function that is fired when the `pointerup` is triggered.
+</ParamField>
+
+### State
+
+- `activeThumbIndex`: number - The index of the active thumb
+- `disabled`: boolean - Whether the component should ignore user interaction
+- `dragging`: boolean - Whether the thumb is currently being dragged
+- `max`: number - The maximum value
+- `min`: number - The minimum value
+- `minStepsBetweenValues`: number - The minimum steps between values in a range slider
+- `orientation`: 'horizontal' | 'vertical' - The component orientation
+- `step`: number - The step increment of the slider
+- `values`: readonly number[] - The raw number value of the slider
+
+## Slider.Control
+
+The track along which the thumb(s) can be moved.
+
+## Slider.Thumb
+
+The draggable handle that represents the slider value.
+
+### Props
+
+<ParamField name="name" type="string">
+Identifies the thumb when a form is submitted.
+</ParamField>
+
+<ParamField name="inputRef" type="React.Ref<HTMLInputElement>">
+A ref to access the hidden input element.
+</ParamField>
+
+## Slider.Output
+
+Displays the current value of the slider.
+
+## Slider.Indicator
+
+Visual indicator for the selected range.

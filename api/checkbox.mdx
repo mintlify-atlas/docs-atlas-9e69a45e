@@ -1,0 +1,90 @@
+---
+title: Checkbox
+description: API reference for the Checkbox component
+---
+
+# Checkbox
+
+A checkbox allows the user to select one or more items from a set.
+
+## Import
+
+```tsx
+import * as Checkbox from '@base-ui/react/checkbox';
+```
+
+## Checkbox.Root
+
+Represents the checkbox itself.
+
+### Props
+
+<ParamField name="checked" type="boolean">
+Whether the checkbox is currently ticked. To render an uncontrolled checkbox, use the `defaultChecked` prop instead.
+</ParamField>
+
+<ParamField name="defaultChecked" type="boolean" default="false">
+Whether the checkbox is initially ticked. To render a controlled checkbox, use the `checked` prop instead.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the component should ignore user interaction.
+</ParamField>
+
+<ParamField name="readOnly" type="boolean" default="false">
+Whether the user should be unable to tick or untick the checkbox.
+</ParamField>
+
+<ParamField name="required" type="boolean" default="false">
+Whether the user must tick the checkbox before submitting a form.
+</ParamField>
+
+<ParamField name="indeterminate" type="boolean" default="false">
+Whether the checkbox is in a mixed state: neither ticked, nor unticked.
+</ParamField>
+
+<ParamField name="name" type="string">
+Identifies the field when a form is submitted.
+</ParamField>
+
+<ParamField name="value" type="string">
+The value of the selected checkbox.
+</ParamField>
+
+<ParamField name="uncheckedValue" type="string">
+The value submitted with the form when the checkbox is unchecked. By default, unchecked checkboxes do not submit any value, matching native checkbox behavior.
+</ParamField>
+
+<ParamField name="onCheckedChange" type="(checked: boolean, eventDetails: Checkbox.Root.ChangeEventDetails) => void">
+Event handler called when the checkbox is ticked or unticked.
+</ParamField>
+
+<ParamField name="inputRef" type="React.Ref<HTMLInputElement>">
+A ref to access the hidden `<input>` element.
+</ParamField>
+
+<ParamField name="parent" type="boolean" default="false">
+Whether the checkbox controls a group of child checkboxes. Must be used in a Checkbox Group.
+</ParamField>
+
+<ParamField name="nativeButton" type="boolean" default="false">
+Whether the component renders a native `<button>` element when replacing it via the `render` prop.
+</ParamField>
+
+### State
+
+- `checked`: boolean - Whether the checkbox is currently ticked
+- `disabled`: boolean - Whether the component should ignore user interaction
+- `readOnly`: boolean - Whether the user should be unable to tick or untick the checkbox
+- `required`: boolean - Whether the user must tick the checkbox before submitting a form
+- `indeterminate`: boolean - Whether the checkbox is in a mixed state
+
+## Checkbox.Indicator
+
+Visual indicator for the checked/indeterminate state.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the indicator mounted when unchecked.
+</ParamField>

@@ -1,0 +1,150 @@
+---
+title: Preview Card
+description: A card that displays a preview of content when hovering or focusing on a trigger element.
+---
+
+# Preview Card
+
+A preview card displays a rich preview of content when hovering over or focusing on a trigger element. It's similar to a popover but specifically designed for preview/hover interactions.
+
+## Import
+
+```jsx
+import { PreviewCard } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```jsx
+<PreviewCard.Root>
+  <PreviewCard.Trigger>
+    <a href="/profile/john">@john</a>
+  </PreviewCard.Trigger>
+  <PreviewCard.Portal>
+    <PreviewCard.Positioner>
+      <PreviewCard.Popup>
+        <img src="/avatar.jpg" alt="John's avatar" />
+        <h3>John Doe</h3>
+        <p>Software Engineer at Acme Corp</p>
+        <p>Building the future of web development</p>
+        <PreviewCard.Arrow />
+      </PreviewCard.Popup>
+    </PreviewCard.Positioner>
+  </PreviewCard.Portal>
+</PreviewCard.Root>
+```
+
+## Sub-components
+
+### Root
+
+Groups all parts of the preview card. Doesn't render its own HTML element.
+
+**Key Props:**
+- `open` (boolean): Whether the preview card is currently open
+- `defaultOpen` (boolean): Whether the preview card is initially open (default: `false`)
+- `onOpenChange` ((open: boolean, eventDetails) => void): Event handler called when the preview card is opened or closed
+- `onOpenChangeComplete` ((open: boolean) => void): Event handler called after animations complete
+- `handle` (PreviewCardHandle): A handle to associate the preview card with an external trigger
+- `actionsRef` (React.RefObject): A ref to imperative actions (`unmount`, `close`)
+
+### Trigger
+
+The element that triggers the preview card on hover or focus.
+
+### Portal
+
+Portals the preview card content to a different part of the DOM.
+
+### Positioner
+
+Positions the preview card relative to the trigger using Floating UI.
+
+**Key Props:**
+- `anchor` (Element | VirtualElement): The anchor element to which the preview card is positioned
+- `side` ('top' | 'right' | 'bottom' | 'left'): The side of the anchor to position against (default: `'bottom'`)
+- `alignment` ('start' | 'center' | 'end'): The alignment relative to the anchor (default: `'center'`)
+- `sideOffset` (number): The distance in pixels from the anchor (default: `0`)
+
+### Popup
+
+The container for the preview card content.
+
+### Arrow
+
+An optional arrow that points to the trigger element.
+
+### Backdrop
+
+An optional backdrop element.
+
+### Viewport
+
+Defines the viewport element to which the preview card is confined.
+
+## Styling Example
+
+```css
+.PreviewCardPopup {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  max-width: 320px;
+  animation: fadeInUp 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.PreviewCardPopup img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+}
+
+.PreviewCardPopup h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.PreviewCardPopup p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0 0 8px;
+}
+
+.PreviewCardArrow {
+  fill: white;
+  stroke: #e5e7eb;
+  stroke-width: 1px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+```
+
+## Key Features
+
+- Opens on hover or focus (not click)
+- Automatic positioning with collision detection
+- Smooth enter/exit animations
+- Arrow pointing to trigger
+- Delay before showing/hiding
+- Nested preview card support
+
+## Accessibility
+
+- Appropriate ARIA attributes for screen readers
+- Keyboard accessible via focus
+- Respects reduced motion preferences
+- Can be dismissed with Escape key
+- Pointer-safe areas prevent accidental closing

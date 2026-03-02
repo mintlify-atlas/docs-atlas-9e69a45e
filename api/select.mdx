@@ -1,0 +1,156 @@
+---
+title: Select
+description: API reference for the Select component
+---
+
+# Select
+
+Allows the user to choose a single option from a list of choices.
+
+## Import
+
+```tsx
+import * as Select from '@base-ui/react/select';
+```
+
+## Select.Root
+
+Groups all parts of the select. Doesn't render its own HTML element.
+
+### Props
+
+<ParamField name="value" type="any">
+The controlled value of the selected item. To render an uncontrolled select, use the `defaultValue` prop instead.
+</ParamField>
+
+<ParamField name="defaultValue" type="any">
+The uncontrolled value of the initially selected item. To render a controlled select, use the `value` prop instead.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: any, eventDetails: Select.Root.ChangeEventDetails) => void">
+Event handler called when the selected value changes.
+</ParamField>
+
+<ParamField name="open" type="boolean">
+Whether the select popup is currently open.
+</ParamField>
+
+<ParamField name="defaultOpen" type="boolean" default="false">
+Whether the select popup is initially open.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean, eventDetails: Select.Root.OpenChangeDetails) => void">
+Event handler called when the select popup is opened or closed.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the select should be disabled.
+</ParamField>
+
+<ParamField name="required" type="boolean" default="false">
+Whether the select is required in a form.
+</ParamField>
+
+<ParamField name="name" type="string">
+Identifies the select when a form is submitted.
+</ParamField>
+
+## Select.Trigger
+
+The button that toggles the select popup.
+
+## Select.Value
+
+Displays the selected value.
+
+### Props
+
+<ParamField name="placeholder" type="React.ReactNode">
+The content to display when no value is selected.
+</ParamField>
+
+## Select.Icon
+
+An optional icon displayed inside the trigger.
+
+## Select.Portal
+
+Portals the select popup to a different part of the DOM.
+
+### Props
+
+<ParamField name="container" type="HTMLElement | null | (() => HTMLElement | null)">
+The container element to which the select popup is portaled.
+</ParamField>
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the portal mounted when the select is closed.
+</ParamField>
+
+## Select.Positioner
+
+Positions the select popup relative to the trigger.
+
+### Props
+
+Same positioning props as Popover.Positioner (side, alignment, sideOffset, etc.)
+
+## Select.Popup
+
+The popup that contains the select items.
+
+## Select.List
+
+Scrollable list container for select items.
+
+## Select.Item
+
+An item in the select list.
+
+### Props
+
+<ParamField name="value" type="any" required>
+The value of this item.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the item is disabled.
+</ParamField>
+
+## Select.ItemText
+
+The text content of a select item.
+
+## Select.ItemIndicator
+
+Visual indicator that shows when an item is selected.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the indicator mounted when not selected.
+</ParamField>
+
+## Select.Group
+
+Groups related select items.
+
+## Select.GroupLabel
+
+Labels a group of select items.
+
+## Select.Backdrop
+
+An optional overlay displayed beneath the select popup.
+
+## Select.Arrow
+
+An optional arrow element that points toward the trigger.
+
+## Select.ScrollUpArrow
+
+An arrow button that scrolls the list up.
+
+## Select.ScrollDownArrow
+
+An arrow button that scrolls the list down.

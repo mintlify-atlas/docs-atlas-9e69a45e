@@ -1,0 +1,166 @@
+---
+title: 'mergeProps'
+description: 'API reference for the mergeProps utility function'
+---
+
+## mergeProps
+
+Merges multiple sets of React props. It follows the Object.assign pattern where the rightmost object's fields overwrite the conflicting ones from others. This doesn't apply to event handlers, `className`, and `style` props.
+
+## Import
+
+```tsx
+import { mergeProps, mergePropsN } from '@base-ui/react/merge-props';
+```
+
+## Function Signatures
+
+```tsx
+function mergeProps<T extends ElementType>(
+  a: InputProps<T>,
+  b: InputProps<T>,
+): PropsOf<T>;
+
+function mergeProps<T extends ElementType>(
+  a: InputProps<T>,
+  b: InputProps<T>,
+  c: InputProps<T>,
+): PropsOf<T>;
+
+function mergeProps<T extends ElementType>(
+  a: InputProps<T>,
+  b: InputProps<T>,
+  c: InputProps<T>,
+  d: InputProps<T>,
+): PropsOf<T>;
+
+function mergeProps<T extends ElementType>(
+  a: InputProps<T>,
+  b: InputProps<T>,
+  c: InputProps<T>,
+  d: InputProps<T>,
+  e: InputProps<T>,
+): PropsOf<T>;
+```
+
+## Parameters
+
+<ParamField path="a" type="InputProps<T>" required>
+  Props object to merge.
+</ParamField>
+
+<ParamField path="b" type="InputProps<T>" required>
+  Props object to merge. The function will overwrite conflicting props from `a`.
+</ParamField>
+
+<ParamField path="c" type="InputProps<T>">
+  Props object to merge. The function will overwrite conflicting props from previous parameters.
+</ParamField>
+
+<ParamField path="d" type="InputProps<T>">
+  Props object to merge. The function will overwrite conflicting props from previous parameters.
+</ParamField>
+
+<ParamField path="e" type="InputProps<T>">
+  Props object to merge. The function will overwrite conflicting props from previous parameters.
+</ParamField>
+
+## Return Value
+
+Returns the merged props object of type `PropsOf<T>`.
+
+## Behavior
+
+### Event Handlers
+
+Event handlers are merged and called in right-to-left order (rightmost handler executes first, leftmost last).
+
+For React synthetic events, the rightmost handler can prevent prior (left-positioned) handlers from executing by calling `event.preventBaseUIHandler()`. For non-synthetic events (custom events with primitive/object values), all handlers always execute without prevention capability.
+
+### className
+
+The `className` prop is merged by concatenating classes in right-to-left order (rightmost class appears first in the string).
+
+### style
+
+The `style` prop is merged with rightmost styles overwriting the prior ones.
+
+### Function Props
+
+Props can either be provided as objects or as functions that take the previous props as an argument. The function will receive the merged props up to that point (going from left to right): so in the case of `(obj1, obj2, fn, obj3)`, `fn` will receive the merged props of `obj1` and `obj2`.
+
+Event handlers returned by the functions are not automatically prevented when `preventBaseUIHandler` is called. They must check `event.baseUIHandlerPrevented` themselves and bail out if it's true.
+
+### ref Handling
+
+**Important:** `ref` is not merged.
+
+## Type Definitions
+
+### InputProps
+
+```tsx
+type InputProps<T extends React.ElementType> =
+  | PropsOf<T>
+  | ((otherProps: PropsOf<T>) => PropsOf<T>)
+  | undefined;
+```
+
+### PropsOf
+
+```tsx
+type PropsOf<T extends React.ElementType> = WithBaseUIEvent<React.ComponentPropsWithRef<T>>;
+```
+
+## mergePropsN
+
+Merges an arbitrary number of React props using the same logic as `mergeProps`. This function accepts an array of props instead of individual arguments.
+
+### Signature
+
+```tsx
+function mergePropsN<T extends ElementType>(props: InputProps<T>[]): PropsOf<T>
+```
+
+### Parameters
+
+<ParamField path="props" type="InputProps<T>[]" required>
+  Array of props to merge.
+</ParamField>
+
+### Return Value
+
+Returns the merged props object of type `PropsOf<T>`.
+
+### Performance Note
+
+This has slightly lower performance than `mergeProps` due to accepting an array instead of a fixed number of arguments. Prefer `mergeProps` when merging 5 or fewer prop sets for better performance.
+
+## Usage Example
+
+```tsx
+import { mergeProps } from '@base-ui/react/merge-props';
+
+const baseProps = {
+  className: 'base',
+  onClick: () => console.log('base click'),
+};
+
+const userProps = {
+  className: 'user',
+  onClick: (e) => {
+    console.log('user click');
+    // Prevent base handler from executing
+    e.preventBaseUIHandler();
+  },
+};
+
+const merged = mergeProps(baseProps, userProps);
+// Result:
+// className: 'user base'
+// onClick: calls both handlers (user first, base second unless prevented)
+```
+
+## Related
+
+- [mergeProps Guide](/utilities/merge-props)

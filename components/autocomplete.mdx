@@ -1,0 +1,364 @@
+---
+title: Autocomplete
+description: A text input with a filterable popup list of suggestions that helps users complete their input.
+---
+
+The Autocomplete component provides intelligent input completion with keyboard navigation, filtering, and accessibility support.
+
+## Import
+
+```tsx
+import * as Autocomplete from '@base-ui/react/Autocomplete';
+```
+
+## Basic Usage
+
+```tsx
+import * as Autocomplete from '@base-ui/react/Autocomplete';
+
+const countries = [
+  'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola',
+  'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
+  // ...
+];
+
+function CountryAutocomplete() {
+  return (
+    <Autocomplete.Root items={countries}>
+      <Autocomplete.Trigger>
+        <Autocomplete.Input placeholder="Search countries..." />
+        <Autocomplete.Clear>×</Autocomplete.Clear>
+      </Autocomplete.Trigger>
+
+      <Autocomplete.Portal>
+        <Autocomplete.Positioner>
+          <Autocomplete.Popup>
+            <Autocomplete.List>
+              {countries.map((country) => (
+                <Autocomplete.Item key={country} value={country}>
+                  {country}
+                </Autocomplete.Item>
+              ))}
+            </Autocomplete.List>
+            <Autocomplete.Empty>No results found</Autocomplete.Empty>
+          </Autocomplete.Popup>
+        </Autocomplete.Positioner>
+      </Autocomplete.Portal>
+    </Autocomplete.Root>
+  );
+}
+```
+
+## Sub-components
+
+### Autocomplete.Root
+
+Groups all parts of the autocomplete. Doesn't render its own HTML element.
+
+**Key Props:**
+- `items`: Array of items or groups. Can be flat array or array with `{ label, items }` structure
+- `value`: Controlled input value
+- `defaultValue`: Uncontrolled default input value
+- `onValueChange`: Called when input value changes
+- `mode`: Behavior mode - `'list'` | `'both'` | `'inline'` | `'none'` (default: `'list'`)
+  - `list`: Items filtered dynamically, input stays as typed
+  - `both`: Items filtered + inline autocompletion
+  - `inline`: Static items + inline autocompletion
+  - `none`: Static items, no autocompletion
+- `open`: Controlled popup open state
+- `defaultOpen`: Uncontrolled default open state
+- `onOpenChange`: Called when popup opens/closes
+- `filter`: Custom filter function
+- `autoHighlight`: Whether to highlight first match (`false` | `true` | `'always'`)
+- `keepHighlight`: Whether to preserve highlight when pointer leaves (default: `false`)
+- `highlightItemOnHover`: Whether hovering highlights items (default: `true`)
+- `disabled`: Whether component is disabled (default: `false`)
+- `name`: Form field name
+- `required`: Whether field is required (default: `false`)
+- `readOnly`: Whether input is read-only (default: `false`)
+- `itemToStringValue`: Convert object items to string
+- `onItemHighlighted`: Called when item is highlighted/unhighlighted
+- `submitOnItemClick`: Whether selecting item submits form (default: `false`)
+- `openOnInputClick`: Whether clicking input opens popup (default: `false`)
+
+### Autocomplete.Trigger
+
+Container for the input and clear button.
+
+### Autocomplete.Input
+
+The text input element. Renders an `<input>` element.
+
+### Autocomplete.Clear
+
+Button to clear the current input value.
+
+### Autocomplete.Portal
+
+Portals the popup to a different part of the DOM (default: `document.body`).
+
+### Autocomplete.Positioner
+
+Positions the popup relative to the trigger.
+
+### Autocomplete.Popup
+
+The container for the list of items.
+
+### Autocomplete.List
+
+Scrollable list container for items.
+
+### Autocomplete.Item
+
+An individual item in the list. Renders a `<div>` by default.
+
+**Props:**
+- `value`: The value this item represents
+- `disabled`: Whether this item is disabled
+
+### Autocomplete.Empty
+
+Displayed when no items match the filter.
+
+### Autocomplete.Group
+
+Groups related items together.
+
+### Autocomplete.GroupLabel
+
+Label for a group of items.
+
+### Autocomplete.Arrow
+
+Arrow pointing to the trigger.
+
+### Autocomplete.Backdrop
+
+Backdrop element shown when `modal={true}`.
+
+### Autocomplete.Value
+
+Displays the current value (useful for custom rendering).
+
+## Autocompletion Modes
+
+### List Mode (Default)
+
+Items filter as you type, input shows what you typed:
+
+```tsx
+<Autocomplete.Root items={items} mode="list">
+  {/* ... */}
+</Autocomplete.Root>
+```
+
+### Inline Mode
+
+Static items, input autocompletes to highlighted item:
+
+```tsx
+<Autocomplete.Root items={items} mode="inline">
+  {/* ... */}
+</Autocomplete.Root>
+```
+
+### Both Mode
+
+Items filter AND input autocompletes:
+
+```tsx
+<Autocomplete.Root items={items} mode="both">
+  {/* ... */}
+</Autocomplete.Root>
+```
+
+### None Mode
+
+Static items, no autocompletion:
+
+```tsx
+<Autocomplete.Root items={items} mode="none">
+  {/* ... */}
+</Autocomplete.Root>
+```
+
+## Grouped Items
+
+```tsx
+const groupedItems = [
+  {
+    label: 'Fruits',
+    items: ['Apple', 'Banana', 'Orange'],
+  },
+  {
+    label: 'Vegetables',
+    items: ['Carrot', 'Broccoli', 'Spinach'],
+  },
+];
+
+<Autocomplete.Root items={groupedItems}>
+  <Autocomplete.Input placeholder="Search food..." />
+  <Autocomplete.Portal>
+    <Autocomplete.Positioner>
+      <Autocomplete.Popup>
+        <Autocomplete.List>
+          <Autocomplete.Collection>
+            {(item, index) => (
+              <Autocomplete.Item key={index} value={item}>
+                {item}
+              </Autocomplete.Item>
+            )}
+          </Autocomplete.Collection>
+        </Autocomplete.List>
+      </Autocomplete.Popup>
+    </Autocomplete.Positioner>
+  </Autocomplete.Portal>
+</Autocomplete.Root>
+```
+
+## Custom Filtering
+
+```tsx
+import { Autocomplete } from '@base-ui/react/Autocomplete';
+
+function customFilter(item: string, query: string) {
+  return item.toLowerCase().startsWith(query.toLowerCase());
+}
+
+<Autocomplete.Root items={items} filter={customFilter}>
+  {/* ... */}
+</Autocomplete.Root>
+```
+
+## Object Items
+
+```tsx
+const users = [
+  { id: 1, name: 'Alice Johnson', email: 'alice@example.com' },
+  { id: 2, name: 'Bob Smith', email: 'bob@example.com' },
+  { id: 3, name: 'Carol White', email: 'carol@example.com' },
+];
+
+function itemToString(user: typeof users[number]) {
+  return user.name;
+}
+
+<Autocomplete.Root
+  items={users}
+  itemToStringValue={itemToString}
+>
+  <Autocomplete.Input placeholder="Search users..." />
+  <Autocomplete.Portal>
+    <Autocomplete.Positioner>
+      <Autocomplete.Popup>
+        <Autocomplete.List>
+          {users.map((user) => (
+            <Autocomplete.Item key={user.id} value={user}>
+              <div>
+                <div>{user.name}</div>
+                <div className="email">{user.email}</div>
+              </div>
+            </Autocomplete.Item>
+          ))}
+        </Autocomplete.List>
+      </Autocomplete.Popup>
+    </Autocomplete.Positioner>
+  </Autocomplete.Portal>
+</Autocomplete.Root>
+```
+
+## Styling
+
+```css
+.Autocomplete-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.Autocomplete-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.Autocomplete-clear {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #6b7280;
+}
+
+.Autocomplete-popup {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow: auto;
+}
+
+.Autocomplete-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+}
+
+.Autocomplete-item[data-highlighted] {
+  background-color: #eff6ff;
+}
+
+.Autocomplete-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.Autocomplete-empty {
+  padding: 1rem;
+  text-align: center;
+  color: #6b7280;
+}
+```
+
+## Form Integration
+
+```tsx
+import { Form } from '@base-ui/react/Form';
+import * as Field from '@base-ui/react/Field';
+import * as Autocomplete from '@base-ui/react/Autocomplete';
+
+function JobApplicationForm() {
+  const skills = ['JavaScript', 'TypeScript', 'React', 'Node.js', 'Python'];
+
+  return (
+    <Form onFormSubmit={(values) => console.log(values)}>
+      <Field.Root name="skill">
+        <Field.Label>Primary Skill</Field.Label>
+        <Autocomplete.Root items={skills}>
+          <Autocomplete.Input />
+          <Autocomplete.Portal>
+            <Autocomplete.Positioner>
+              <Autocomplete.Popup>
+                <Autocomplete.List>
+                  {skills.map((skill) => (
+                    <Autocomplete.Item key={skill} value={skill}>
+                      {skill}
+                    </Autocomplete.Item>
+                  ))}
+                </Autocomplete.List>
+              </Autocomplete.Popup>
+            </Autocomplete.Positioner>
+          </Autocomplete.Portal>
+        </Autocomplete.Root>
+        <Field.Error match="valueMissing">Skill is required</Field.Error>
+      </Field.Root>
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```

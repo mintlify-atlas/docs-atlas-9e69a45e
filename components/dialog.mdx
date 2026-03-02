@@ -1,0 +1,138 @@
+---
+title: Dialog
+description: A window overlaid on the primary window, rendering the content underneath inert.
+---
+
+# Dialog
+
+A dialog is a window overlaid on either the primary window or another dialog window. Content behind a modal dialog is inert, meaning users cannot interact with it.
+
+## Import
+
+```jsx
+import { Dialog } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```jsx
+<Dialog.Root>
+  <Dialog.Trigger>Open Dialog</Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Backdrop />
+    <Dialog.Popup>
+      <Dialog.Title>Edit Profile</Dialog.Title>
+      <Dialog.Description>
+        Make changes to your profile here. Click save when you're done.
+      </Dialog.Description>
+      <div>
+        <label>
+          Name:
+          <input type="text" />
+        </label>
+      </div>
+      <Dialog.Close>Save Changes</Dialog.Close>
+    </Dialog.Popup>
+  </Dialog.Portal>
+</Dialog.Root>
+```
+
+## Sub-components
+
+### Root
+
+Groups all parts of the dialog. Doesn't render its own HTML element.
+
+**Key Props:**
+- `open` (boolean): Whether the dialog is currently open
+- `defaultOpen` (boolean): Whether the dialog is initially open (default: `false`)
+- `modal` (boolean | 'trap-focus'): Determines if the dialog enters a modal state (default: `true`)
+  - `true`: focus is trapped, page scroll is locked, outside interactions disabled
+  - `false`: user interaction with the rest of the document is allowed
+  - `'trap-focus'`: focus is trapped but page scroll and outside interactions are enabled
+- `onOpenChange` ((open: boolean, eventDetails) => void): Event handler called when the dialog is opened or closed
+- `onOpenChangeComplete` ((open: boolean) => void): Event handler called after animations complete
+- `disablePointerDismissal` (boolean): Determines whether the dialog should close on outside clicks (default: `false`)
+- `handle` (DialogHandle): A handle to associate the dialog with an external trigger
+- `actionsRef` (React.RefObject): A ref to imperative actions (`unmount`, `close`)
+
+### Trigger
+
+The button that opens the dialog.
+
+### Portal
+
+Portals the dialog content to a different part of the DOM.
+
+### Backdrop
+
+The backdrop that covers the screen when the dialog is open.
+
+### Popup
+
+The container for the dialog content.
+
+### Title
+
+An accessible title for the dialog.
+
+### Description
+
+An accessible description for the dialog.
+
+### Close
+
+A button that closes the dialog.
+
+### Viewport
+
+Defines the viewport element to which the dialog is confined.
+
+## Styling Example
+
+```css
+.DialogBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  animation: fadeIn 150ms;
+}
+
+.DialogPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+  max-width: 600px;
+  width: 90vw;
+}
+
+.DialogTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.DialogDescription {
+  color: #666;
+  margin: 0 0 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+```
+
+## Accessibility
+
+- Has `role="dialog"` to identify it as a dialog
+- Title and description are automatically linked via `aria-labelledby` and `aria-describedby`
+- Focus is automatically trapped within the dialog when modal
+- The backdrop and outside elements are inert when the dialog is modal
+- Pressing Escape closes the dialog (can be customized)
+- Focus returns to the trigger element when the dialog closes

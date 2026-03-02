@@ -1,0 +1,258 @@
+---
+title: Separator
+description: A visual divider between content sections with horizontal or vertical orientation.
+---
+
+# Separator
+
+The Separator component provides a visual and semantic divider between sections of content. It's accessible to screen readers and supports both horizontal and vertical orientations.
+
+## Import
+
+```jsx
+import { Separator } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```jsx
+function MyComponent() {
+  return (
+    <div>
+      <p>Content above</p>
+      <Separator />
+      <p>Content below</p>
+    </div>
+  );
+}
+```
+
+## Key Features
+
+- **Accessible**: Uses the ARIA separator role for screen readers
+- **Flexible orientation**: Supports horizontal and vertical layouts
+- **Semantic HTML**: Properly announces content divisions to assistive technologies
+- **Unstyled**: Complete control over visual appearance
+
+## Component Props
+
+### Separator
+
+A semantic separator element.
+
+**Props:**
+- `orientation` (string): The orientation of the separator. Either 'horizontal' or 'vertical' (default: 'horizontal')
+- Renders a `<div>` element with role="separator"
+- Accepts all standard HTML div attributes
+
+**State:**
+- `orientation`: The current orientation of the separator
+
+## Styling
+
+<Tabs items={['CSS', 'Tailwind CSS']}>
+  <Tab value="CSS">
+    ```jsx
+    <div>
+      <p>Section 1</p>
+      <Separator className="separator" />
+      <p>Section 2</p>
+    </div>
+    ```
+
+    ```css
+    .separator {
+      border: none;
+      background-color: #e5e7eb;
+      height: 1px;
+      margin: 1rem 0;
+    }
+
+    .separator[aria-orientation="vertical"] {
+      width: 1px;
+      height: auto;
+      margin: 0 1rem;
+    }
+    ```
+  </Tab>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <div>
+      <p>Section 1</p>
+      <Separator className="h-px bg-gray-200 my-4" />
+      <p>Section 2</p>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### Horizontal Separator
+
+The default orientation:
+
+```jsx
+<div>
+  <section>
+    <h2>About</h2>
+    <p>Content here...</p>
+  </section>
+  
+  <Separator orientation="horizontal" />
+  
+  <section>
+    <h2>Services</h2>
+    <p>Content here...</p>
+  </section>
+</div>
+```
+
+### Vertical Separator
+
+Useful for dividing content side-by-side:
+
+```jsx
+<div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+  <button>Button 1</button>
+  <Separator orientation="vertical" style={{ height: '24px' }} />
+  <button>Button 2</button>
+  <Separator orientation="vertical" style={{ height: '24px' }} />
+  <button>Button 3</button>
+</div>
+```
+
+### Styled Separator
+
+```jsx
+function StyledSeparator() {
+  return (
+    <Separator 
+      style={{
+        height: '2px',
+        background: 'linear-gradient(to right, transparent, #3b82f6, transparent)',
+        border: 'none',
+        margin: '2rem 0',
+      }}
+    />
+  );
+}
+```
+
+### With Text Label
+
+```jsx
+function SeparatorWithLabel({ children }) {
+  return (
+    <div 
+      role="presentation"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1rem',
+        margin: '1.5rem 0',
+      }}
+    >
+      <Separator style={{ flex: 1 }} />
+      <span style={{ fontSize: '0.875rem', color: '#6b7280' }}>
+        {children}
+      </span>
+      <Separator style={{ flex: 1 }} />
+    </div>
+  );
+}
+
+// Usage
+<SeparatorWithLabel>OR</SeparatorWithLabel>
+```
+
+### In Navigation
+
+```jsx
+function Navigation() {
+  return (
+    <nav style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <a href="/">Home</a>
+      <Separator orientation="vertical" style={{ height: '20px' }} />
+      <a href="/about">About</a>
+      <Separator orientation="vertical" style={{ height: '20px' }} />
+      <a href="/contact">Contact</a>
+    </nav>
+  );
+}
+```
+
+### In Lists
+
+```jsx
+function ItemList({ items }) {
+  return (
+    <div>
+      {items.map((item, index) => (
+        <React.Fragment key={item.id}>
+          <div style={{ padding: '1rem' }}>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </div>
+          {index < items.length - 1 && <Separator />}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+```
+
+### Decorative Separator
+
+```jsx
+<Separator 
+  style={{
+    height: '4px',
+    background: 'repeating-linear-gradient(' +
+      '90deg, ' +
+      '#3b82f6, ' +
+      '#3b82f6 10px, ' +
+      'transparent 10px, ' +
+      'transparent 20px' +
+    ')',
+    border: 'none',
+    margin: '2rem 0',
+  }}
+/>
+```
+
+### Toolbar Separator
+
+```jsx
+function Toolbar() {
+  return (
+    <div 
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        padding: '0.5rem',
+        backgroundColor: '#f3f4f6',
+        borderRadius: '0.5rem',
+      }}
+    >
+      <button>Bold</button>
+      <button>Italic</button>
+      <button>Underline</button>
+      
+      <Separator 
+        orientation="vertical" 
+        style={{ 
+          height: '24px',
+          width: '1px',
+          backgroundColor: '#d1d5db',
+          margin: '0 0.25rem',
+        }} 
+      />
+      
+      <button>Link</button>
+      <button>Image</button>
+    </div>
+  );
+}
+```

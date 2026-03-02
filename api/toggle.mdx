@@ -1,0 +1,55 @@
+---
+title: Toggle
+description: API reference for the Toggle component
+---
+
+# Toggle
+
+A two-state button that can be on or off.
+
+## Import
+
+```tsx
+import { Toggle } from '@base-ui/react/toggle';
+```
+
+## Props
+
+<ParamField name="className" type="string | ((state: Toggle.State) => string)">
+CSS class applied to the element, or a function that returns a class based on the component's state.
+</ParamField>
+
+<ParamField name="render" type="ReactElement | ComponentRenderFn">
+Allows you to replace the component's HTML element with a different tag, or compose it with another component.
+</ParamField>
+
+<ParamField name="pressed" type="boolean">
+Whether the toggle button is currently pressed. This is the controlled counterpart of `defaultPressed`.
+</ParamField>
+
+<ParamField name="defaultPressed" type="boolean" default="false">
+Whether the toggle button is currently pressed. This is the uncontrolled counterpart of `pressed`.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the component should ignore user interaction.
+</ParamField>
+
+<ParamField name="onPressedChange" type="(pressed: boolean, eventDetails: Toggle.ChangeEventDetails) => void">
+Callback fired when the pressed state is changed.
+</ParamField>
+
+<ParamField name="value" type="string">
+A unique string that identifies the toggle when used inside a toggle group.
+</ParamField>
+
+<ParamField name="nativeButton" type="boolean" default="true">
+Whether the component renders a native `<button>` element when replacing it via the `render` prop.
+</ParamField>
+
+## State
+
+The toggle exposes the following state:
+
+- `pressed`: boolean - Whether the toggle is currently pressed
+- `disabled`: boolean - Whether the toggle should ignore user interaction

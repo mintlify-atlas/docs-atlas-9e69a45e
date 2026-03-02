@@ -1,0 +1,303 @@
+---
+title: Toggle Group
+description: Provides a shared state to a series of toggle buttons.
+---
+
+Provides a shared state to a series of toggle buttons.
+
+## Import
+
+```jsx
+import { ToggleGroup, Toggle } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```jsx
+<ToggleGroup>
+  <Toggle value="left">Left</Toggle>
+  <Toggle value="center">Center</Toggle>
+  <Toggle value="right">Right</Toggle>
+</ToggleGroup>
+```
+
+## Key Features
+
+- Manages state for multiple toggle buttons
+- Single or multiple selection modes
+- Controlled and uncontrolled modes
+- Keyboard navigation (arrow keys)
+- Horizontal and vertical orientation
+- Accessible with proper ARIA attributes
+
+## Key Props
+
+### value
+
+**Type:** `readonly string[]`
+
+The open state of the toggle group represented by an array of the values of all pressed toggle buttons. Use with `onValueChange` for controlled mode.
+
+```jsx
+const [value, setValue] = React.useState(['bold']);
+
+<ToggleGroup value={value} onValueChange={setValue}>
+  <Toggle value="bold">B</Toggle>
+  <Toggle value="italic">I</Toggle>
+  <Toggle value="underline">U</Toggle>
+</ToggleGroup>
+```
+
+### defaultValue
+
+**Type:** `readonly string[]`
+
+The initial state of the toggle group. Use for uncontrolled mode.
+
+```jsx
+<ToggleGroup defaultValue={['bold', 'italic']}>
+  <Toggle value="bold">B</Toggle>
+  <Toggle value="italic">I</Toggle>
+</ToggleGroup>
+```
+
+### onValueChange
+
+**Type:** `(groupValue: string[], eventDetails: ChangeEventDetails) => void`
+
+Callback fired when the pressed states of the toggle group changes.
+
+```jsx
+<ToggleGroup onValueChange={(value) => console.log('Selected:', value)}>
+  {/* toggles */}
+</ToggleGroup>
+```
+
+### multiple
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+When `false`, only one item in the group can be pressed. When `true`, multiple items can be pressed.
+
+```jsx
+<ToggleGroup multiple>
+  <Toggle value="bold">B</Toggle>
+  <Toggle value="italic">I</Toggle>
+  <Toggle value="underline">U</Toggle>
+</ToggleGroup>
+```
+
+### disabled
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the toggle group should ignore user interaction.
+
+### orientation
+
+**Type:** `'horizontal' | 'vertical'`
+
+**Default:** `'horizontal'`
+
+The orientation of the toggle group.
+
+```jsx
+<ToggleGroup orientation="vertical">
+  <Toggle value="option1">Option 1</Toggle>
+  <Toggle value="option2">Option 2</Toggle>
+</ToggleGroup>
+```
+
+### loopFocus
+
+**Type:** `boolean`
+
+**Default:** `true`
+
+Whether to loop keyboard focus back to the first item when the end is reached.
+
+## Styling
+
+<Tabs items={['Tailwind CSS', 'CSS Modules']}>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <ToggleGroup className="inline-flex rounded-lg border border-gray-300 overflow-hidden">
+      <Toggle value="left" className="px-4 py-2 border-r border-gray-300 data-[pressed]:bg-blue-500 data-[pressed]:text-white hover:bg-gray-50">
+        Left
+      </Toggle>
+      <Toggle value="center" className="px-4 py-2 border-r border-gray-300 data-[pressed]:bg-blue-500 data-[pressed]:text-white hover:bg-gray-50">
+        Center
+      </Toggle>
+      <Toggle value="right" className="px-4 py-2 data-[pressed]:bg-blue-500 data-[pressed]:text-white hover:bg-gray-50">
+        Right
+      </Toggle>
+    </ToggleGroup>
+    ```
+  </Tab>
+  <Tab value="CSS Modules">
+    ```jsx
+    <ToggleGroup className={styles.group}>
+      <Toggle value="left" className={styles.toggle}>Left</Toggle>
+      <Toggle value="center" className={styles.toggle}>Center</Toggle>
+      <Toggle value="right" className={styles.toggle}>Right</Toggle>
+    </ToggleGroup>
+    ```
+
+    ```css
+    .group {
+      display: inline-flex;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+
+    .toggle {
+      padding: 0.5rem 1rem;
+      border-right: 1px solid #d1d5db;
+    }
+
+    .toggle:last-child {
+      border-right: none;
+    }
+
+    .toggle:hover {
+      background-color: #f9fafb;
+    }
+
+    .toggle[data-pressed] {
+      background-color: #3b82f6;
+      color: white;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### Text Alignment
+
+```jsx
+function TextAlignmentToggle() {
+  const [alignment, setAlignment] = React.useState(['left']);
+
+  return (
+    <ToggleGroup value={alignment} onValueChange={setAlignment}>
+      <Toggle value="left" className="px-3 py-2">
+        <AlignLeftIcon />
+      </Toggle>
+      <Toggle value="center" className="px-3 py-2">
+        <AlignCenterIcon />
+      </Toggle>
+      <Toggle value="right" className="px-3 py-2">
+        <AlignRightIcon />
+      </Toggle>
+      <Toggle value="justify" className="px-3 py-2">
+        <AlignJustifyIcon />
+      </Toggle>
+    </ToggleGroup>
+  );
+}
+```
+
+### Text Formatting (Multiple)
+
+```jsx
+function TextFormattingToolbar() {
+  const [formats, setFormats] = React.useState([]);
+
+  return (
+    <ToggleGroup multiple value={formats} onValueChange={setFormats}>
+      <Toggle value="bold" className="px-3 py-2 font-bold">
+        B
+      </Toggle>
+      <Toggle value="italic" className="px-3 py-2 italic">
+        I
+      </Toggle>
+      <Toggle value="underline" className="px-3 py-2 underline">
+        U
+      </Toggle>
+      <Toggle value="strikethrough" className="px-3 py-2 line-through">
+        S
+      </Toggle>
+    </ToggleGroup>
+  );
+}
+```
+
+### View Mode Selector
+
+```jsx
+function ViewModeSelector() {
+  const [view, setView] = React.useState(['grid']);
+
+  return (
+    <ToggleGroup value={view} onValueChange={setView} className="inline-flex rounded-lg border">
+      <Toggle value="list" className="px-4 py-2 flex items-center gap-2">
+        <ListIcon className="w-4 h-4" />
+        List
+      </Toggle>
+      <Toggle value="grid" className="px-4 py-2 flex items-center gap-2">
+        <GridIcon className="w-4 h-4" />
+        Grid
+      </Toggle>
+      <Toggle value="table" className="px-4 py-2 flex items-center gap-2">
+        <TableIcon className="w-4 h-4" />
+        Table
+      </Toggle>
+    </ToggleGroup>
+  );
+}
+```
+
+### Vertical Toggle Group
+
+```jsx
+<ToggleGroup orientation="vertical" className="inline-flex flex-col border rounded-lg">
+  <Toggle value="option1" className="px-4 py-2 border-b text-left">
+    Option 1
+  </Toggle>
+  <Toggle value="option2" className="px-4 py-2 border-b text-left">
+    Option 2
+  </Toggle>
+  <Toggle value="option3" className="px-4 py-2 text-left">
+    Option 3
+  </Toggle>
+</ToggleGroup>
+```
+
+### Size Selector
+
+```jsx
+function SizeSelector() {
+  const [size, setSize] = React.useState(['m']);
+
+  const sizes = [
+    { value: 'xs', label: 'XS' },
+    { value: 's', label: 'S' },
+    { value: 'm', label: 'M' },
+    { value: 'l', label: 'L' },
+    { value: 'xl', label: 'XL' },
+  ];
+
+  return (
+    <div>
+      <label className="block mb-2 font-medium">Select Size</label>
+      <ToggleGroup value={size} onValueChange={setSize} className="inline-flex gap-2">
+        {sizes.map((s) => (
+          <Toggle
+            key={s.value}
+            value={s.value}
+            className="w-12 h-12 rounded border-2 border-gray-300 data-[pressed]:border-blue-500 data-[pressed]:bg-blue-50"
+          >
+            {s.label}
+          </Toggle>
+        ))}
+      </ToggleGroup>
+    </div>
+  );
+}
+```

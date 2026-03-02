@@ -1,0 +1,168 @@
+---
+title: Menu
+description: API reference for the Menu component
+---
+
+# Menu
+
+Displays a list of actions or options that a user can choose.
+
+## Import
+
+```tsx
+import * as Menu from '@base-ui/react/menu';
+```
+
+## Menu.Root
+
+Groups all parts of the menu. Doesn't render its own HTML element.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the menu is currently open. To render an uncontrolled menu, use the `defaultOpen` prop instead.
+</ParamField>
+
+<ParamField name="defaultOpen" type="boolean" default="false">
+Whether the menu is initially open. To render a controlled menu, use the `open` prop instead.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean, eventDetails: Menu.Root.OpenChangeDetails) => void">
+Event handler called when the menu is opened or closed.
+</ParamField>
+
+<ParamField name="closeParentOnEsc" type="boolean" default="true">
+Whether pressing Escape should close parent menus.
+</ParamField>
+
+## Menu.Trigger
+
+The button that opens the menu.
+
+## Menu.Portal
+
+Portals the menu popup to a different part of the DOM.
+
+### Props
+
+<ParamField name="container" type="HTMLElement | null | (() => HTMLElement | null)">
+The container element to which the menu popup is portaled.
+</ParamField>
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the portal mounted when the menu is closed.
+</ParamField>
+
+## Menu.Positioner
+
+Positions the menu popup relative to the trigger.
+
+### Props
+
+Same positioning props as Popover.Positioner (side, alignment, sideOffset, etc.)
+
+## Menu.Popup
+
+The popup that contains the menu items.
+
+## Menu.Item
+
+An item in the menu.
+
+### Props
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the item is disabled.
+</ParamField>
+
+<ParamField name="closeOnClick" type="boolean" default="true">
+Whether clicking the item should close the menu.
+</ParamField>
+
+## Menu.Group
+
+Groups related menu items.
+
+## Menu.GroupLabel
+
+Labels a group of menu items.
+
+## Menu.Submenu
+
+A menu nested within another menu.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the submenu is currently open.
+</ParamField>
+
+<ParamField name="defaultOpen" type="boolean" default="false">
+Whether the submenu is initially open.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean) => void">
+Event handler called when the submenu is opened or closed.
+</ParamField>
+
+<ParamField name="delay" type="number" default="200">
+The delay in milliseconds before the submenu opens on hover.
+</ParamField>
+
+## Menu.SubmenuTrigger
+
+The item that opens a submenu.
+
+## Menu.RadioGroup
+
+Groups menu items that function as radio buttons.
+
+### Props
+
+<ParamField name="value" type="any">
+The controlled value of the selected item.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: any) => void">
+Event handler called when the selected value changes.
+</ParamField>
+
+## Menu.RadioItem
+
+A menu item that acts as a radio button.
+
+### Props
+
+<ParamField name="value" type="any" required>
+The value of this radio item.
+</ParamField>
+
+## Menu.RadioItemIndicator
+
+Visual indicator for selected radio item.
+
+## Menu.CheckboxItem
+
+A menu item that acts as a checkbox.
+
+### Props
+
+<ParamField name="checked" type="boolean">
+Whether the checkbox is checked.
+</ParamField>
+
+<ParamField name="onCheckedChange" type="(checked: boolean) => void">
+Event handler called when the checked state changes.
+</ParamField>
+
+## Menu.CheckboxItemIndicator
+
+Visual indicator for checked checkbox item.
+
+## Menu.Arrow
+
+An optional arrow element that points toward the trigger.
+
+## Menu.Backdrop
+
+An optional overlay displayed beneath the menu popup.

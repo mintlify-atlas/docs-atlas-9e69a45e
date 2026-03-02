@@ -1,0 +1,66 @@
+---
+title: Accessibility
+description: Learn how to make the most of Base UI's accessibility features and guidelines.
+---
+
+Accessibility is a top priority for Base UI. Base UI components handle many complex accessibility details including ARIA attributes, role attributes, pointer interactions, keyboard navigation, and focus management. The goal is to provide an accessible user experience out of the box, with intuitive APIs for configuration.
+
+This page highlights some of the key accessibility features of Base UI, as well as some ways you need to augment the library, to ensure that your application is accessible to everyone.
+
+## Keyboard navigation
+
+Base UI components adhere to the [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/) to provide basic keyboard accessibility out of the box. This is critical for users who have difficulty using a pointer device, but it's also important for users who prefer navigating with a keyboard or other input mode.
+
+Many components provide support for arrow keys, alphanumeric keys, <kbd>Home</kbd>, <kbd>End</kbd>, <kbd>Enter</kbd>, and <kbd>Esc</kbd>.
+
+## Focus management
+
+Base UI components manage focus automatically following a user interaction. Additionally, some components provide props like `initialFocus` and `finalFocus`, to configure focus management.
+
+While Base UI components manage focus, it's the developer's responsibility to visually indicate focus. This is typically handled by styling the `:focus` or `:focus-visible` CSS pseudo-classes. WCAG provides [guidelines on focus appearance](https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance).
+
+## Color contrast
+
+When styling elements, it's important to meet the minimum requirements for color contrast between each foreground element and its corresponding background element. Unless your application has strict requirements around compliance with current standards, consider adhering to [APCA](https://apcacontrast.com/), which is slated to become the new standard in WCAG 3.
+
+## Accessible labels
+
+Base UI provides components like Form, Input, Field, Fieldset to automatically associate form controls. Additionally, you can use the native HTML `<label>` element to provide context to corresponding inputs.
+
+Most applications present custom controls that require accessible names provided by markup features such as `alt`, `aria-label`, or `aria-labelledby`. WAI-ARIA provides guidelines on [providing accessible names](https://www.w3.org/TR/wai-aria-1.2/#namecalculation) to custom controls.
+
+## Screen reader support
+
+Base UI components are tested with popular screen readers including NVDA, JAWS, and VoiceOver to ensure compatibility. Components implement proper ARIA attributes and semantic HTML to provide meaningful information to assistive technologies.
+
+### Live regions
+
+Components that display dynamic content use ARIA live regions appropriately. For example, the Toast component uses `role="status"` with `aria-live="polite"` to announce notifications without interrupting the user's current task.
+
+## Testing
+
+Base UI components are tested on a broad spectrum of browsers, devices, platforms, screen readers, and environments. When building your application, consider:
+
+- Testing with keyboard-only navigation
+- Verifying screen reader announcements
+- Checking color contrast ratios
+- Ensuring focus indicators are visible
+- Testing with browser zoom at 200%
+
+## Best practices
+
+### Provide text alternatives
+
+Always provide text alternatives for non-text content. Use `alt` attributes on images, `aria-label` on icon buttons, and ensure decorative elements are hidden from assistive technologies with `aria-hidden="true"`.
+
+### Maintain logical document structure
+
+Use semantic HTML and maintain a logical heading hierarchy. Don't skip heading levels (e.g., don't jump from `<h2>` to `<h4>`).
+
+### Ensure sufficient touch targets
+
+Interactive elements should have a minimum touch target size of 44x44 pixels to accommodate users with motor impairments or those using touch devices.
+
+### Don't rely solely on color
+
+When conveying information, don't rely on color alone. Use text, icons, or patterns in addition to color to ensure information is accessible to users with color blindness.

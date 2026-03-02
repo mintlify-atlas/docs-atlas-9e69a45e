@@ -1,0 +1,122 @@
+---
+title: Combobox
+description: API reference for the Combobox component
+---
+
+# Combobox
+
+An input widget with an associated popup that allows users to select a value from a list.
+
+## Import
+
+```tsx
+import * as Combobox from '@base-ui/react/combobox';
+```
+
+## Combobox.Root
+
+Groups all parts of the combobox. Doesn't render its own HTML element.
+
+### Props
+
+<ParamField name="value" type="any[]">
+The controlled selected values. To render an uncontrolled combobox, use the `defaultValue` prop instead.
+</ParamField>
+
+<ParamField name="defaultValue" type="any[]">
+The uncontrolled selected values when initially rendered.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: any[], eventDetails: Combobox.Root.ChangeEventDetails) => void">
+Event handler called when the selected value changes.
+</ParamField>
+
+<ParamField name="open" type="boolean">
+Whether the combobox popup is currently open.
+</ParamField>
+
+<ParamField name="defaultOpen" type="boolean" default="false">
+Whether the combobox popup is initially open.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean) => void">
+Event handler called when the combobox popup is opened or closed.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the combobox is disabled.
+</ParamField>
+
+<ParamField name="allowsEmptyValue" type="boolean" default="false">
+Whether to allow the value to be empty.
+</ParamField>
+
+<ParamField name="multiple" type="boolean" default="false">
+Whether multiple selections are allowed.
+</ParamField>
+
+## Combobox.Trigger
+
+Wrapper for the input and clear button.
+
+## Combobox.Input
+
+The text input that triggers the combobox popup.
+
+## Combobox.Icon
+
+An optional icon displayed inside the trigger.
+
+## Combobox.Clear
+
+A button that clears the selected value.
+
+## Combobox.Portal
+
+Portals the combobox popup to a different part of the DOM.
+
+## Combobox.Positioner
+
+Positions the combobox popup relative to the trigger.
+
+## Combobox.Popup
+
+The popup that contains the combobox items.
+
+## Combobox.List
+
+Scrollable list container for combobox items.
+
+## Combobox.Item
+
+An item in the combobox list.
+
+### Props
+
+<ParamField name="value" type="any" required>
+The value of this item.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the item is disabled.
+</ParamField>
+
+## Combobox.Group
+
+Groups related combobox items.
+
+## Combobox.GroupLabel
+
+Labels a group of combobox items.
+
+## Combobox.Empty
+
+Displayed when there are no items to show.
+
+## Combobox.Backdrop
+
+An optional overlay displayed beneath the combobox popup.
+
+## Combobox.Arrow
+
+An optional arrow element that points toward the trigger.

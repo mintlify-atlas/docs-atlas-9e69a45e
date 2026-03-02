@@ -1,0 +1,45 @@
+---
+title: CheckboxGroup
+description: API reference for the CheckboxGroup component
+---
+
+# CheckboxGroup
+
+Groups multiple checkboxes with shared state management.
+
+## Import
+
+```tsx
+import { CheckboxGroup } from '@base-ui/react/checkbox-group';
+```
+
+## Props
+
+<ParamField name="value" type="any[]">
+The controlled values of the selected checkboxes. To render an uncontrolled checkbox group, use the `defaultValue` prop instead.
+</ParamField>
+
+<ParamField name="defaultValue" type="any[]">
+The uncontrolled values of the initially selected checkboxes. To render a controlled checkbox group, use the `value` prop instead.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: any[]) => void">
+Event handler called when the selected checkboxes change.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether all checkboxes in the group should be disabled.
+</ParamField>
+
+<ParamField name="allValues" type="any[]">
+All possible values for parent checkbox functionality.
+</ParamField>
+
+<ParamField name="preserveChildStates" type="boolean" default="false">
+Whether to preserve the checked states of child checkboxes when the parent is toggled.
+</ParamField>
+
+## State
+
+- `value`: any[] - The values of the selected checkboxes
+- `disabled`: boolean - Whether all checkboxes should be disabled

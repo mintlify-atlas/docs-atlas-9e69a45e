@@ -1,0 +1,74 @@
+---
+title: Autocomplete
+description: API reference for the Autocomplete component
+---
+
+# Autocomplete
+
+A text input that provides suggested values as the user types.
+
+## Import
+
+```tsx
+import * as Autocomplete from '@base-ui/react/autocomplete';
+```
+
+## Autocomplete.Root
+
+Groups all parts of the autocomplete. Doesn't render its own HTML element.
+
+### Props
+
+Inherits most props from Combobox.Root, including:
+
+<ParamField name="value" type="any[]">
+The controlled selected values.
+</ParamField>
+
+<ParamField name="defaultValue" type="any[]">
+The uncontrolled selected values when initially rendered.
+</ParamField>
+
+<ParamField name="onValueChange" type="(value: any[]) => void">
+Event handler called when the selected value changes.
+</ParamField>
+
+<ParamField name="open" type="boolean">
+Whether the autocomplete popup is currently open.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean) => void">
+Event handler called when the popup is opened or closed.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the autocomplete is disabled.
+</ParamField>
+
+<ParamField name="multiple" type="boolean" default="false">
+Whether multiple selections are allowed.
+</ParamField>
+
+## Autocomplete.Value
+
+Displays the selected values as removable chips.
+
+## Additional Components
+
+Autocomplete also includes:
+- `Autocomplete.Trigger`
+- `Autocomplete.Input`
+- `Autocomplete.Icon`
+- `Autocomplete.Clear`
+- `Autocomplete.Portal`
+- `Autocomplete.Positioner`
+- `Autocomplete.Popup`
+- `Autocomplete.List`
+- `Autocomplete.Item`
+- `Autocomplete.Group`
+- `Autocomplete.GroupLabel`
+- `Autocomplete.Empty`
+- `Autocomplete.Backdrop`
+- `Autocomplete.Arrow`
+
+These components work the same as their Combobox counterparts.

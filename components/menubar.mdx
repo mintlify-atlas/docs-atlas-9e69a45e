@@ -1,0 +1,213 @@
+---
+title: Menubar
+description: A horizontal or vertical bar containing multiple menu triggers.
+---
+
+A horizontal or vertical bar containing multiple menu triggers. Menubars are commonly used for application-level navigation and actions, providing a consistent interface for accessing various menus.
+
+## Import
+
+```tsx
+import { Menubar } from '@base-ui/react/Menubar';
+import * as Menu from '@base-ui/react/Menu';
+```
+
+## Basic Usage
+
+```tsx
+<Menubar>
+  <Menu.Root>
+    <Menu.Trigger>File</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Positioner>
+        <Menu.Popup>
+          <Menu.Item>New</Menu.Item>
+          <Menu.Item>Open</Menu.Item>
+          <Menu.Item>Save</Menu.Item>
+        </Menu.Popup>
+      </Menu.Positioner>
+    </Menu.Portal>
+  </Menu.Root>
+  
+  <Menu.Root>
+    <Menu.Trigger>Edit</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Positioner>
+        <Menu.Popup>
+          <Menu.Item>Cut</Menu.Item>
+          <Menu.Item>Copy</Menu.Item>
+          <Menu.Item>Paste</Menu.Item>
+        </Menu.Popup>
+      </Menu.Positioner>
+    </Menu.Portal>
+  </Menu.Root>
+  
+  <Menu.Root>
+    <Menu.Trigger>View</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Positioner>
+        <Menu.Popup>
+          <Menu.Item>Zoom In</Menu.Item>
+          <Menu.Item>Zoom Out</Menu.Item>
+        </Menu.Popup>
+      </Menu.Positioner>
+    </Menu.Portal>
+  </Menu.Root>
+</Menubar>
+```
+
+## Key Props
+
+### Menubar
+
+The container for menus. Renders a `<div>` element.
+
+**Props:**
+- `orientation`: `'horizontal' | 'vertical'` - The orientation of the menubar (default: `'horizontal'`)
+- `modal`: `boolean` - Whether the menubar is modal (default: `true`)
+- `disabled`: `boolean` - Whether the whole menubar is disabled (default: `false`)
+- `loopFocus`: `boolean` - Whether to loop keyboard focus back to the first item when the end of the list is reached while using the arrow keys (default: `true`)
+
+**State:**
+- `data-has-submenu-open`: `'true' | 'false'` - Indicates whether any submenu within the menubar is open
+
+## Features
+
+- Keyboard navigation with arrow keys to move between menu triggers
+- Automatic hover behavior when a menu is open
+- Support for horizontal and vertical orientations
+- Modal and non-modal modes
+- Accessible ARIA attributes (`role="menubar"`)
+- Loop focus option for continuous navigation
+
+## Styling Example
+
+```css
+.Menubar {
+  display: flex;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.Menubar[data-has-submenu-open="true"] {
+  background: #f9f9f9;
+}
+
+.MenuTrigger {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.MenuTrigger[data-open] {
+  background: #e5e5e5;
+}
+
+.MenuTrigger:hover {
+  background: #f0f0f0;
+}
+```
+
+## Common Patterns
+
+### Vertical Menubar
+
+```tsx
+<Menubar orientation="vertical">
+  <Menu.Root>
+    <Menu.Trigger>Dashboard</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Positioner>
+        <Menu.Popup>
+          <Menu.Item>Overview</Menu.Item>
+          <Menu.Item>Analytics</Menu.Item>
+        </Menu.Popup>
+      </Menu.Positioner>
+    </Menu.Portal>
+  </Menu.Root>
+  
+  <Menu.Root>
+    <Menu.Trigger>Settings</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Positioner>
+        <Menu.Popup>
+          <Menu.Item>Profile</Menu.Item>
+          <Menu.Item>Preferences</Menu.Item>
+        </Menu.Popup>
+      </Menu.Positioner>
+    </Menu.Portal>
+  </Menu.Root>
+</Menubar>
+```
+
+### Non-Modal Menubar
+
+```tsx
+<Menubar modal={false}>
+  <Menu.Root>
+    <Menu.Trigger>File</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Positioner>
+        <Menu.Popup>
+          <Menu.Item>New</Menu.Item>
+        </Menu.Popup>
+      </Menu.Positioner>
+    </Menu.Portal>
+  </Menu.Root>
+</Menubar>
+```
+
+### Application Menu Bar
+
+```tsx
+<Menubar className="AppMenubar">
+  <Menu.Root>
+    <Menu.Trigger>File</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Positioner>
+        <Menu.Popup>
+          <Menu.Item>New File</Menu.Item>
+          <Menu.Item>Open File</Menu.Item>
+          <Menu.Separator />
+          <Menu.Item>Save</Menu.Item>
+          <Menu.Item>Save As...</Menu.Item>
+          <Menu.Separator />
+          <Menu.Item>Exit</Menu.Item>
+        </Menu.Popup>
+      </Menu.Positioner>
+    </Menu.Portal>
+  </Menu.Root>
+  
+  <Menu.Root>
+    <Menu.Trigger>Edit</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Positioner>
+        <Menu.Popup>
+          <Menu.Item>Undo</Menu.Item>
+          <Menu.Item>Redo</Menu.Item>
+          <Menu.Separator />
+          <Menu.Item>Cut</Menu.Item>
+          <Menu.Item>Copy</Menu.Item>
+          <Menu.Item>Paste</Menu.Item>
+        </Menu.Popup>
+      </Menu.Positioner>
+    </Menu.Portal>
+  </Menu.Root>
+  
+  <Menu.Root>
+    <Menu.Trigger>Help</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Positioner>
+        <Menu.Popup>
+          <Menu.Item>Documentation</Menu.Item>
+          <Menu.Item>About</Menu.Item>
+        </Menu.Popup>
+      </Menu.Positioner>
+    </Menu.Portal>
+  </Menu.Root>
+</Menubar>
+```

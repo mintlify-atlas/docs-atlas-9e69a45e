@@ -1,0 +1,60 @@
+---
+title: Collapsible
+description: API reference for the Collapsible component
+---
+
+# Collapsible
+
+An interactive component that expands and collapses a panel.
+
+## Import
+
+```tsx
+import * as Collapsible from '@base-ui/react/collapsible';
+```
+
+## Collapsible.Root
+
+Groups all parts of the collapsible.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the collapsible is currently open. To render an uncontrolled collapsible, use the `defaultOpen` prop instead.
+</ParamField>
+
+<ParamField name="defaultOpen" type="boolean" default="false">
+Whether the collapsible is initially open. To render a controlled collapsible, use the `open` prop instead.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean, eventDetails: Collapsible.Root.ChangeEventDetails) => void">
+Event handler called when the collapsible is opened or closed.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the collapsible should ignore user interaction.
+</ParamField>
+
+## Collapsible.Trigger
+
+The button that toggles the collapsible panel.
+
+### Props
+
+<ParamField name="nativeButton" type="boolean" default="true">
+Whether the component renders a native `<button>` element.
+</ParamField>
+
+## Collapsible.Panel
+
+The content that can be collapsed.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the panel mounted when collapsed.
+</ParamField>
+
+<ParamField name="hiddenUntilFound" type="boolean" default="false">
+Allows the browser's built-in page search to find and expand the panel contents.
+</ParamField>

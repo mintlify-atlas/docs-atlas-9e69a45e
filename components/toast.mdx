@@ -1,0 +1,233 @@
+---
+title: Toast
+description: A non-modal notification that appears temporarily to provide feedback or information.
+---
+
+# Toast
+
+A toast is a non-modal notification that appears temporarily to provide feedback or information to the user. Toasts can be dismissed manually or automatically after a timeout.
+
+## Import
+
+```jsx
+import { Toast } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```jsx
+import { Toast } from '@base-ui/react';
+
+const toastManager = Toast.createToastManager();
+
+function App() {
+  const toasts = Toast.useToastManager(toastManager);
+
+  const showToast = () => {
+    toastManager.show({
+      title: 'Success!',
+      description: 'Your changes have been saved.',
+    });
+  };
+
+  return (
+    <div>
+      <button onClick={showToast}>Show Toast</button>
+      <Toast.Provider manager={toastManager}>
+        <Toast.Viewport>
+          {toasts.map((toast) => (
+            <Toast.Root key={toast.id} toast={toast}>
+              <Toast.Title />
+              <Toast.Description />
+              <Toast.Close>×</Toast.Close>
+            </Toast.Root>
+          ))}
+        </Toast.Viewport>
+      </Toast.Provider>
+    </div>
+  );
+}
+```
+
+## Sub-components
+
+### Provider
+
+Provides toast context to the viewport and toast components.
+
+**Key Props:**
+- `manager` (ToastManager): The toast manager instance
+
+### Viewport
+
+The container where toasts are rendered.
+
+**Key Props:**
+- `limit` (number): Maximum number of visible toasts (default: `3`)
+- `offset` (number): Offset in pixels between stacked toasts (default: `16`)
+- `hotkey` (string[]): Keyboard shortcut to focus toasts (default: `['F8']`)
+
+### Root
+
+Groups all parts of an individual toast. Renders a `<div>` element.
+
+**Key Props:**
+- `toast` (ToastObject): The toast object to render
+- `swipeDirection` ('up' | 'down' | 'left' | 'right' | Array): Direction(s) to swipe to dismiss (default: `['down', 'right']`)
+
+### Title
+
+The title of the toast.
+
+### Description
+
+The description/message of the toast.
+
+### Close
+
+A button that closes the toast.
+
+### Action
+
+An action button within the toast.
+
+### Content
+
+The main content container of the toast.
+
+### Portal
+
+Portals the toast to a different part of the DOM.
+
+### Positioner
+
+Positions the toast using Floating UI.
+
+### Arrow
+
+An optional arrow for positioned toasts.
+
+## Toast Manager
+
+### createToastManager()
+
+Creates a toast manager instance.
+
+```jsx
+const toastManager = Toast.createToastManager();
+```
+
+### useToastManager(manager)
+
+A React hook that subscribes to toast updates.
+
+```jsx
+const toasts = Toast.useToastManager(toastManager);
+```
+
+### Toast Manager Methods
+
+- `show(options)`: Shows a new toast
+- `close(id)`: Closes a specific toast
+- `closeAll()`: Closes all toasts
+- `update(id, options)`: Updates a toast's content
+
+## Styling Example
+
+```css
+.ToastViewport {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 400px;
+  z-index: 1000;
+}
+
+.ToastRoot {
+  background: #1f2937;
+  color: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  gap: 12px;
+  align-items: start;
+  animation: slideIn 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ToastRoot[data-transition-status="ending"] {
+  animation: slideOut 150ms ease-in;
+}
+
+.ToastRoot[data-swiping] {
+  opacity: 0.8;
+}
+
+.ToastTitle {
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.ToastDescription {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.ToastClose {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+```
+
+## Key Features
+
+- Swipe to dismiss in configurable directions
+- Automatic stacking with configurable limits
+- High-priority toasts with `alertdialog` role
+- Pause on hover or focus
+- Keyboard navigation with hotkey support
+- CSS variables for dynamic positioning (`--toast-index`, `--toast-offset-y`, `--toast-height`)
+- Touch-friendly swipe gestures
+
+## Accessibility
+
+- Uses `role="dialog"` for normal toasts and `role="alertdialog"` for high-priority toasts
+- Title and description are automatically linked via `aria-labelledby` and `aria-describedby`
+- Keyboard accessible with configurable hotkey
+- Respects `prefers-reduced-motion`
+- Timers pause when toasts receive focus
+- High-priority toasts are marked with `aria-hidden` when not focused

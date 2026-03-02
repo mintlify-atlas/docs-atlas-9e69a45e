@@ -1,0 +1,64 @@
+---
+title: PreviewCard
+description: API reference for the PreviewCard component
+---
+
+# PreviewCard
+
+Displays a preview of content in a popup when hovering over or focusing on a trigger element.
+
+## Import
+
+```tsx
+import * as PreviewCard from '@base-ui/react/preview-card';
+```
+
+## PreviewCard.Root
+
+Groups all preview card parts. Doesn't render its own HTML element.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the preview card is currently open.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean) => void">
+Event handler called when the preview card is opened or closed.
+</ParamField>
+
+<ParamField name="delay" type="number" default="600">
+The delay in milliseconds before the preview card opens.
+</ParamField>
+
+<ParamField name="closeDelay" type="number" default="300">
+The delay in milliseconds before the preview card closes.
+</ParamField>
+
+## PreviewCard.Trigger
+
+The element that triggers the preview card.
+
+## PreviewCard.Positioner
+
+Positions the preview card popup relative to the trigger.
+
+### Props
+
+Same positioning props as Popover.Positioner (side, alignment, sideOffset, etc.)
+
+## PreviewCard.Popup
+
+The preview card's content.
+
+## PreviewCard.Backdrop
+
+An optional overlay displayed beneath the preview card.
+
+## PreviewCard.Arrow
+
+An optional arrow element that points toward the trigger.
+
+## PreviewCard.Portal
+
+Portals the preview card popup to a different part of the DOM.

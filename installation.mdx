@@ -1,0 +1,165 @@
+---
+title: Installation
+description: Install Base UI in your React project and configure your development environment.
+---
+
+# Installation
+
+Get started with Base UI by installing the package and setting up your project.
+
+## Install Base UI
+
+<Steps>
+  <Step title="Install the package">
+    Install `@base-ui/react` using your preferred package manager:
+
+    <CodeGroup>
+      ```bash npm
+      npm install @base-ui/react
+      ```
+
+      ```bash yarn
+      yarn add @base-ui/react
+      ```
+
+      ```bash pnpm
+      pnpm add @base-ui/react
+      ```
+    </CodeGroup>
+
+    <Note>
+      All Base UI components are included in a single package. The library is tree-shakable, so your bundle will only contain the components you actually use.
+    </Note>
+  </Step>
+
+  <Step title="Verify peer dependencies">
+    Base UI requires React as a peer dependency. Make sure you have one of the supported React versions installed:
+
+    ```json package.json
+    {
+      "dependencies": {
+        "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+        "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+      }
+    }
+    ```
+
+    <Tip>
+      Base UI supports React 17, 18, and 19. TypeScript types are also available if you use `@types/react`.
+    </Tip>
+  </Step>
+
+  <Step title="TypeScript setup (optional)">
+    If you're using TypeScript, Base UI provides comprehensive type definitions out of the box. No additional setup is required.
+
+    The package includes TypeScript definitions for all components and their props:
+
+    ```typescript
+    import { Button } from '@base-ui/react/button';
+    import type { ButtonProps } from '@base-ui/react/button';
+
+    // Full type safety and autocomplete support
+    const MyButton: React.FC<ButtonProps> = (props) => {
+      return <Button {...props} />;
+    };
+    ```
+
+    <Note>
+      `@types/react` is an optional peer dependency. If you're using TypeScript, make sure to install it for the best development experience.
+    </Note>
+  </Step>
+</Steps>
+
+## Project Setup
+
+### Portals Configuration
+
+Base UI uses portals for components that render popups (Dialog, Popover, Tooltip, Menu, etc.). To ensure portaled components always appear on top of your page content, add this style to your application layout:
+
+<CodeGroup>
+  ```tsx layout.tsx
+  export default function Layout({ children }) {
+    return (
+      <body>
+        <div className="root">
+          {children}
+        </div>
+      </body>
+    );
+  }
+  ```
+
+  ```css styles.css
+  .root {
+    isolation: isolate;
+  }
+  ```
+</CodeGroup>
+
+This creates a separate stacking context for your application, ensuring popups always appear above page contents and preventing `z-index` conflicts.
+
+### iOS Safari 26+ Support
+
+<Warning>
+  Starting with iOS 26, Safari requires a specific configuration for dialog backdrops to work correctly.
+</Warning>
+
+Add this style to your global CSS to ensure backdrops cover the entire viewport after scrolling:
+
+```css global.css
+body {
+  position: relative;
+}
+```
+
+This is necessary because iOS 26+ Safari allows content beneath the UI chrome to be visible, requiring backdrops to use `position: absolute` instead of `position: fixed`.
+
+## Verify Installation
+
+Test your installation by importing and using a simple component:
+
+```tsx App.tsx
+import { Button } from '@base-ui/react/button';
+
+function App() {
+  return (
+    <Button onClick={() => console.log('Clicked!')}>
+      Test Button
+    </Button>
+  );
+}
+
+export default App;
+```
+
+If the button renders and responds to clicks, your installation is successful!
+
+## Package Exports
+
+Base UI provides granular exports for optimal tree-shaking. You can import components individually:
+
+```tsx
+// Import individual components
+import { Button } from '@base-ui/react/button';
+import { Dialog } from '@base-ui/react/dialog';
+import { Popover } from '@base-ui/react/popover';
+
+// Or import from the main package
+import { Button, Dialog, Popover } from '@base-ui/react';
+```
+
+<Tip>
+  Importing from specific paths (e.g., `@base-ui/react/button`) can provide better IDE autocomplete in some editors, but both approaches are equally tree-shakable.
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Quick Start Guide" icon="rocket" href="/quickstart">
+    Build your first styled component with Base UI
+  </Card>
+  
+  <Card title="Component Library" icon="grid" href="/components/button">
+    Explore all available components
+  </Card>
+</CardGroup>

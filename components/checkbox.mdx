@@ -1,0 +1,227 @@
+---
+title: Checkbox
+description: A checkbox component that allows users to select one or more options.
+---
+
+A checkbox component that allows users to select one or more options.
+
+## Import
+
+```jsx
+import { Checkbox } from '@base-ui/react';
+```
+
+## Anatomy
+
+The Checkbox component consists of two parts:
+
+- `Checkbox.Root` - The checkbox control itself
+- `Checkbox.Indicator` - Visual indicator for the checked state
+
+## Basic Usage
+
+```jsx
+<Checkbox.Root>
+  <Checkbox.Indicator />
+</Checkbox.Root>
+```
+
+## Key Features
+
+- Controlled and uncontrolled modes
+- Indeterminate state support
+- Accessible with proper ARIA attributes
+- Works seamlessly with Field and Form components
+- Support for parent-child checkbox relationships
+- Custom render props
+
+## Key Props
+
+### checked
+
+**Type:** `boolean`
+
+**Default:** `undefined`
+
+Whether the checkbox is currently ticked. Use with `onCheckedChange` for controlled mode.
+
+```jsx
+const [checked, setChecked] = React.useState(false);
+
+<Checkbox.Root checked={checked} onCheckedChange={setChecked}>
+  <Checkbox.Indicator />
+</Checkbox.Root>
+```
+
+### defaultChecked
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the checkbox is initially ticked. Use for uncontrolled mode.
+
+```jsx
+<Checkbox.Root defaultChecked>
+  <Checkbox.Indicator />
+</Checkbox.Root>
+```
+
+### onCheckedChange
+
+**Type:** `(checked: boolean, eventDetails: ChangeEventDetails) => void`
+
+Event handler called when the checkbox is ticked or unticked.
+
+### disabled
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the component should ignore user interaction.
+
+### readOnly
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the user should be unable to tick or untick the checkbox.
+
+### required
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the user must tick the checkbox before submitting a form.
+
+### indeterminate
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the checkbox is in a mixed state: neither ticked, nor unticked.
+
+```jsx
+<Checkbox.Root indeterminate>
+  <Checkbox.Indicator />
+</Checkbox.Root>
+```
+
+### name
+
+**Type:** `string`
+
+Identifies the field when a form is submitted.
+
+### value
+
+**Type:** `string`
+
+The value of the selected checkbox.
+
+## Styling
+
+<Tabs items={['Tailwind CSS', 'CSS Modules']}>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <Checkbox.Root className="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center data-[checked]:bg-blue-500 data-[checked]:border-blue-500">
+      <Checkbox.Indicator className="text-white">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+          <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" strokeWidth="2" fill="none" />
+        </svg>
+      </Checkbox.Indicator>
+    </Checkbox.Root>
+    ```
+  </Tab>
+  <Tab value="CSS Modules">
+    ```jsx
+    <Checkbox.Root className={styles.root}>
+      <Checkbox.Indicator className={styles.indicator}>
+        <CheckIcon />
+      </Checkbox.Indicator>
+    </Checkbox.Root>
+    ```
+
+    ```css
+    .root {
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 2px solid #d1d5db;
+      border-radius: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .root[data-checked] {
+      background-color: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    .root[data-disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .indicator {
+      color: white;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### With Label
+
+```jsx
+import { Field } from '@base-ui/react';
+
+<Field.Root>
+  <div className="flex items-center gap-2">
+    <Checkbox.Root name="terms">
+      <Checkbox.Indicator />
+    </Checkbox.Root>
+    <Field.Label>I accept the terms and conditions</Field.Label>
+  </div>
+</Field.Root>
+```
+
+### Indeterminate State
+
+```jsx
+function ParentCheckbox() {
+  const [checked, setChecked] = React.useState([false, false]);
+  const allChecked = checked.every(Boolean);
+  const indeterminate = checked.some(Boolean) && !allChecked;
+
+  return (
+    <div>
+      <Checkbox.Root
+        checked={allChecked}
+        indeterminate={indeterminate}
+        onCheckedChange={(c) => setChecked([c, c])}
+      >
+        <Checkbox.Indicator />
+      </Checkbox.Root>
+      {checked.map((c, i) => (
+        <Checkbox.Root
+          key={i}
+          checked={c}
+          onCheckedChange={(val) => {
+            const newChecked = [...checked];
+            newChecked[i] = val;
+            setChecked(newChecked);
+          }}
+        >
+          <Checkbox.Indicator />
+        </Checkbox.Root>
+      ))}
+    </div>
+  );
+}
+```

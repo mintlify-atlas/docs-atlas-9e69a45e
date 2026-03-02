@@ -1,0 +1,79 @@
+---
+title: Switch
+description: API reference for the Switch component
+---
+
+# Switch
+
+A toggle switch control that can be turned on or off.
+
+## Import
+
+```tsx
+import * as Switch from '@base-ui/react/switch';
+```
+
+## Switch.Root
+
+Represents the switch itself.
+
+### Props
+
+<ParamField name="checked" type="boolean">
+Whether the switch is currently active. To render an uncontrolled switch, use the `defaultChecked` prop instead.
+</ParamField>
+
+<ParamField name="defaultChecked" type="boolean" default="false">
+Whether the switch is initially active. To render a controlled switch, use the `checked` prop instead.
+</ParamField>
+
+<ParamField name="disabled" type="boolean" default="false">
+Whether the component should ignore user interaction.
+</ParamField>
+
+<ParamField name="readOnly" type="boolean" default="false">
+Whether the user should be unable to activate or deactivate the switch.
+</ParamField>
+
+<ParamField name="required" type="boolean" default="false">
+Whether the user must activate the switch before submitting a form.
+</ParamField>
+
+<ParamField name="name" type="string">
+Identifies the field when a form is submitted.
+</ParamField>
+
+<ParamField name="value" type="string">
+The value submitted with the form when the switch is on. By default, switch submits the "on" value, matching native checkbox behavior.
+</ParamField>
+
+<ParamField name="uncheckedValue" type="string">
+The value submitted with the form when the switch is off. By default, unchecked switches do not submit any value, matching native checkbox behavior.
+</ParamField>
+
+<ParamField name="onCheckedChange" type="(checked: boolean, eventDetails: Switch.Root.ChangeEventDetails) => void">
+Event handler called when the switch is activated or deactivated.
+</ParamField>
+
+<ParamField name="inputRef" type="React.Ref<HTMLInputElement>">
+A ref to access the hidden `<input>` element.
+</ParamField>
+
+<ParamField name="nativeButton" type="boolean" default="false">
+Whether the component renders a native `<button>` element when replacing it via the `render` prop.
+</ParamField>
+
+### State
+
+- `checked`: boolean - Whether the switch is currently active
+- `disabled`: boolean - Whether the component should ignore user interaction
+- `readOnly`: boolean - Whether the user should be unable to activate or deactivate the switch
+- `required`: boolean - Whether the user must activate the switch before submitting a form
+
+## Switch.Thumb
+
+The movable part of the switch that indicates whether the switch is on or off.
+
+### Props
+
+Inherits common props (`className`, `render`, `style`).

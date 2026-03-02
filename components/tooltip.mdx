@@ -1,0 +1,383 @@
+---
+title: Tooltip
+description: Display contextual information when hovering or focusing on an element.
+---
+
+# Tooltip
+
+The Tooltip component displays contextual information when users hover over or focus on an element. It's useful for providing additional context without cluttering the interface.
+
+## Import
+
+```jsx
+import { Tooltip } from '@base-ui/react';
+```
+
+## Anatomy
+
+The Tooltip component consists of several parts:
+
+- `<Tooltip.Root>` - Groups all parts of the tooltip
+- `<Tooltip.Trigger>` - The element that triggers the tooltip
+- `<Tooltip.Positioner>` - Positions the tooltip relative to the trigger
+- `<Tooltip.Popup>` - The tooltip content container
+- `<Tooltip.Arrow>` - An optional arrow pointing to the trigger
+- `<Tooltip.Provider>` - Manages shared behavior for multiple tooltips
+
+```jsx
+<Tooltip.Root>
+  <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+  <Tooltip.Positioner>
+    <Tooltip.Popup>
+      Tooltip content
+      <Tooltip.Arrow />
+    </Tooltip.Popup>
+  </Tooltip.Positioner>
+</Tooltip.Root>
+```
+
+## Basic Usage
+
+```jsx
+function MyTooltip() {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+      <Tooltip.Positioner>
+        <Tooltip.Popup>
+          This is a helpful tooltip
+        </Tooltip.Popup>
+      </Tooltip.Positioner>
+    </Tooltip.Root>
+  );
+}
+```
+
+## Key Features
+
+- **Multiple triggers**: Hover, focus, and custom triggers
+- **Smart positioning**: Automatically positions to stay in viewport
+- **Accessible**: Proper ARIA attributes and keyboard support
+- **Delay control**: Customize open and close delays
+- **Cursor tracking**: Optionally follow the cursor
+- **Hoverable content**: Keep tooltip open when hovering the popup
+- **Portal support**: Render tooltip in a different DOM location
+- **Animation support**: Built-in transition states
+
+## Component Props
+
+### Root
+
+Groups all parts of the tooltip and manages open state.
+
+**Props:**
+- `open` (boolean): Controlled open state
+- `defaultOpen` (boolean): Initially open state (default: false)
+- `onOpenChange` (function): Callback when open state changes
+- `onOpenChangeComplete` (function): Callback after animations complete
+- `disabled` (boolean): Whether the tooltip is disabled (default: false)
+- `disableHoverablePopup` (boolean): Prevent hovering the popup (default: false)
+- `trackCursorAxis` (string): Track cursor on 'x', 'y', 'both', or 'none' (default: 'none')
+- `actionsRef` (ref): Access to imperative actions (unmount, close)
+- `handle` (TooltipHandle): Associate with external triggers
+- `triggerId` (string): ID of the active trigger (controlled mode)
+- `defaultTriggerId` (string): Initial trigger ID
+- Doesn't render its own HTML element
+
+### Trigger
+
+The element that triggers the tooltip.
+
+**Props:**
+- `delay` (number): Open delay in milliseconds (default: 600)
+- `closeDelay` (number): Close delay in milliseconds (default: 0)
+- `closeOnClick` (boolean): Whether clicking closes the tooltip (default: true)
+- `disabled` (boolean): Disable this specific trigger (default: false)
+- `handle` (TooltipHandle): Associate with a tooltip handle
+- `payload` (any): Data to pass to the tooltip
+- Renders a `<button>` element
+
+### Positioner
+
+Positions the tooltip relative to the trigger.
+
+**Props:**
+- `side` (string): Preferred side ('top', 'right', 'bottom', 'left')
+- `align` (string): Alignment ('start', 'center', 'end')
+- `sideOffset` (number): Distance from the trigger
+- `alignOffset` (number): Offset along the alignment axis
+- `collisionBoundary` (element): Boundary for collision detection
+- `sticky` (boolean): Whether to stick to the trigger when scrolling
+- Renders a `<div>` element
+
+### Popup
+
+The container for tooltip content.
+
+**Props:**
+- Renders a `<div>` element
+- Accepts all standard HTML div attributes
+
+**State:**
+- `open`: Whether the tooltip is open
+- `side`: The current side of placement
+- `align`: The current alignment
+- `instant`: The animation instant type
+- `transitionStatus`: Current transition state
+
+### Arrow
+
+An optional arrow pointing to the trigger.
+
+**Props:**
+- Renders an `<svg>` element
+- Automatically positioned and rotated
+
+### Provider
+
+Manages shared behavior for multiple tooltips.
+
+**Props:**
+- `delay` (number): Default delay for all tooltips
+- `closeDelay` (number): Default close delay for all tooltips
+
+## Styling
+
+<Tabs items={['CSS', 'Tailwind CSS']}>
+  <Tab value="CSS">
+    ```jsx
+    <Tooltip.Root>
+      <Tooltip.Trigger className="tooltip-trigger">
+        Hover me
+      </Tooltip.Trigger>
+      <Tooltip.Positioner className="tooltip-positioner">
+        <Tooltip.Popup className="tooltip-popup">
+          Helpful information
+          <Tooltip.Arrow className="tooltip-arrow" />
+        </Tooltip.Popup>
+      </Tooltip.Positioner>
+    </Tooltip.Root>
+    ```
+
+    ```css
+    .tooltip-trigger {
+      padding: 0.5rem 1rem;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+    }
+
+    .tooltip-trigger:hover {
+      background-color: #2563eb;
+    }
+
+    .tooltip-popup {
+      background-color: #1f2937;
+      color: white;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      max-width: 200px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Animation */
+    .tooltip-popup[data-transition-status="entering"] {
+      animation: tooltip-fade-in 0.2s ease-out;
+    }
+
+    .tooltip-popup[data-transition-status="exiting"] {
+      animation: tooltip-fade-out 0.2s ease-in;
+    }
+
+    @keyframes tooltip-fade-in {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes tooltip-fade-out {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+    }
+
+    .tooltip-arrow {
+      fill: #1f2937;
+    }
+    ```
+  </Tab>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <Tooltip.Root>
+      <Tooltip.Trigger className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+        Hover me
+      </Tooltip.Trigger>
+      <Tooltip.Positioner>
+        <Tooltip.Popup className="bg-gray-800 text-white px-3 py-2 rounded-md text-sm max-w-xs shadow-lg data-[transition-status=entering]:animate-in data-[transition-status=entering]:fade-in data-[transition-status=exiting]:animate-out data-[transition-status=exiting]:fade-out">
+          Helpful information
+          <Tooltip.Arrow className="fill-gray-800" />
+        </Tooltip.Popup>
+      </Tooltip.Positioner>
+    </Tooltip.Root>
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### Controlled Tooltip
+
+```jsx
+function ControlledTooltip() {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Tooltip.Root open={open} onOpenChange={setOpen}>
+      <Tooltip.Trigger>Hover or click</Tooltip.Trigger>
+      <Tooltip.Positioner>
+        <Tooltip.Popup>
+          Controlled tooltip content
+        </Tooltip.Popup>
+      </Tooltip.Positioner>
+    </Tooltip.Root>
+  );
+}
+```
+
+### Custom Delay
+
+```jsx
+<Tooltip.Root>
+  <Tooltip.Trigger delay={200} closeDelay={100}>
+    Quick tooltip
+  </Tooltip.Trigger>
+  <Tooltip.Positioner>
+    <Tooltip.Popup>
+      This opens quickly!
+    </Tooltip.Popup>
+  </Tooltip.Positioner>
+</Tooltip.Root>
+```
+
+### Follow Cursor
+
+```jsx
+<Tooltip.Root trackCursorAxis="both">
+  <Tooltip.Trigger>Follow me</Tooltip.Trigger>
+  <Tooltip.Positioner>
+    <Tooltip.Popup>
+      I follow your cursor
+    </Tooltip.Popup>
+  </Tooltip.Positioner>
+</Tooltip.Root>
+```
+
+### Rich Content
+
+```jsx
+<Tooltip.Root>
+  <Tooltip.Trigger>User info</Tooltip.Trigger>
+  <Tooltip.Positioner>
+    <Tooltip.Popup>
+      <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <img 
+          src="/avatar.jpg" 
+          alt="User" 
+          style={{ width: 40, height: 40, borderRadius: '50%' }}
+        />
+        <div>
+          <div style={{ fontWeight: 600 }}>Jane Doe</div>
+          <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Product Designer</div>
+        </div>
+      </div>
+    </Tooltip.Popup>
+  </Tooltip.Positioner>
+</Tooltip.Root>
+```
+
+### Multiple Tooltips with Provider
+
+```jsx
+<Tooltip.Provider delay={400}>
+  <Tooltip.Root>
+    <Tooltip.Trigger>Tooltip 1</Tooltip.Trigger>
+    <Tooltip.Positioner>
+      <Tooltip.Popup>First tooltip</Tooltip.Popup>
+    </Tooltip.Positioner>
+  </Tooltip.Root>
+
+  <Tooltip.Root>
+    <Tooltip.Trigger>Tooltip 2</Tooltip.Trigger>
+    <Tooltip.Positioner>
+      <Tooltip.Popup>Second tooltip</Tooltip.Popup>
+    </Tooltip.Positioner>
+  </Tooltip.Root>
+</Tooltip.Provider>
+```
+
+### Disabled Tooltip
+
+```jsx
+<Tooltip.Root disabled>
+  <Tooltip.Trigger>Won't show tooltip</Tooltip.Trigger>
+  <Tooltip.Positioner>
+    <Tooltip.Popup>
+      This won't appear
+    </Tooltip.Popup>
+  </Tooltip.Positioner>
+</Tooltip.Root>
+```
+
+### Imperative Control
+
+```jsx
+function ImperativeTooltip() {
+  const actionsRef = React.useRef(null);
+
+  return (
+    <div>
+      <Tooltip.Root actionsRef={actionsRef}>
+        <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+        <Tooltip.Positioner>
+          <Tooltip.Popup>
+            Tooltip content
+          </Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Root>
+
+      <button onClick={() => actionsRef.current?.close()}>
+        Close tooltip
+      </button>
+    </div>
+  );
+}
+```
+
+### With Keyboard Shortcut
+
+```jsx
+<Tooltip.Root>
+  <Tooltip.Trigger>Save</Tooltip.Trigger>
+  <Tooltip.Positioner>
+    <Tooltip.Popup>
+      <div>Save file</div>
+      <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '0.25rem' }}>
+        ⌘S
+      </div>
+    </Tooltip.Popup>
+  </Tooltip.Positioner>
+</Tooltip.Root>
+```

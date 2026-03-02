@@ -1,0 +1,276 @@
+---
+title: Meter
+description: Display a scalar measurement within a known range, such as disk usage or battery level.
+---
+
+# Meter
+
+The Meter component visualizes a scalar measurement within a known range. Unlike Progress, which shows task completion, Meter displays current values like disk usage, battery level, or temperature.
+
+## Import
+
+```jsx
+import { Meter } from '@base-ui/react';
+```
+
+## Anatomy
+
+The Meter component consists of five parts:
+
+- `<Meter.Root>` - The container that provides context
+- `<Meter.Track>` - The background track
+- `<Meter.Indicator>` - The filled portion showing the value
+- `<Meter.Label>` - A label for the meter
+- `<Meter.Value>` - Displays the formatted value
+
+```jsx
+<Meter.Root value={65}>
+  <Meter.Label>Storage</Meter.Label>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+  <Meter.Value />
+</Meter.Root>
+```
+
+## Basic Usage
+
+```jsx
+function StorageMeter() {
+  return (
+    <Meter.Root value={65} min={0} max={100}>
+      <Meter.Label>Disk Usage</Meter.Label>
+      <Meter.Track>
+        <Meter.Indicator />
+      </Meter.Track>
+      <Meter.Value />
+    </Meter.Root>
+  );
+}
+```
+
+## Key Features
+
+- **Accessible**: Uses the ARIA meter role for screen readers
+- **Formatted values**: Automatic number formatting with Intl.NumberFormat
+- **Customizable range**: Configure min and max values
+- **Locale support**: Format numbers according to user locale
+- **Unstyled**: Complete styling control
+
+## Component Props
+
+### Root
+
+The root container that manages the meter state and provides accessibility attributes.
+
+**Props:**
+- `value` (number, required): The current value
+- `min` (number): The minimum value (default: 0)
+- `max` (number): The maximum value (default: 100)
+- `format` (Intl.NumberFormatOptions): Options to format the value
+- `locale` (Intl.LocalesArgument): The locale for number formatting
+- `getAriaValueText` (function): Custom function to generate aria-valuetext
+- Renders a `<div>` element with role="meter"
+
+### Track
+
+The background track of the meter.
+
+**Props:**
+- Renders a `<div>` element
+- Accepts all standard HTML div attributes
+
+### Indicator
+
+Visualizes the position of the value along the range.
+
+**Props:**
+- Renders a `<div>` element
+- Width is automatically set based on the value
+- Accepts all standard HTML div attributes
+
+### Label
+
+A label for the meter.
+
+**Props:**
+- Renders a `<label>` element
+- Automatically associates with the meter for accessibility
+
+### Value
+
+Displays the formatted current value.
+
+**Props:**
+- Renders a `<span>` element
+- Automatically displays the formatted value
+
+## Styling
+
+<Tabs items={['CSS', 'Tailwind CSS']}>
+  <Tab value="CSS">
+    ```jsx
+    <Meter.Root value={75} className="meter-root">
+      <Meter.Label className="meter-label">CPU Usage</Meter.Label>
+      <Meter.Track className="meter-track">
+        <Meter.Indicator className="meter-indicator" />
+      </Meter.Track>
+      <Meter.Value className="meter-value" />
+    </Meter.Root>
+    ```
+
+    ```css
+    .meter-root {
+      width: 300px;
+    }
+
+    .meter-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .meter-track {
+      position: relative;
+      width: 100%;
+      height: 8px;
+      background-color: #e5e7eb;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .meter-indicator {
+      background-color: #3b82f6;
+      transition: width 0.3s ease;
+      border-radius: 9999px;
+    }
+
+    .meter-value {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 14px;
+      color: #6b7280;
+    }
+    ```
+  </Tab>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <Meter.Root value={75} className="w-full max-w-sm">
+      <Meter.Label className="block mb-2 font-semibold text-sm">
+        CPU Usage
+      </Meter.Label>
+      <Meter.Track className="relative w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+        <Meter.Indicator className="bg-blue-500 transition-[width] duration-300 rounded-full" />
+      </Meter.Track>
+      <Meter.Value className="block mt-2 text-sm text-gray-600" />
+    </Meter.Root>
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### Color-Coded Meter
+
+Change indicator color based on the value:
+
+```jsx
+function BatteryMeter({ value }) {
+  const getColor = (val) => {
+    if (val < 20) return '#ef4444'; // red
+    if (val < 50) return '#f59e0b'; // orange
+    return '#22c55e'; // green
+  };
+
+  return (
+    <Meter.Root value={value}>
+      <Meter.Label>Battery Level</Meter.Label>
+      <Meter.Track>
+        <Meter.Indicator style={{ backgroundColor: getColor(value) }} />
+      </Meter.Track>
+      <Meter.Value />
+    </Meter.Root>
+  );
+}
+```
+
+### Formatted Values
+
+```jsx
+<Meter.Root 
+  value={1250} 
+  min={0} 
+  max={2000}
+  format={{ style: 'unit', unit: 'gigabyte' }}
+  locale="en-US"
+>
+  <Meter.Label>Storage Used</Meter.Label>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+  <Meter.Value />
+</Meter.Root>
+```
+
+### Custom Value Text
+
+```jsx
+<Meter.Root 
+  value={7.5} 
+  min={0} 
+  max={10}
+  getAriaValueText={(formatted, value) => `${value} out of 10`}
+>
+  <Meter.Label>Rating</Meter.Label>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+  <Meter.Value />
+</Meter.Root>
+```
+
+### Multiple Segments
+
+```jsx
+function SegmentedMeter({ value }) {
+  return (
+    <Meter.Root value={value}>
+      <Meter.Label>Performance</Meter.Label>
+      <Meter.Track style={{ display: 'flex', gap: '2px' }}>
+        {[0, 25, 50, 75].map((threshold, i) => (
+          <div
+            key={i}
+            style={{
+              flex: 1,
+              height: '100%',
+              backgroundColor: value > threshold ? '#3b82f6' : '#e5e7eb',
+              borderRadius: '4px',
+            }}
+          />
+        ))}
+      </Meter.Track>
+      <Meter.Value />
+    </Meter.Root>
+  );
+}
+```
+
+### Vertical Meter
+
+```jsx
+<Meter.Root value={65}>
+  <Meter.Label>Volume</Meter.Label>
+  <Meter.Track 
+    style={{
+      width: '8px',
+      height: '200px',
+      display: 'flex',
+      flexDirection: 'column-reverse',
+    }}
+  >
+    <Meter.Indicator />
+  </Meter.Track>
+  <Meter.Value />
+</Meter.Root>
+```

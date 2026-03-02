@@ -1,0 +1,380 @@
+---
+title: Slider
+description: A slider component for selecting a value or range from a continuous spectrum.
+---
+
+A slider component for selecting a value or range from a continuous spectrum.
+
+## Import
+
+```jsx
+import { Slider } from '@base-ui/react';
+```
+
+## Anatomy
+
+The Slider component consists of multiple parts:
+
+- `Slider.Root` - The container that manages slider state
+- `Slider.Control` - The track area that contains the slider
+- `Slider.Track` - Visual track showing the selected range
+- `Slider.Thumb` - Draggable handle for selecting values
+- `Slider.Indicator` - Visual indicator at specific positions
+- `Slider.Value` - Displays the current value
+
+## Basic Usage
+
+```jsx
+<Slider.Root defaultValue={50}>
+  <Slider.Control>
+    <Slider.Track />
+    <Slider.Thumb />
+  </Slider.Control>
+</Slider.Root>
+```
+
+## Key Features
+
+- Single and range sliders
+- Controlled and uncontrolled modes
+- Min/max constraints
+- Step increments
+- Keyboard navigation
+- Horizontal and vertical orientation
+- Number formatting support
+- Accessible with proper ARIA attributes
+- Custom thumb alignment
+
+## Key Props
+
+### value
+
+**Type:** `number | readonly number[]`
+
+The value of the slider. For range sliders, provide an array with two values. Use with `onValueChange` for controlled mode.
+
+```jsx
+const [value, setValue] = React.useState(50);
+
+<Slider.Root value={value} onValueChange={setValue}>
+  <Slider.Control>
+    <Slider.Track />
+    <Slider.Thumb />
+  </Slider.Control>
+</Slider.Root>
+```
+
+### defaultValue
+
+**Type:** `number | readonly number[]`
+
+The uncontrolled value when initially rendered.
+
+```jsx
+<Slider.Root defaultValue={25}>
+  <Slider.Control>
+    <Slider.Track />
+    <Slider.Thumb />
+  </Slider.Control>
+</Slider.Root>
+```
+
+### min
+
+**Type:** `number`
+
+**Default:** `0`
+
+The minimum allowed value of the slider.
+
+### max
+
+**Type:** `number`
+
+**Default:** `100`
+
+The maximum allowed value of the slider.
+
+```jsx
+<Slider.Root min={0} max={100} defaultValue={50}>
+  <Slider.Control>
+    <Slider.Track />
+    <Slider.Thumb />
+  </Slider.Control>
+</Slider.Root>
+```
+
+### step
+
+**Type:** `number`
+
+**Default:** `1`
+
+The granularity with which the slider can step through values.
+
+```jsx
+<Slider.Root step={5} min={0} max={100}>
+  <Slider.Control>
+    <Slider.Track />
+    <Slider.Thumb />
+  </Slider.Control>
+</Slider.Root>
+```
+
+### largeStep
+
+**Type:** `number`
+
+**Default:** `10`
+
+The step value when using Page Up/Page Down or Shift + Arrow keys.
+
+### orientation
+
+**Type:** `'horizontal' | 'vertical'`
+
+**Default:** `'horizontal'`
+
+The component orientation.
+
+```jsx
+<Slider.Root orientation="vertical">
+  <Slider.Control>
+    <Slider.Track />
+    <Slider.Thumb />
+  </Slider.Control>
+</Slider.Root>
+```
+
+### disabled
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the slider should ignore user interaction.
+
+### minStepsBetweenValues
+
+**Type:** `number`
+
+**Default:** `0`
+
+The minimum steps between values in a range slider.
+
+### thumbAlignment
+
+**Type:** `'center' | 'edge' | 'edge-client-only'`
+
+**Default:** `'center'`
+
+How the thumbs are aligned relative to the control when at min or max.
+
+### thumbCollisionBehavior
+
+**Type:** `'push' | 'swap' | 'none'`
+
+**Default:** `'push'`
+
+Controls how thumbs behave when they collide during pointer interactions.
+
+### onValueChange
+
+**Type:** `(value: number | number[], eventDetails: ChangeEventDetails) => void`
+
+Callback fired when the slider's value changes.
+
+### onValueCommitted
+
+**Type:** `(value: number | number[], eventDetails: CommitEventDetails) => void`
+
+Callback fired when the pointerup is triggered.
+
+### format
+
+**Type:** `Intl.NumberFormatOptions`
+
+Options to format the input value.
+
+## Styling
+
+<Tabs items={['Tailwind CSS', 'CSS Modules']}>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <Slider.Root className="w-64">
+      <Slider.Control className="relative h-2 bg-gray-200 rounded-full">
+        <Slider.Track className="absolute h-full bg-blue-500 rounded-full" />
+        <Slider.Thumb className="absolute w-5 h-5 -translate-y-1/2 bg-white border-2 border-blue-500 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
+      </Slider.Control>
+    </Slider.Root>
+    ```
+  </Tab>
+  <Tab value="CSS Modules">
+    ```jsx
+    <Slider.Root className={styles.root}>
+      <Slider.Control className={styles.control}>
+        <Slider.Track className={styles.track} />
+        <Slider.Thumb className={styles.thumb} />
+      </Slider.Control>
+    </Slider.Root>
+    ```
+
+    ```css
+    .root {
+      width: 16rem;
+    }
+
+    .control {
+      position: relative;
+      height: 0.5rem;
+      background-color: #e5e7eb;
+      border-radius: 9999px;
+    }
+
+    .track {
+      position: absolute;
+      height: 100%;
+      background-color: #3b82f6;
+      border-radius: 9999px;
+    }
+
+    .thumb {
+      position: absolute;
+      width: 1.25rem;
+      height: 1.25rem;
+      background-color: white;
+      border: 2px solid #3b82f6;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .thumb:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### Range Slider
+
+```jsx
+<Slider.Root defaultValue={[25, 75]}>
+  <Slider.Control>
+    <Slider.Track />
+    <Slider.Thumb />
+    <Slider.Thumb />
+  </Slider.Control>
+</Slider.Root>
+```
+
+### With Value Display
+
+```jsx
+<Slider.Root defaultValue={50}>
+  <div className="flex justify-between mb-2">
+    <label>Volume</label>
+    <Slider.Value />
+  </div>
+  <Slider.Control>
+    <Slider.Track />
+    <Slider.Thumb />
+  </Slider.Control>
+</Slider.Root>
+```
+
+### Vertical Slider
+
+```jsx
+<Slider.Root orientation="vertical" defaultValue={50} className="h-64">
+  <Slider.Control>
+    <Slider.Track />
+    <Slider.Thumb />
+  </Slider.Control>
+</Slider.Root>
+```
+
+### Price Range Selector
+
+```jsx
+function PriceRange() {
+  const [range, setRange] = React.useState([100, 500]);
+
+  return (
+    <div>
+      <div className="flex justify-between mb-2">
+        <span>Price Range</span>
+        <span>${range[0]} - ${range[1]}</span>
+      </div>
+      <Slider.Root
+        value={range}
+        onValueChange={setRange}
+        min={0}
+        max={1000}
+        step={10}
+      >
+        <Slider.Control>
+          <Slider.Track />
+          <Slider.Thumb />
+          <Slider.Thumb />
+        </Slider.Control>
+      </Slider.Root>
+    </div>
+  );
+}
+```
+
+### With Marks
+
+```jsx
+function SliderWithMarks() {
+  const marks = [0, 25, 50, 75, 100];
+
+  return (
+    <Slider.Root defaultValue={50}>
+      <Slider.Control>
+        <Slider.Track />
+        {marks.map((mark) => (
+          <Slider.Indicator key={mark} value={mark} className="absolute w-1 h-1 bg-gray-400 rounded-full" />
+        ))}
+        <Slider.Thumb />
+      </Slider.Control>
+      <div className="flex justify-between text-xs text-gray-500 mt-1">
+        {marks.map((mark) => (
+          <span key={mark}>{mark}</span>
+        ))}
+      </div>
+    </Slider.Root>
+  );
+}
+```
+
+### Temperature Control
+
+```jsx
+function TemperatureSlider() {
+  const [temp, setTemp] = React.useState(72);
+
+  return (
+    <div>
+      <div className="text-center text-2xl font-bold mb-4">
+        {temp}°F
+      </div>
+      <Slider.Root
+        value={temp}
+        onValueChange={setTemp}
+        min={60}
+        max={80}
+        step={1}
+      >
+        <Slider.Control>
+          <Slider.Track />
+          <Slider.Thumb />
+        </Slider.Control>
+      </Slider.Root>
+    </div>
+  );
+}
+```

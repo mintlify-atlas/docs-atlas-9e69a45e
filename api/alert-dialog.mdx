@@ -1,0 +1,98 @@
+---
+title: AlertDialog
+description: API reference for the AlertDialog component
+---
+
+# AlertDialog
+
+A modal dialog that interrupts the user with important content and expects a response.
+
+## Import
+
+```tsx
+import * as AlertDialog from '@base-ui/react/alert-dialog';
+```
+
+## AlertDialog.Root
+
+Groups all parts of the alert dialog. Doesn't render its own HTML element.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the alert dialog is currently open. To render an uncontrolled alert dialog, use the `defaultOpen` prop instead.
+</ParamField>
+
+<ParamField name="defaultOpen" type="boolean" default="false">
+Whether the alert dialog is initially open. To render a controlled alert dialog, use the `open` prop instead.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean, eventDetails: AlertDialog.Root.ChangeEventDetails) => void">
+Event handler called when the alert dialog is opened or closed.
+</ParamField>
+
+<ParamField name="onOpenChangeComplete" type="(open: boolean) => void">
+Event handler called after the alert dialog's open state transition is complete.
+</ParamField>
+
+<ParamField name="handle" type="Dialog.Handle">
+A handle to associate the alert dialog with a trigger. Can be created with the `AlertDialog.createHandle()` method.
+</ParamField>
+
+<ParamField name="actionsRef" type="React.RefObject<AlertDialog.Root.Actions>">
+A ref to imperative actions. Provides `close` and `unmount` methods.
+</ParamField>
+
+## AlertDialog.Trigger
+
+A button that opens the alert dialog.
+
+## AlertDialog.Backdrop
+
+An overlay displayed beneath the alert dialog popup.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the backdrop mounted when the alert dialog is closed.
+</ParamField>
+
+## AlertDialog.Popup
+
+The alert dialog's content.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the popup mounted when the alert dialog is closed.
+</ParamField>
+
+## AlertDialog.Portal
+
+Portals the alert dialog popup and backdrop to a different part of the DOM.
+
+### Props
+
+<ParamField name="container" type="HTMLElement | null | (() => HTMLElement | null)">
+The container element to which the alert dialog popup and backdrop are portaled.
+</ParamField>
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the portal mounted when the alert dialog is closed.
+</ParamField>
+
+## AlertDialog.Close
+
+A button that closes the alert dialog.
+
+## AlertDialog.Title
+
+An accessible title that is announced when the alert dialog is opened.
+
+## AlertDialog.Description
+
+An optional accessible description that is announced when the alert dialog is opened.
+
+## AlertDialog.Viewport
+
+Provides scrollable area for alert dialog content if needed.

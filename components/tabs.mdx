@@ -1,0 +1,266 @@
+---
+title: Tabs
+description: A set of layered content sections that are displayed one at a time.
+---
+
+A set of layered content sections that are displayed one at a time. Tabs organize related content into separate views, allowing users to switch between them without leaving the page.
+
+## Import
+
+```tsx
+import * as Tabs from '@base-ui/react/Tabs';
+```
+
+## Basic Usage
+
+```tsx
+<Tabs.Root defaultValue={0}>
+  <Tabs.List>
+    <Tabs.Tab value={0}>Tab One</Tabs.Tab>
+    <Tabs.Tab value={1}>Tab Two</Tabs.Tab>
+    <Tabs.Tab value={2}>Tab Three</Tabs.Tab>
+  </Tabs.List>
+  
+  <Tabs.Panel value={0}>
+    <p>Content for tab one</p>
+  </Tabs.Panel>
+  <Tabs.Panel value={1}>
+    <p>Content for tab two</p>
+  </Tabs.Panel>
+  <Tabs.Panel value={2}>
+    <p>Content for tab three</p>
+  </Tabs.Panel>
+</Tabs.Root>
+```
+
+## Key Components
+
+### Tabs.Root
+
+Groups the tabs and the corresponding panels. Renders a `<div>` element.
+
+**Key Props:**
+- `value`: `any` - The value of the currently active tab (controlled)
+- `defaultValue`: `any` - The default value for uncontrolled mode (default: `0`)
+- `onValueChange`: `(value: any, eventDetails: ChangeEventDetails) => void` - Callback invoked when new value is being set
+- `orientation`: `'horizontal' | 'vertical'` - The component orientation (default: `'horizontal'`)
+
+**State:**
+- `data-orientation`: `'horizontal' | 'vertical'` - The orientation of the tabs
+
+### Tabs.List
+
+Contains the tab buttons. Renders a `<div>` element.
+
+**Key Props:**
+- `loopFocus`: `boolean` - Whether to loop keyboard focus (default: `true`)
+- `activateOnFocus`: `boolean` - Whether tabs are activated automatically when receiving focus (default: `true`)
+
+**State:**
+- `data-orientation`: Reflects the parent orientation
+
+### Tabs.Tab
+
+An individual interactive tab button. Renders a `<button>` element.
+
+**Key Props:**
+- `value`: `any` - The value of the tab (required)
+- `disabled`: `boolean` - Whether the tab is disabled
+
+**State:**
+- `data-active`: Present when the tab is active
+- `data-disabled`: Present when the tab is disabled
+- `data-orientation`: Reflects the parent orientation
+
+### Tabs.Panel
+
+The content panel associated with a tab. Renders a `<div>` element.
+
+**Key Props:**
+- `value`: `any` - The value of the panel (required, must match a tab's value)
+- `keepMounted`: `boolean` - Whether to keep the panel mounted when inactive
+
+**State:**
+- `data-active`: Present when the panel is active
+
+### Tabs.Indicator
+
+A visual indicator that highlights the active tab. Renders a `<span>` element.
+
+**State:**
+- Automatically positioned using CSS custom properties
+- `data-activation-direction`: `'left' | 'right' | 'up' | 'down' | 'none'` - The direction of tab activation
+
+## Features
+
+- Automatic and manual tab activation modes
+- Keyboard navigation with arrow keys
+- Horizontal and vertical orientations
+- Visual indicator for active tab
+- Support for disabled tabs
+- Controlled and uncontrolled modes
+- Accessible ARIA attributes
+- Loop focus option
+
+## Styling Example
+
+```css
+.TabsList {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid #ddd;
+}
+
+.TabsList[data-orientation="vertical"] {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 1px solid #ddd;
+}
+
+.Tab {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+}
+
+.Tab[data-active] {
+  background: white;
+  font-weight: 600;
+}
+
+.Tab[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.TabPanel {
+  padding: 16px;
+}
+
+.TabIndicator {
+  height: 2px;
+  background: #0066cc;
+  transition: all 0.2s;
+}
+```
+
+## Common Patterns
+
+### Controlled Tabs
+
+```tsx
+const [value, setValue] = React.useState(0);
+
+<Tabs.Root value={value} onValueChange={setValue}>
+  <Tabs.List>
+    <Tabs.Tab value={0}>Tab 1</Tabs.Tab>
+    <Tabs.Tab value={1}>Tab 2</Tabs.Tab>
+  </Tabs.List>
+  
+  <Tabs.Panel value={0}>Content 1</Tabs.Panel>
+  <Tabs.Panel value={1}>Content 2</Tabs.Panel>
+</Tabs.Root>
+```
+
+### Vertical Tabs
+
+```tsx
+<Tabs.Root orientation="vertical" defaultValue="profile">
+  <Tabs.List>
+    <Tabs.Tab value="profile">Profile</Tabs.Tab>
+    <Tabs.Tab value="settings">Settings</Tabs.Tab>
+    <Tabs.Tab value="notifications">Notifications</Tabs.Tab>
+  </Tabs.List>
+  
+  <Tabs.Panel value="profile">
+    <h2>Profile Settings</h2>
+    <p>Edit your profile information</p>
+  </Tabs.Panel>
+  <Tabs.Panel value="settings">
+    <h2>Account Settings</h2>
+    <p>Manage your account preferences</p>
+  </Tabs.Panel>
+  <Tabs.Panel value="notifications">
+    <h2>Notifications</h2>
+    <p>Configure notification preferences</p>
+  </Tabs.Panel>
+</Tabs.Root>
+```
+
+### With Tab Indicator
+
+```tsx
+<Tabs.Root defaultValue={0}>
+  <Tabs.List>
+    <Tabs.Tab value={0}>Dashboard</Tabs.Tab>
+    <Tabs.Tab value={1}>Analytics</Tabs.Tab>
+    <Tabs.Tab value={2}>Reports</Tabs.Tab>
+    <Tabs.Indicator className="TabIndicator" />
+  </Tabs.List>
+  
+  <Tabs.Panel value={0}>Dashboard content</Tabs.Panel>
+  <Tabs.Panel value={1}>Analytics content</Tabs.Panel>
+  <Tabs.Panel value={2}>Reports content</Tabs.Panel>
+</Tabs.Root>
+```
+
+### Manual Activation
+
+```tsx
+<Tabs.Root defaultValue={0}>
+  <Tabs.List activateOnFocus={false}>
+    <Tabs.Tab value={0}>Tab 1</Tabs.Tab>
+    <Tabs.Tab value={1}>Tab 2</Tabs.Tab>
+    <Tabs.Tab value={2}>Tab 3</Tabs.Tab>
+  </Tabs.List>
+  
+  <Tabs.Panel value={0}>Content 1</Tabs.Panel>
+  <Tabs.Panel value={1}>Content 2</Tabs.Panel>
+  <Tabs.Panel value={2}>Content 3</Tabs.Panel>
+</Tabs.Root>
+```
+
+### With Disabled Tabs
+
+```tsx
+<Tabs.Root defaultValue="available">
+  <Tabs.List>
+    <Tabs.Tab value="available">Available</Tabs.Tab>
+    <Tabs.Tab value="pending" disabled>Pending</Tabs.Tab>
+    <Tabs.Tab value="archived">Archived</Tabs.Tab>
+  </Tabs.List>
+  
+  <Tabs.Panel value="available">
+    <p>Available items</p>
+  </Tabs.Panel>
+  <Tabs.Panel value="pending">
+    <p>Pending items</p>
+  </Tabs.Panel>
+  <Tabs.Panel value="archived">
+    <p>Archived items</p>
+  </Tabs.Panel>
+</Tabs.Root>
+```
+
+### Keep Panels Mounted
+
+```tsx
+<Tabs.Root defaultValue={0}>
+  <Tabs.List>
+    <Tabs.Tab value={0}>Form</Tabs.Tab>
+    <Tabs.Tab value={1}>Preview</Tabs.Tab>
+  </Tabs.List>
+  
+  <Tabs.Panel value={0} keepMounted>
+    {/* Form state is preserved when switching tabs */}
+    <form>
+      <input type="text" placeholder="Your input" />
+    </form>
+  </Tabs.Panel>
+  <Tabs.Panel value={1}>
+    <p>Preview content</p>
+  </Tabs.Panel>
+</Tabs.Root>
+```

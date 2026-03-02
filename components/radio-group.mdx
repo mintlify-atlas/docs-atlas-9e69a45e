@@ -1,0 +1,305 @@
+---
+title: Radio Group
+description: Provides a shared state to a series of radio buttons.
+---
+
+Provides a shared state to a series of radio buttons.
+
+## Import
+
+```jsx
+import { RadioGroup, Radio } from '@base-ui/react';
+```
+
+## Basic Usage
+
+```jsx
+<RadioGroup defaultValue="option1">
+  <Radio.Root value="option1">
+    <Radio.Indicator />
+  </Radio.Root>
+  <Radio.Root value="option2">
+    <Radio.Indicator />
+  </Radio.Root>
+  <Radio.Root value="option3">
+    <Radio.Indicator />
+  </Radio.Root>
+</RadioGroup>
+```
+
+## Key Features
+
+- Manages state for radio button selection
+- Controlled and uncontrolled modes
+- Keyboard navigation (arrow keys)
+- Works with Field component for validation
+- Accessible with proper ARIA attributes
+- Supports horizontal and vertical orientation
+
+## Key Props
+
+### value
+
+**Type:** `any`
+
+The controlled value of the radio item that should be currently selected. Use with `onValueChange` for controlled mode.
+
+```jsx
+const [value, setValue] = React.useState('option1');
+
+<RadioGroup value={value} onValueChange={setValue}>
+  <Radio.Root value="option1">
+    <Radio.Indicator />
+  </Radio.Root>
+  <Radio.Root value="option2">
+    <Radio.Indicator />
+  </Radio.Root>
+</RadioGroup>
+```
+
+### defaultValue
+
+**Type:** `any`
+
+The uncontrolled value of the radio button that should be initially selected.
+
+```jsx
+<RadioGroup defaultValue="option2">
+  {/* radio buttons */}
+</RadioGroup>
+```
+
+### onValueChange
+
+**Type:** `(value: any, eventDetails: ChangeEventDetails) => void`
+
+Callback fired when the value changes.
+
+```jsx
+<RadioGroup onValueChange={(value) => console.log('Selected:', value)}>
+  {/* radio buttons */}
+</RadioGroup>
+```
+
+### disabled
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the component should ignore user interaction.
+
+```jsx
+<RadioGroup disabled>
+  {/* All radio buttons will be disabled */}
+</RadioGroup>
+```
+
+### readOnly
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the user should be unable to select a different radio button in the group.
+
+### required
+
+**Type:** `boolean`
+
+**Default:** `false`
+
+Whether the user must choose a value before submitting a form.
+
+### name
+
+**Type:** `string`
+
+Identifies the field when a form is submitted.
+
+### inputRef
+
+**Type:** `React.Ref<HTMLInputElement>`
+
+A ref to access the hidden input element.
+
+## Styling
+
+<Tabs items={['Tailwind CSS', 'CSS Modules']}>
+  <Tab value="Tailwind CSS">
+    ```jsx
+    <RadioGroup className="space-y-3">
+      <div className="flex items-center gap-2">
+        <Radio.Root value="1" className="w-5 h-5 rounded-full border-2 border-gray-300 data-[checked]:border-blue-500">
+          <Radio.Indicator className="w-3 h-3 rounded-full bg-blue-500" />
+        </Radio.Root>
+        <label>Option 1</label>
+      </div>
+      <div className="flex items-center gap-2">
+        <Radio.Root value="2" className="w-5 h-5 rounded-full border-2 border-gray-300 data-[checked]:border-blue-500">
+          <Radio.Indicator className="w-3 h-3 rounded-full bg-blue-500" />
+        </Radio.Root>
+        <label>Option 2</label>
+      </div>
+    </RadioGroup>
+    ```
+  </Tab>
+  <Tab value="CSS Modules">
+    ```jsx
+    <RadioGroup className={styles.group}>
+      <div className={styles.item}>
+        <Radio.Root value="1">
+          <Radio.Indicator />
+        </Radio.Root>
+        <label>Option 1</label>
+      </div>
+    </RadioGroup>
+    ```
+
+    ```css
+    .group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .group[data-disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Common Patterns
+
+### With Field Component
+
+```jsx
+import { Field } from '@base-ui/react';
+
+<Field.Root>
+  <Field.Label>Select a plan</Field.Label>
+  <RadioGroup name="plan">
+    <div className="flex items-center gap-2">
+      <Radio.Root value="basic">
+        <Radio.Indicator />
+      </Radio.Root>
+      <label>Basic - $9/mo</label>
+    </div>
+    <div className="flex items-center gap-2">
+      <Radio.Root value="pro">
+        <Radio.Indicator />
+      </Radio.Root>
+      <label>Pro - $29/mo</label>
+    </div>
+  </RadioGroup>
+  <Field.Error />
+</Field.Root>
+```
+
+### Card-Style Options
+
+```jsx
+function PricingSelector() {
+  const [plan, setPlan] = React.useState('basic');
+
+  return (
+    <RadioGroup value={plan} onValueChange={setPlan} className="space-y-3">
+      <Radio.Root
+        value="basic"
+        className="flex items-center gap-4 p-4 border-2 rounded-lg data-[checked]:border-blue-500 data-[checked]:bg-blue-50"
+      >
+        <Radio.Indicator className="w-5 h-5 rounded-full" />
+        <div className="flex-1">
+          <div className="font-semibold">Basic Plan</div>
+          <div className="text-sm text-gray-600">Perfect for individuals</div>
+        </div>
+        <div className="text-lg font-bold">$9</div>
+      </Radio.Root>
+      
+      <Radio.Root
+        value="pro"
+        className="flex items-center gap-4 p-4 border-2 rounded-lg data-[checked]:border-blue-500 data-[checked]:bg-blue-50"
+      >
+        <Radio.Indicator className="w-5 h-5 rounded-full" />
+        <div className="flex-1">
+          <div className="font-semibold">Pro Plan</div>
+          <div className="text-sm text-gray-600">For growing teams</div>
+        </div>
+        <div className="text-lg font-bold">$29</div>
+      </Radio.Root>
+    </RadioGroup>
+  );
+}
+```
+
+### With Descriptions
+
+```jsx
+import { Field } from '@base-ui/react';
+
+const options = [
+  {
+    value: 'email',
+    label: 'Email',
+    description: 'Receive notifications via email',
+  },
+  {
+    value: 'sms',
+    label: 'SMS',
+    description: 'Receive notifications via text message',
+  },
+  {
+    value: 'push',
+    label: 'Push',
+    description: 'Receive push notifications on your device',
+  },
+];
+
+<RadioGroup>
+  {options.map((option) => (
+    <Field.Root key={option.value}>
+      <div className="flex gap-3">
+        <Radio.Root value={option.value}>
+          <Radio.Indicator />
+        </Radio.Root>
+        <div>
+          <Field.Label>{option.label}</Field.Label>
+          <Field.Description>{option.description}</Field.Description>
+        </div>
+      </div>
+    </Field.Root>
+  ))}
+</RadioGroup>
+```
+
+### Form Integration
+
+```jsx
+import { Form, Field } from '@base-ui/react';
+
+<Form.Root>
+  <Field.Root name="size" validationMode="onChange" required>
+    <Field.Label>Select size</Field.Label>
+    <RadioGroup>
+      <Radio.Root value="small">
+        <Radio.Indicator />
+      </Radio.Root>
+      <Radio.Root value="medium">
+        <Radio.Indicator />
+      </Radio.Root>
+      <Radio.Root value="large">
+        <Radio.Indicator />
+      </Radio.Root>
+    </RadioGroup>
+    <Field.Error />
+  </Field.Root>
+</Form.Root>
+```

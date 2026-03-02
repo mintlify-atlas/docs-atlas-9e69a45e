@@ -1,0 +1,106 @@
+---
+title: Dialog
+description: API reference for the Dialog component
+---
+
+# Dialog
+
+A modal dialog that interrupts the user with important content.
+
+## Import
+
+```tsx
+import * as Dialog from '@base-ui/react/dialog';
+```
+
+## Dialog.Root
+
+Groups all parts of the dialog. Doesn't render its own HTML element.
+
+### Props
+
+<ParamField name="open" type="boolean">
+Whether the dialog is currently open. To render an uncontrolled dialog, use the `defaultOpen` prop instead.
+</ParamField>
+
+<ParamField name="defaultOpen" type="boolean" default="false">
+Whether the dialog is initially open. To render a controlled dialog, use the `open` prop instead.
+</ParamField>
+
+<ParamField name="modal" type="boolean" default="true">
+Whether the dialog is modal. Modal dialogs block interaction with the rest of the page.
+</ParamField>
+
+<ParamField name="onOpenChange" type="(open: boolean, eventDetails: Dialog.Root.ChangeEventDetails) => void">
+Event handler called when the dialog is opened or closed.
+</ParamField>
+
+<ParamField name="onOpenChangeComplete" type="(open: boolean) => void">
+Event handler called after the dialog's open state transition is complete.
+</ParamField>
+
+<ParamField name="disablePointerDismissal" type="boolean" default="false">
+Whether clicking outside the dialog should prevent it from closing.
+</ParamField>
+
+<ParamField name="handle" type="Dialog.Handle">
+A handle to associate the dialog with a trigger. Can be created with the `Dialog.createHandle()` method.
+</ParamField>
+
+<ParamField name="actionsRef" type="React.RefObject<Dialog.Root.Actions>">
+A ref to imperative actions. Provides `close` and `unmount` methods.
+</ParamField>
+
+## Dialog.Trigger
+
+A button that opens the dialog.
+
+## Dialog.Backdrop
+
+An overlay displayed beneath the dialog popup.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the backdrop mounted when the dialog is closed.
+</ParamField>
+
+## Dialog.Popup
+
+The dialog's content.
+
+### Props
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the popup mounted when the dialog is closed.
+</ParamField>
+
+## Dialog.Portal
+
+Portals the dialog popup and backdrop to a different part of the DOM.
+
+### Props
+
+<ParamField name="container" type="HTMLElement | null | (() => HTMLElement | null)">
+The container element to which the dialog popup and backdrop are portaled.
+</ParamField>
+
+<ParamField name="keepMounted" type="boolean" default="false">
+Whether to keep the portal mounted when the dialog is closed.
+</ParamField>
+
+## Dialog.Close
+
+A button that closes the dialog.
+
+## Dialog.Title
+
+An accessible title that is announced when the dialog is opened.
+
+## Dialog.Description
+
+An optional accessible description that is announced when the dialog is opened.
+
+## Dialog.Viewport
+
+Provides scrollable area for dialog content if needed.

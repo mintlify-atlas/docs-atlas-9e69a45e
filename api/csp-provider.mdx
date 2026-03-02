@@ -1,0 +1,70 @@
+---
+title: 'CSP Provider'
+description: 'API reference for the CSPProvider component'
+---
+
+## CSPProvider
+
+Provides a default Content Security Policy (CSP) configuration for Base UI components that require inline `<style>` or `<script>` tags.
+
+## Import
+
+```tsx
+import { CSPProvider } from '@base-ui/react/csp-provider';
+```
+
+## Component Signature
+
+```tsx
+function CSPProvider(props: CSPProvider.Props): React.ReactElement
+```
+
+## Props
+
+<ParamField path="children" type="React.ReactNode">
+  The content to be wrapped by the CSP provider.
+</ParamField>
+
+<ParamField path="nonce" type="string | undefined">
+  The nonce value to apply to inline `<style>` and `<script>` tags.
+</ParamField>
+
+<ParamField path="disableStyleElements" type="boolean | undefined" default="false">
+  Whether inline `<style>` elements created by Base UI components should not be rendered. Instead, components must specify the CSS styles via custom class names or other methods.
+</ParamField>
+
+## Type Definitions
+
+### CSPProvider.Props
+
+```tsx
+interface CSPProviderProps {
+  children?: React.ReactNode;
+  nonce?: string | undefined;
+  disableStyleElements?: boolean | undefined;
+}
+```
+
+### CSPProvider.State
+
+```tsx
+interface CSPProviderState {}
+```
+
+## Usage Example
+
+```tsx
+import { CSPProvider } from '@base-ui/react/csp-provider';
+
+function App() {
+  return (
+    <CSPProvider nonce="your-nonce-value" disableStyleElements={false}>
+      {/* Your Base UI components */}
+    </CSPProvider>
+  );
+}
+```
+
+## Related
+
+- [CSP Provider Guide](/utilities/csp-provider)
